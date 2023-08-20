@@ -7,6 +7,7 @@ import com.cjras.thepresentmovement.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 //-----------------------------------------------------------------------//
 
         //Set view binding
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 }
+
 
 //-----------------------------------------------------------------------//
 //Notes:
