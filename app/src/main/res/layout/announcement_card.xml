@@ -7,15 +7,7 @@
     android:backgroundTint="@color/sub_grey"
     android:background="@drawable/palette_12">
 
-    <TextView
-        android:id="@+id/tvAnnouncementTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="TextView"
-        android:layout_marginLeft="-70dp"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/llContents"/>
+
 
     <LinearLayout
         android:id="@+id/llContents"
@@ -65,5 +57,16 @@
 
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvAnnouncementTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="TextView"
+        android:layout_marginLeft="-70dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/llContents"
+        android:fontFamily="@font/gilroy_black"/>
 
 </RelativeLayout>
