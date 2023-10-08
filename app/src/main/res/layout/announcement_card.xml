@@ -18,7 +18,7 @@
 
 
         <ImageView
-            android:id="@+id/imgAnnouncementIcon"
+            android:id="@+id/ivAnnouncementIcon"
             android:layout_width="180dp"
             android:layout_height="100dp"
             android:layout_weight="1"
@@ -50,6 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
+                android:textSize="12dp"
                 android:textColor="@color/white"/>
 
 
@@ -64,9 +65,48 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="TextView"
-        android:layout_marginLeft="-70dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="-48dp"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/white"
+        android:textSize="10dp"
+        android:padding="1dp"
+        android:background="@drawable/palette_4"
+        android:backgroundTint="@color/accent_grey"
         android:layout_toRightOf="@id/llContents"
         />
+
+    <ImageView
+        android:id="@+id/ivHeart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tpm_heart"
+        android:layout_toRightOf="@id/llContents"
+        android:layout_marginLeft="-78dp"
+        android:layout_marginTop="6dp"/>
+
+    <ImageView
+        android:id="@+id/ivSemiCircle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tpm_semi_circle"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="10dp"/>
+
+    <ImageView
+        android:id="@+id/ivSpeechBubble"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tpm_speech_bubble"
+        android:layout_toRightOf="@id/llContents"
+        android:layout_marginLeft="-26dp"
+        android:layout_marginTop="88dp"/>
+
+    <ImageView
+        android:id="@+id/ivTriangle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tpm_triangle"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="88dp"/>
 
 </RelativeLayout>
