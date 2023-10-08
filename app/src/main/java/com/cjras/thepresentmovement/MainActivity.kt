@@ -2,6 +2,7 @@ package com.cjras.thepresentmovement
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import com.cjras.thepresentmovement.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +17,9 @@ class MainActivity : AppCompatActivity() {
 
         //Hide the action bar
         supportActionBar?.hide()
+
+        //set status bar color
+        window.statusBarColor = ContextCompat.getColor(this, R.color.main_grey)
 
 //-----------------------------------------------------------------------//
 
