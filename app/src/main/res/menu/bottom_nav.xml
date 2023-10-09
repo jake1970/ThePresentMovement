@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Notices"
+        android:id="@+id/iNotices"
+        android:icon="@drawable/notification_bell"/>
+    <item android:title="Home"
+        android:id="@+id/iHome"
+        android:icon="@drawable/home_icon"/>
+    <item android:title="Contact"
+        android:id="@+id/iContact"
+        android:icon="@drawable/person_icon"/>
+    <item android:title="Settings"
+        android:id="@+id/iSettings"
+        android:icon="@drawable/settings_icon"/>
+</menu>

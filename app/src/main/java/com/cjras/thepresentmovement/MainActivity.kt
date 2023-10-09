@@ -1,5 +1,6 @@
 package com.cjras.thepresentmovement
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContextCompat
@@ -23,7 +24,11 @@ class MainActivity : AppCompatActivity() {
 
 //-----------------------------------------------------------------------//
 
-
+    binding.btnSignUp.setOnClickListener()
+    {
+        var intent = Intent(this, home_bottom_navigation::class.java) //ViewActivity
+        startActivity(intent)
+    }
 
 
     }
