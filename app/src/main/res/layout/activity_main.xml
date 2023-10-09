@@ -25,7 +25,7 @@
         android:layout_below="@id/ivLogo"
         android:layout_marginTop="75dp"
         app:cornerRadius="30dp"
-        android:text="@string/member_button"
+        android:text="@string/welcome_button"
         android:textColor="@color/main_grey"
         android:backgroundTint="@color/white"
         android:stateListAnimator="@null"
@@ -34,6 +34,7 @@
         android:textSize="24dp"
         android:letterSpacing="0"
         android:textAllCaps="false"
+        android:textStyle="bold"
         />
 
 </RelativeLayout>

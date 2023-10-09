@@ -15,6 +15,9 @@
             android:name=".home_bottom_navigation"
             android:exported="false" />
         <activity
+            android:name=".login"
+            android:exported="false" />
+        <activity
             android:name=".announcement_card"
             android:exported="false" />
         <activity

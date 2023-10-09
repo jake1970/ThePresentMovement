@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">The Present Movement</string>
-    <string name="member_button">Member</string>
+    <string name="welcome_button">Welcome</string>
+    <string name="sign_button">sign in</string>
+    <string name="sign_text">Sign-in</string>
+    <string name="slogan_text">Meet. Talk. Connect. Love.</string>
+    <string name="username_text">Username</string>
+    <string name="password_text">Password</string>
+    <string name="username_hint_text">    Enter a valid username . . .</string>
+    <string name="password_hint_text">    Enter a valid username . . .</string>
 
     <string name="noticesText">Notices</string>
     <string name="homeText">Home</string>
