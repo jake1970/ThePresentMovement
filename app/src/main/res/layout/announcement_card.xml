@@ -3,11 +3,62 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="108dp"
+    android:layout_height="120dp"
     android:backgroundTint="@color/sub_grey"
     android:background="@drawable/palette_12">
 
+<!--
+    <ImageView
+        android:id="@+id/ivHeart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tpm_heart"
+        android:layout_toRightOf="@id/llContents"
+        android:layout_marginLeft="-78dp"
+        android:layout_marginTop="6dp"/>
 
+    <ImageView
+        android:id="@+id/ivSemiCircle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tpm_semi_circle"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="10dp"/>
+
+    <ImageView
+        android:id="@+id/ivSpeechBubble"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tpm_speech_bubble"
+        android:layout_toRightOf="@id/llContents"
+        android:layout_marginLeft="-26dp"
+        android:layout_marginTop="92dp"
+        android:layout_marginBottom="4dp"/>
+
+    <ImageView
+        android:id="@+id/ivTriangle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tpm_triangle"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="90dp"/>
+-->
+
+    <TextView
+        android:id="@+id/tvAnnouncementTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="10/12/12"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:textSize="9dp"
+        android:padding="1dp"
+        android:background="@drawable/palette_4"
+        android:backgroundTint="@color/accent_grey"
+        />
 
     <LinearLayout
         android:id="@+id/llContents"
@@ -19,19 +70,22 @@
 
         <ImageView
             android:id="@+id/ivAnnouncementIcon"
-            android:layout_width="180dp"
-            android:layout_height="100dp"
+            android:layout_width="160dp"
+            android:layout_height="90dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/notification_bell"
             app:tint="@color/accent_grey"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="6dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_margin="10dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginBottom="20dp">
 
 
             <TextView
@@ -59,54 +113,8 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvAnnouncementTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="TextView"
-        android:layout_marginLeft="-48dp"
-        android:layout_marginTop="6dp"
-        android:textColor="@color/white"
-        android:textSize="10dp"
-        android:padding="1dp"
-        android:background="@drawable/palette_4"
-        android:backgroundTint="@color/accent_grey"
-        android:layout_toRightOf="@id/llContents"
-        />
 
-    <ImageView
-        android:id="@+id/ivHeart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/tpm_heart"
-        android:layout_toRightOf="@id/llContents"
-        android:layout_marginLeft="-78dp"
-        android:layout_marginTop="6dp"/>
 
-    <ImageView
-        android:id="@+id/ivSemiCircle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/tpm_semi_circle"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="10dp"/>
 
-    <ImageView
-        android:id="@+id/ivSpeechBubble"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/tpm_speech_bubble"
-        android:layout_toRightOf="@id/llContents"
-        android:layout_marginLeft="-26dp"
-        android:layout_marginTop="88dp"/>
-
-    <ImageView
-        android:id="@+id/ivTriangle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/tpm_triangle"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="88dp"/>
 
 </RelativeLayout>
