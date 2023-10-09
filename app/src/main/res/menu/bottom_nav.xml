@@ -4,13 +4,16 @@
     <item android:title="@string/noticesText"
         android:id="@+id/iNotices"
         android:icon="@drawable/notification_bell"/>
-    <item android:title="@string/homeText"
-        android:id="@+id/iHome"
-        android:icon="@drawable/home_icon"/>
     <item android:title="@string/contactsText"
         android:id="@+id/iContact"
         android:icon="@drawable/person_icon"/>
+    <item android:title="@string/homeText"
+        android:id="@+id/iHome"
+        android:icon="@drawable/home_icon"/>
     <item android:title="@string/settingsText"
         android:id="@+id/iSettings"
         android:icon="@drawable/settings_icon"/>
+    <item android:title="@string/adminText"
+        android:id="@+id/iAdmin"
+        android:icon="@drawable/admin_icon"/>
 </menu>

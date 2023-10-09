@@ -6,6 +6,7 @@
     <string name="homeText">Home</string>
     <string name="contactsText">Contacts</string>
     <string name="settingsText">Settings</string>
+    <string name="adminText">Admin</string>
     <string name="searchText">Search</string>
     <string name="dateText">Date</string>
     <string name="blankDate">--/--/--</string>

@@ -45,6 +45,7 @@ class home_bottom_navigation : AppCompatActivity() {
                R.id.iHome -> replaceFragment(home())
                R.id.iContact -> replaceFragment(contacts())
                R.id.iSettings -> replaceFragment(settings())
+               R.id.iAdmin -> replaceFragment(admin())
                else -> {
 
 

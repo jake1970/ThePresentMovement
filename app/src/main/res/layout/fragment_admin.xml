@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".settings"
+    tools:context=".admin"
     android:background="@color/main_grey">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/settingsText"
+        android:text="@string/adminText"
         android:id="@+id/tvScreenTitle"
         android:textColor="@color/white"
         android:layout_marginLeft="10dp"
