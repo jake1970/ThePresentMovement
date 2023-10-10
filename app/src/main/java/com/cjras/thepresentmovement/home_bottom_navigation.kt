@@ -48,7 +48,6 @@ class home_bottom_navigation : AppCompatActivity() {
                R.id.iAdmin -> replaceFragment(admin())
                else -> {
 
-
                }
            }
             true

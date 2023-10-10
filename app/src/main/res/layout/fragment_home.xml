@@ -1,22 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".home"
     android:background="@color/main_grey">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/homeText"
-        android:id="@+id/tvScreenTitle"
-        android:textColor="@color/white"
-        android:layout_marginLeft="10dp"
-        android:textSize="26dp"
-        android:textStyle="bold"
-        android:layout_marginTop="-4dp"
-        />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/homeText"
+            android:id="@+id/tvScreenTitle"
+            android:textColor="@color/white"
+            android:layout_marginLeft="10dp"
+            android:textSize="26dp"
+            android:textStyle="bold"
+            android:layout_marginTop="-4dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/tvScreenTitle"
+            android:layout_marginTop="36dp"
+            android:layout_marginHorizontal="10dp"
+            android:id="@+id/llInfoBlocks">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="5 upcoming\nevents"
+                android:id="@+id/tvEvents"
+                android:textColor="@color/white"
+                android:textSize="26dp"
+                android:background="@drawable/home_events_backing"
+                android:layout_marginRight="5dp"
+                android:paddingTop="26dp"
+                android:paddingLeft="5dp"
+                android:paddingBottom="5dp"
+                android:gravity="bottom|left"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="5 upcoming\nevents"
+                android:id="@+id/tvProjects"
+                android:textColor="@color/white"
+                android:textSize="26dp"
+                android:background="@drawable/home_projects_backing"
+                android:paddingTop="26dp"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="5dp"
+                android:paddingBottom="5dp"
+                android:gravity="bottom|left"
+                android:layout_weight="1"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="My Feed"
+            android:id="@+id/tvMyFeed"
+            android:textColor="@color/white"
+            android:textSize="22dp"
+            android:layout_below="@id/llInfoBlocks"
+            android:layout_marginTop="26dp"
+            android:layout_marginLeft="10dp"
+            />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/svFeed"
+            android:layout_below="@id/tvMyFeed"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginHorizontal="10dp">
+
+            <LinearLayout
+                android:id="@+id/llFeed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
+        </ScrollView>
+
+    </RelativeLayout>
 
 </FrameLayout>

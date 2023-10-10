@@ -14,5 +14,14 @@
         <!-- Customize your theme here. -->
 
         <item name="android:fontFamily">@font/gilroy_regular</item>
+
+
+
+
+    </style>
+
+    <style name="roundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
     </style>
 </resources>
