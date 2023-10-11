@@ -31,9 +31,12 @@ class home_bottom_navigation : AppCompatActivity() {
 
         //-----------------------------------------------------------------------//
 
+        //create local fragment controller
+        val fragmentControl = FragmentManager()
 
+        fragmentControl.replaceFragment(home(), R.id.flContent, supportFragmentManager)
 
-        replaceFragment(home())
+       // replaceFragment(home())
         binding.bnvHomeNavigation.selectedItemId = R.id.iHome
 
 
@@ -41,11 +44,13 @@ class home_bottom_navigation : AppCompatActivity() {
         binding.bnvHomeNavigation.setOnItemSelectedListener {
            when(it.itemId)
            {
-               R.id.iNotices -> replaceFragment(notices())
-               R.id.iHome -> replaceFragment(home())
-               R.id.iContact -> replaceFragment(contacts())
-               R.id.iSettings -> replaceFragment(settings())
-               R.id.iAdmin -> replaceFragment(admin())
+
+               R.id.iNotices -> fragmentControl.replaceFragment(notices(), R.id.flContent, supportFragmentManager)
+               R.id.iHome -> fragmentControl.replaceFragment(home(), R.id.flContent, supportFragmentManager)
+               R.id.iContact -> fragmentControl.replaceFragment(contacts(), R.id.flContent, supportFragmentManager)
+               R.id.iSettings -> fragmentControl.replaceFragment(settings(), R.id.flContent, supportFragmentManager)
+               R.id.iAdmin -> fragmentControl.replaceFragment(admin(), R.id.flContent, supportFragmentManager)
+
                else -> {
 
                }
@@ -58,10 +63,4 @@ class home_bottom_navigation : AppCompatActivity() {
 
 
 
-    private fun replaceFragment (fragment : Fragment) {
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.flContent, fragment)
-        fragmentTransaction.commit()
-    }
 }

@@ -3,15 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="wrap_content"
     android:backgroundTint="@color/sub_grey"
     android:background="@drawable/palette_12"
+    android:gravity="center"
     tools:context=".contact_card">
 
     <LinearLayout
         android:id="@+id/llContents"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
         android:orientation="horizontal"
         android:gravity="center">
 
@@ -20,7 +22,7 @@
             android:id="@+id/ivContactIcon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="18dp"
             android:layout_marginRight="12dp"
             app:tint="@color/accent_grey"
             app:srcCompat="@drawable/person_icon" />

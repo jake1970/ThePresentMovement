@@ -27,6 +27,12 @@
     <string name="myFeedText">My Feed</string>
     <string name="myProfileText">My Profile</string>
     <string name="associatesText">Associates</string>
+    <string name="informationText">Information</string>
+    <string name="contactNumberText">Contact Number</string>
+    <string name="emailAddressText">Email Address</string>
+    <string name="companyNameText">Company Name</string>
+    <string name="linkedInText">LinkedIn</string>
+    <string name="websiteText">Website</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
