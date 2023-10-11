@@ -8,7 +8,6 @@
     <string name="password_text">Password</string>
     <string name="username_hint_text">    Enter a valid username . . .</string>
     <string name="password_hint_text">    Enter a valid username . . .</string>
-
     <string name="noticesText">Notices</string>
     <string name="homeText">Home</string>
     <string name="contactsText">Contacts</string>
@@ -18,6 +17,17 @@
     <string name="dateText">Date</string>
     <string name="blankDate">--/--/--</string>
     <string name="todayText">Today</string>
+    <string name="placeHolderText">{x}</string>
+    <string name="upcomingText">Upcoming</string>
+    <string name="eventsText">Events</string>
+    <string name="projectsText">Projects</string>
+    <string name="dateStartPrompt">Select a start date</string>
+    <string name="dateEndPrompt">Select an end date</string>
+    <string name="okText">ok</string>
+    <string name="myFeedText">My Feed</string>
+    <string name="myProfileText">My Profile</string>
+    <string name="associatesText">Associates</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

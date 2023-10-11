@@ -2,14 +2,18 @@ package com.cjras.thepresentmovement
 
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Space
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.cjras.thepresentmovement.databinding.FragmentNoticesBinding
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.text.SimpleDateFormat
 
 
@@ -55,8 +59,23 @@ class notices : Fragment() {
                     "Take care\n" +
                     "{Person}"
 
+            newAnnouncement.setOnClickListener()
+            {
+                var fullNotice = MaterialAlertDialogBuilder(requireContext(), R.style.NoticeAlert)
+                    .setTitle(newAnnouncement.binding.tvAnnouncementTitle.text)
+                    .setMessage(newAnnouncement.binding.tvAnnouncementText.text)
+                    .setIcon((R.drawable.notification_bell))
+                    .setNeutralButton(resources.getString(R.string.okText)) { dialog, which ->
+                        // Respond to neutral button press
+                    }
+
+                    fullNotice.show()
+            }
+
+
             //add the new view
             activityLayout.addView(newAnnouncement)
+
 
             val scale = requireActivity().resources.displayMetrics.density
             val pixels = (14 * scale + 0.5f)
@@ -74,11 +93,11 @@ class notices : Fragment() {
     private fun datePicker(startPrompt: Boolean, entryField: TextView)
     {
 
-        var entryPrompt = "Select an end date"
+        var entryPrompt =getString(R.string.dateEndPrompt)
 
         if (startPrompt)
         {
-            val entryPrompt = "Select a start date"
+            entryPrompt = getString(R.string.dateStartPrompt)
         }
 
         val builder = MaterialDatePicker.Builder.datePicker()
