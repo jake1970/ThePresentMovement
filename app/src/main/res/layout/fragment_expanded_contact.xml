@@ -88,7 +88,7 @@
                     android:textColor="@color/white"/>
 
                 <TextView
-                    android:id="@+id/tvQuote"
+                    android:id="@+id/tvRole"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TextView"
@@ -112,6 +112,37 @@
 
         </LinearLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etQuote"
+            android:layout_below="@id/llMyProfileCard"
+            android:layout_marginTop="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:startIconDrawable="@drawable/quote_icon"
+            app:boxBackgroundColor="@color/sub_grey"
+            app:shapeAppearanceOverlay="@style/materialRoundedEdit"
+            app:boxStrokeColor="@color/white"
+            app:endIconMode="clear_text"
+            app:startIconTint="@color/accent_grey"
+            android:hint="@string/quoteText"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            android:layout_marginHorizontal="10dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tfQuote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/white"
+                android:singleLine="true"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--            android:layout_below="@id/llMyProfileCard"-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -119,7 +150,7 @@
             android:id="@+id/tvInformation"
             android:textColor="@color/white"
             android:textSize="22dp"
-            android:layout_below="@id/llMyProfileCard"
+android:layout_below="@id/etQuote"
             android:layout_marginTop="26dp"
             android:layout_marginLeft="10dp"
             />
@@ -155,6 +186,7 @@
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tfContactNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -183,6 +215,7 @@
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tfEmailAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -209,6 +242,7 @@
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tfCompanyName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -235,6 +269,7 @@
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tfLinkedIn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -261,6 +296,7 @@
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tfWebsite"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""

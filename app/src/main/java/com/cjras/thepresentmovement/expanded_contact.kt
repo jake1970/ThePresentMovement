@@ -29,6 +29,23 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         val view = binding.root
 
 
+        //----------------------------------------------------------------------------------------------------
+
+        val myProfile = arguments?.getBoolean("myProfile")
+        val myPhoneNumber = arguments?.getString("myPhoneNumber")
+
+        //binding.tfContactNumber.text  = getString("Your text")//myPhoneNumber.toString()
+
+        if (myProfile == true)
+        {
+
+        }
+
+        binding.tfContactNumber.setText(myPhoneNumber) // = getString("Your text")//myPhoneNumber.toString()
+
+        //----------------------------------------------------------------------------------------------------
+
+
         binding.ivBackArrow.setOnClickListener()
         {
             //create local fragment controller

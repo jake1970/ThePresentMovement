@@ -33,6 +33,7 @@
     <string name="companyNameText">Company Name</string>
     <string name="linkedInText">LinkedIn</string>
     <string name="websiteText">Website</string>
+    <string name="quoteText">Quote</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

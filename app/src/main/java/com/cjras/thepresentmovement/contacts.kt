@@ -47,7 +47,25 @@ class contacts : Fragment() {
             {
                 //create local fragment controller
                 val fragmentControl = FragmentManager()
-                fragmentControl.replaceFragment(expanded_contact(), R.id.flContent, parentFragmentManager)
+
+                val expandedContactView = expanded_contact()
+                val args = Bundle()
+
+                args.putBoolean("myProfile", false)
+                args.putString("contactFullName", "083 444 5566")
+                args.putString("contactRole", "083 444 5566")
+                args.putString("contactQuote", "083 444 5566")
+                args.putString("contactPhoneNumber", "083 444 5566")
+                args.putString("contactEmailAddress", "083 444 5566")
+                args.putString("contactCompanyName", "083 444 5566")
+                args.putString("contactLinkedIn", "083 444 5566")
+                args.putString("contact", "083 444 5566")
+
+                expandedContactView.arguments = args
+
+                fragmentControl.replaceFragment(expandedContactView, R.id.flContent, parentFragmentManager)
+
+                //fragmentControl.replaceFragment(expanded_contact(), R.id.flContent, parentFragmentManager)
             }
 
 
