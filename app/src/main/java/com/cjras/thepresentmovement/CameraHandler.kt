@@ -7,34 +7,25 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import com.cjras.thepresentmovement.databinding.FragmentExpandedContactBinding
+import androidx.fragment.app.FragmentActivity
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+class CameraHandler () {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [expanded_contact.newInstance] factory method to
- * create an instance of this fragment.
- */
-class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
+    lateinit var currentActivity: FragmentActivity
+    lateinit var imageContainer: ImageView
 
-    private var _binding: FragmentExpandedContactBinding? = null
-    private val binding get() = _binding!!
-    private var cameraManager = CameraHandler()
 
     //----------------------------------------------------------------------------------------------------
     companion object {
@@ -43,80 +34,6 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         private const val PICK_FROM_GALLERY = 1
     }
     //----------------------------------------------------------------------------------------------------
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        _binding = FragmentExpandedContactBinding.inflate(inflater, container, false)
-        val view = binding.root
-
-
-
-        //----------------------------------------------------------------------------------------------------
-
-        val myProfile = arguments?.getBoolean("myProfile")
-        val myPhoneNumber = arguments?.getString("myPhoneNumber")
-
-        //binding.tfContactNumber.text  = getString("Your text")//myPhoneNumber.toString()
-
-        if (myProfile == true)
-        {
-
-        }
-
-        binding.tfContactNumber.setText(myPhoneNumber) // = getString("Your text")//myPhoneNumber.toString()
-
-        //----------------------------------------------------------------------------------------------------
-
-        //---------------------------------------------------------------------------------------------------------------------------------------------------------
-        //Select an image
-        //---------------------------------------------------------------------------------------------------------------------------------------------------------
-
-        // val cameraManager = CameraHandler(requireActivity(), binding.ivMyProfileImage)
-        //val cameraManager = CameraHandler()
-        cameraManager.currentActivity = requireActivity()
-        cameraManager.imageContainer = binding.ivMyProfileImage
-
-        binding.ivMyProfileImageTint.setOnClickListener()
-        {
-            //method to add an image
-            //handlePhoto()
-            cameraManager.handlePhoto()
-        }
-
-
-        binding.tvMyProfileImageEditText.setOnClickListener()
-        {
-            //method to add an image
-            //handlePhoto()
-            cameraManager.handlePhoto()
-        }
-
-        //----------------------------------------------------------------------------------------------------
-
-
-
-        binding.ivBackArrow.setOnClickListener()
-        {
-            //create local fragment controller
-            val fragmentControl = FragmentManager()
-
-            //go back the the general contacts page
-            fragmentControl.replaceFragment(contacts(), R.id.flContent, parentFragmentManager)
-
-        }
-
-
-        // Inflate the layout for this fragment
-        return view
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
 
 
@@ -127,10 +44,10 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
     //Method to handle selecting and starting an image source for the contact photo
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
-    private fun handlePhoto() {
+     fun handlePhoto() {
 
         //new dialog
-        val builder = AlertDialog.Builder(activity)
+        val builder = AlertDialog.Builder(currentActivity)
 
         //set the dialog title
         builder.setTitle(R.string.imageSourcePrompt)
@@ -143,12 +60,14 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
                 //if 0 then the user wants to take a new photo
                 //call camera
                 //check permissions
-                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(currentActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
 
                     //call open camera method
                     startCamera()
                 } else {
-                    ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
+                    ActivityCompat.requestPermissions(currentActivity, arrayOf(Manifest.permission.CAMERA),
+                        CAMERA_PERMISSION_CODE
+                    )
                 }
 
             }
@@ -160,13 +79,14 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
                     //if 1 then the user wants to select an existing photo
                     //call photo library
                     //check permissions
-                    if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(currentActivity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
                         //call image selector method
                         startImageSelector()
                     } else {
                         ActivityCompat.requestPermissions(
-                            requireActivity(), arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), PICK_FROM_GALLERY
+                            currentActivity, arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                            PICK_FROM_GALLERY
                         )
                     }
 
@@ -190,11 +110,11 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         //@Suppress("DEPRECATION")
         //startActivityForResult(gallery, PICK_FROM_GALLERY)
 
-        if (galleryIntent.resolveActivity(requireActivity().packageManager) != null) {
+        if (galleryIntent.resolveActivity(currentActivity.packageManager) != null) {
             @Suppress("DEPRECATION")
-            startActivityForResult(galleryIntent, PICK_FROM_GALLERY);
+            currentActivity.startActivityForResult(galleryIntent, PICK_FROM_GALLERY);
         } else {
-            Toast.makeText(requireContext(), "Photo Library is not available", Toast.LENGTH_SHORT).show()
+            Toast.makeText(currentActivity, "Photo Library is not available", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -207,11 +127,11 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
     private fun startCamera() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (cameraIntent.resolveActivity(requireActivity().packageManager) != null) {
+        if (cameraIntent.resolveActivity(currentActivity.packageManager) != null) {
             @Suppress("DEPRECATION")
-            startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
+            currentActivity.startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
         } else {
-            Toast.makeText(requireContext(), "Camera is not available", Toast.LENGTH_SHORT).show()
+            Toast.makeText(currentActivity, "Camera is not available", Toast.LENGTH_SHORT).show()
         }
     }
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -220,13 +140,9 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
     //Catch Finished Activity
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         @Suppress("DEPRECATION")
-        super.onActivityResult(requestCode, resultCode, data)
-
-        cameraManager.onActivityResult(requestCode, resultCode, data)
-
-        /*
+       // super.onActivityResult(requestCode, resultCode, data)
         if ((requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) || (requestCode == PICK_FROM_GALLERY && resultCode == Activity.RESULT_OK)) {
 
             var imageBitmap = data?.extras?.get("data") as Bitmap?
@@ -234,16 +150,19 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
             if (imageBitmap == null)
             {
                 val imageUri = data?.data
-                imageBitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, Uri.parse(imageUri.toString()))
+                imageBitmap = MediaStore.Images.Media.getBitmap(currentActivity?.contentResolver, Uri.parse(imageUri.toString()))
             }
 
-            binding.ivMyProfileImage.setImageBitmap(imageBitmap)
+            val builder = AlertDialog.Builder(currentActivity)
+            builder.setTitle("Androidly Alert")
+            builder.setMessage(imageBitmap.toString())
+            builder.show()
+
+            imageContainer.setImageBitmap(imageBitmap)
             saveImageLocally(imageBitmap)
 
 
         }
-
-         */
 
     }
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -257,7 +176,7 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val imageFileName = "IMG_$timeStamp.jpg"
 
-        val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir = currentActivity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val imageFile = File(storageDir, imageFileName)
 
         //return view
@@ -266,13 +185,14 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
             imageBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
             fileOutputStream.close()
 
-            Toast.makeText(requireContext(), "Image saved successfully", Toast.LENGTH_SHORT).show()
+            Toast.makeText(currentActivity, "Image saved successfully", Toast.LENGTH_SHORT).show()
         } catch (e: IOException) {
             e.printStackTrace()
-            Toast.makeText(requireContext(), "Failed to save image", Toast.LENGTH_SHORT).show()
+            Toast.makeText(currentActivity, "Failed to save image", Toast.LENGTH_SHORT).show()
         }
     }
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
+
 }
