@@ -10,6 +10,10 @@ import android.widget.Space
 import com.cjras.thepresentmovement.databinding.FragmentContactsBinding
 import com.cjras.thepresentmovement.databinding.FragmentNoticesBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 /**
@@ -31,6 +35,120 @@ class contacts : Fragment() {
         _binding = FragmentContactsBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------
+        //initial data population
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------
+        try {
+            //Read Data
+            GlobalScope.launch{
+                if (GlobalClass.UpdateDataBase == true)
+                {
+                    var DBManger = DatabaseManager()
+
+                    GlobalClass.Users = DBManger.getAllUsersFromFirestore()
+                    GlobalClass.UpdateDataBase = false
+                }
+                withContext(Dispatchers.Main) {
+                    UpdateUI()
+                }
+            }
+        }
+        catch (e: Error)
+        {
+            GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
+        }
+
+
+        // Inflate the layout for this fragment
+        return view
+    }
+
+    fun UpdateUI() {
+
+        try {
+            //remove loading screen
+            binding.ivLoadingLogo.visibility = View.GONE
+            binding.pbLoadingBar.visibility = View.GONE
+
+            for (user in GlobalClass.Users) {
+                val activityLayout = binding.llContactsList;
+                var newContact = contact_card(activity)
+
+                newContact.binding.tvContactName.text = "${user.FirstName} ${user.LastName}"
+
+                var userType = getString(R.string.memberText)
+
+                if (user.MemberTypeID == 2)
+                {
+                    userType = getString(R.string.seniorMemberText)
+                }
+
+
+
+            newContact.binding.tvContactRole.text = userType
+
+            newContact.setOnClickListener()
+            {
+                //create local fragment controller
+                val fragmentControl = FragmentManager()
+
+                val expandedContactView = expanded_contact()
+                val args = Bundle()
+
+
+                args.putString("selectedUserID", user.UserID)
+                /*
+                args.putBoolean("myProfile", false)
+                args.putString("firstName", user.FirstName)
+                args.putString("lastName", user.LastName)
+                args.putString("emailAddress", user.EmailAddress)
+                args.putString("memberType", userType)
+                args.putString("quote", user.Quote)
+                args.putString("contactNumber", user.ContactNumber)
+                args.putString("companyName", user.CompanyName)
+                args.putString("linkedIn", user.LinkedIn)
+                args.putString("website", user.Website)
+                args.putString("userImageURI", user.UserImageURI)
+
+                 */
+
+                expandedContactView.arguments = args
+
+                fragmentControl.replaceFragment(
+                    expandedContactView,
+                    R.id.flContent,
+                    parentFragmentManager
+                )
+
+            }
+            //add the new view
+            activityLayout.addView(newContact)
+
+
+            val scale = requireActivity().resources.displayMetrics.density
+            val pixels = (14 * scale + 0.5f)
+
+            val spacer = Space(activity)
+            spacer.minimumHeight = pixels.toInt()
+            activityLayout.addView(spacer)
+
+        }
+
+
+
+
+
+        }
+        catch (e: Error)
+        {
+            GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
+        }
+
+
+
+
+        /*
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
         //---------------------------------------------------------------------------------------------
         //test code for custom components
@@ -84,8 +202,8 @@ class contacts : Fragment() {
         //---------------------------------------------------------------------------------------------
 
 
-        // Inflate the layout for this fragment
-        return view
+         */
+
     }
 
 

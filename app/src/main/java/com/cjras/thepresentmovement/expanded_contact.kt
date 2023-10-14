@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.cjras.thepresentmovement.databinding.FragmentExpandedContactBinding
+import com.google.firebase.firestore.auth.User
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -34,7 +35,9 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
     private var _binding: FragmentExpandedContactBinding? = null
     private val binding get() = _binding!!
-    private var cameraManager = CameraHandler()
+    //private var cameraManager = CameraHandler()
+
+    //private lateinit var storageRef : StorageRe
 
     //----------------------------------------------------------------------------------------------------
     companion object {
@@ -56,17 +59,79 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
         //----------------------------------------------------------------------------------------------------
 
+        /*
+         args.putBoolean("myProfile", false)
+                 args.putBoolean("myProfile", false)
+                args.putString("firstName", user.FirstName)
+                args.putString("lastName", user.LastName)
+                args.putString("emailAddress", user.EmailAddress)
+                args.putString("memberType", userType)
+                args.putString("quote", user.Quote)
+                args.putString("contactNumber", user.ContactNumber)
+                args.putString("companyName", user.CompanyName)
+                args.putString("linkedIn", user.LinkedIn)
+                args.putString("website", user.Website)
+                args.putString("userImageURI", user.UserImageURI)
+         */
+
+        /*
         val myProfile = arguments?.getBoolean("myProfile")
-        val myPhoneNumber = arguments?.getString("myPhoneNumber")
+
+        val firstName = arguments?.getString("firstName")
+        val lastName = arguments?.getString("lastName")
+        val emailAddress = arguments?.getString("emailAddress")
+        val memberType = arguments?.getString("memberType")
+        val quote = arguments?.getString("quote")
+        val contactNumber = arguments?.getString("contactNumber")
+        val companyName = arguments?.getString("companyName")
+        val linkedIn = arguments?.getString("linkedIn")
+        val website = arguments?.getString("website")
+        val userImageURI = arguments?.getString("userImageURI")
+
+         */
+
+        val selectedUserID = arguments?.getString("selectedUserID")
+
+        if (!selectedUserID.isNullOrEmpty())
+        {
+            for (user in GlobalClass.Users)
+            {
+                if (user.UserID == selectedUserID)
+                {
+                    binding.tvContactName.text = "${user.FirstName} ${user.LastName}"
+
+                    var userType = getString(R.string.memberText)
+                    if (user.MemberTypeID == 2)
+                    {
+                        userType = getString(R.string.seniorMemberText)
+                    }
+                    binding.tvRole.text = userType
+
+                    binding.tfQuote.setText(user.Quote)
+                    binding.tfContactNumber.setText(user.ContactNumber)
+                    binding.tfEmailAddress.setText(user.EmailAddress)
+                    binding.tfCompanyName.setText(user.CompanyName)
+                    binding.tfLinkedIn.setText(user.LinkedIn)
+                    binding.tfWebsite.setText(user.Website)
+
+                }
+            }
+
+        }
+
+        //binding.tvContactName.setText(myPhoneNumber) // = getString("Your text")//myPhoneNumber.toString()
 
         //binding.tfContactNumber.text  = getString("Your text")//myPhoneNumber.toString()
 
+        /*
         if (myProfile == true)
         {
 
         }
 
-        binding.tfContactNumber.setText(myPhoneNumber) // = getString("Your text")//myPhoneNumber.toString()
+         */
+
+
 
         //----------------------------------------------------------------------------------------------------
 
@@ -76,22 +141,22 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
         // val cameraManager = CameraHandler(requireActivity(), binding.ivMyProfileImage)
         //val cameraManager = CameraHandler()
-        cameraManager.currentActivity = requireActivity()
-        cameraManager.imageContainer = binding.ivMyProfileImage
+        //cameraManager.currentActivity = requireActivity()
+       // cameraManager.imageContainer = binding.ivMyProfileImage
 
         binding.ivMyProfileImageTint.setOnClickListener()
         {
             //method to add an image
-            //handlePhoto()
-            cameraManager.handlePhoto()
+            handlePhoto()
+            //cameraManager.handlePhoto()
         }
 
 
         binding.tvMyProfileImageEditText.setOnClickListener()
         {
             //method to add an image
-            //handlePhoto()
-            cameraManager.handlePhoto()
+            handlePhoto()
+           // cameraManager.handlePhoto()
         }
 
         //----------------------------------------------------------------------------------------------------
@@ -224,9 +289,8 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         @Suppress("DEPRECATION")
         super.onActivityResult(requestCode, resultCode, data)
 
-        cameraManager.onActivityResult(requestCode, resultCode, data)
+       // cameraManager.onActivityResult(requestCode, resultCode, data)
 
-        /*
         if ((requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) || (requestCode == PICK_FROM_GALLERY && resultCode == Activity.RESULT_OK)) {
 
             var imageBitmap = data?.extras?.get("data") as Bitmap?
@@ -242,8 +306,6 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
 
         }
-
-         */
 
     }
     //---------------------------------------------------------------------------------------------------------------------------------------------------------

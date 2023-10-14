@@ -35,6 +35,9 @@
     <string name="websiteText">Website</string>
     <string name="quoteText">Quote</string>
     <string name="editText">Edit</string>
+    <string name="errorText">Error</string>
+    <string name="memberText">Member</string>
+    <string name="seniorMemberText">Senior Member</string>
     <string-array name="imageSources">
         <item>Camera</item>
         <item>Photo Library</item>
