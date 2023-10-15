@@ -34,6 +34,15 @@
     <string name="linkedInText">LinkedIn</string>
     <string name="websiteText">Website</string>
     <string name="quoteText">Quote</string>
+    <string name="editText">Edit</string>
+    <string name="errorText">Error</string>
+    <string name="memberText">Member</string>
+    <string name="seniorMemberText">Senior Member</string>
+    <string-array name="imageSources">
+        <item>Camera</item>
+        <item>Photo Library</item>
+    </string-array>
+    <string name="imageSourcePrompt">Select an image source</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

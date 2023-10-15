@@ -60,17 +60,42 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_gravity="center"
-                android:id="@+id/ivMyProfileImage"
+            <RelativeLayout
                 android:layout_width="66dp"
                 android:layout_height="66dp"
-                app:shapeAppearanceOverlay="@style/circleImageView"
-                app:srcCompat="@drawable/ic_launcher_background"
                 android:layout_marginLeft="2dp"
                 android:layout_weight="0"
-                android:layout_marginRight="14dp"
-                />
+                android:layout_marginRight="14dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_gravity="center"
+                    android:id="@+id/ivMyProfileImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:shapeAppearanceOverlay="@style/circleImageView"
+                    app:srcCompat="@drawable/ic_launcher_background"
+                    android:scaleType="centerCrop"
+                    />
+
+                <ImageView
+                    android:id="@+id/ivMyProfileImageTint"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.6"
+                    android:src="@drawable/palette_circle"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/tvMyProfileImageEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:text="@string/editText" />
+
+            </RelativeLayout>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -98,7 +123,7 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/ivNavArrow"
+                android:id="@+id/ivModifyContact"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_gravity="center"
@@ -112,34 +137,6 @@
 
         </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etQuote"
-            android:layout_below="@id/llMyProfileCard"
-            android:layout_marginTop="14dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:startIconDrawable="@drawable/quote_icon"
-            app:boxBackgroundColor="@color/sub_grey"
-            app:shapeAppearanceOverlay="@style/materialRoundedEdit"
-            app:boxStrokeColor="@color/white"
-            app:endIconMode="clear_text"
-            app:startIconTint="@color/accent_grey"
-            android:hint="@string/quoteText"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            android:layout_marginHorizontal="10dp"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tfQuote"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/white"
-                android:singleLine="true"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
 
 
         <!--            android:layout_below="@id/llMyProfileCard"-->
@@ -150,7 +147,7 @@
             android:id="@+id/tvInformation"
             android:textColor="@color/white"
             android:textSize="22dp"
-android:layout_below="@id/etQuote"
+            android:layout_below="@id/llMyProfileCard"
             android:layout_marginTop="26dp"
             android:layout_marginLeft="10dp"
             />
@@ -170,8 +167,38 @@ android:layout_below="@id/etQuote"
            -->
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/etContactNumber"
+                android:id="@+id/etQuote"
+                android:layout_below="@id/llMyProfileCard"
                 android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/quote_icon"
+                app:boxBackgroundColor="@color/sub_grey"
+                app:shapeAppearanceOverlay="@style/materialRoundedEdit"
+                app:boxStrokeColor="@color/white"
+                app:endIconMode="clear_text"
+                app:startIconTint="@color/accent_grey"
+                android:hint="@string/quoteText"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tfQuote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:singleLine="true"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etContactNumber"
+                android:layout_marginTop="14dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:startIconDrawable="@drawable/phone_icon"

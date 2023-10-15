@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "35075641050",
+    "project_id": "xbcad-thepresentmovement",
+    "storage_bucket": "xbcad-thepresentmovement.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35075641050:android:e96e7e2c55b181a18a5fe3",
+        "android_client_info": {
+          "package_name": "com.cjras.thepresentmovement"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIY6OdS9BTAjLZceFqOySwAbVOJhZAOq4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
