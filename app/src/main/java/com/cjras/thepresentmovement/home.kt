@@ -1,5 +1,6 @@
 package com.cjras.thepresentmovement
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.Html
 import androidx.fragment.app.Fragment
@@ -7,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Space
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import com.cjras.thepresentmovement.databinding.FragmentHomeBinding
 import com.cjras.thepresentmovement.databinding.FragmentNoticesBinding
 import kotlinx.coroutines.Dispatchers
@@ -45,8 +48,18 @@ class home : Fragment() {
 
                     GlobalClass.Users = DBManger.getAllUsersFromFirestore()
                     GlobalClass.UpdateDataBase = false
+
+                    //********************************************************
+                    //temp code to set current user
+                    GlobalClass.currentUser = GlobalClass.Users[0]
+                    //********************************************************
+
+                    //get the users image
+                    GlobalClass.currentUserImage = DBManger.getUserImage(requireContext(), GlobalClass.currentUser.UserID, GlobalClass.currentUser.HasImage)
                 }
                 withContext(Dispatchers.Main) {
+
+
                     UpdateUI()
                 }
             }
@@ -63,6 +76,25 @@ class home : Fragment() {
 
     fun UpdateUI ()
     {
+
+        //*****************************************************************************************
+        //temp code to set current user
+       // GlobalClass.setDefaultBitmap(requireContext())
+        GlobalClass.currentUser = GlobalClass.Users[1]
+
+
+        //if (GlobalClass.currentUser.HasImage == true)
+        //{
+           // var DBManger = DatabaseManager()
+
+            //var bm = ContextCompat.getDrawable(requireContext(), R.drawable.person_icon)?.toBitmap()
+            //GlobalClass.currentUserImage = DBManger.getUserImage(requireContext(), GlobalClass.currentUser.UserID)
+        //}
+
+
+
+        //GlobalClass.Users.remove(GlobalClass.currentUser)
+        //*****************************************************************************************
 
         try {
             //remove loading screen

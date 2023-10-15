@@ -76,6 +76,7 @@
                 app:srcCompat="@drawable/ic_launcher_background"
                 android:layout_marginLeft="2dp"
                 android:layout_weight="0"
+                android:scaleType="centerCrop"
                 android:layout_marginRight="14dp"
                 />
 

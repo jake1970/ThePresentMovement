@@ -1,19 +1,24 @@
 package com.cjras.thepresentmovement
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Space
+import android.widget.Toast
 import com.cjras.thepresentmovement.databinding.FragmentContactsBinding
 import com.cjras.thepresentmovement.databinding.FragmentNoticesBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.firestore.auth.User
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 
 /**
@@ -47,6 +52,7 @@ class contacts : Fragment() {
 
                     GlobalClass.Users = DBManger.getAllUsersFromFirestore()
                     GlobalClass.UpdateDataBase = false
+
                 }
                 withContext(Dispatchers.Main) {
                     UpdateUI()
@@ -63,41 +69,135 @@ class contacts : Fragment() {
         return view
     }
 
+    private fun invokeExpandedContactsView(userID : String)
+    {
+        //create local fragment controller
+        val fragmentControl = FragmentManager()
+
+        val expandedContactView = expanded_contact()
+        val args = Bundle()
+
+        args.putString("selectedUserID", userID)
+        /*
+args.putBoolean("myProfile", false)
+args.putString("firstName", user.FirstName)
+args.putString("lastName", user.LastName)
+args.putString("emailAddress", user.EmailAddress)
+args.putString("memberType", userType)
+args.putString("quote", user.Quote)
+args.putString("contactNumber", user.ContactNumber)
+args.putString("companyName", user.CompanyName)
+args.putString("linkedIn", user.LinkedIn)
+args.putString("website", user.Website)
+args.putString("userImageURI", user.UserImageURI)
+
+ */
+
+        expandedContactView.arguments = args
+
+        fragmentControl.replaceFragment(
+            expandedContactView,
+            R.id.flContent,
+            parentFragmentManager
+        )
+    }
+
     fun UpdateUI() {
 
         try {
+
+            binding.llMyProfileCard.setOnClickListener()
+            {
+                invokeExpandedContactsView(GlobalClass.currentUser.UserID)
+            }
+
+            //**********************************************************************************************************************
+            with(GlobalClass.currentUser)
+            {
+                binding.tvContactName.text = getFullName()
+
+                var userType = getString(R.string.memberText)
+
+                if (MemberTypeID == 2) {
+                    userType = getString(R.string.seniorMemberText)
+                }
+                binding.tvContactRole.text= userType
+
+                /*
+                val storageReference = FirebaseStorage.getInstance().reference.child("ContactImages/${UserID}")
+
+                if (HasImage) {
+                    val imgFile = File.createTempFile("temptImage", "jpg")
+                    storageReference.getFile(imgFile)
+                        .addOnSuccessListener {
+                            Toast.makeText(
+                                requireContext(),
+                                "Image Retrieved From Cloud Firestore",
+                                Toast.LENGTH_SHORT
+                            )
+
+                            val bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+                            binding.ivMyProfileImage.setImageBitmap(bitmap)
+
+                            //remove loading screen
+                            binding.ivLoadingLogo.visibility = View.GONE
+                            binding.pbLoadingBar.visibility = View.GONE
+
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(
+                                requireContext(),
+                                "Image Failed To Be Retrieved From Cloud Firestore",
+                                Toast.LENGTH_SHORT
+                            )
+                        }
+
+                }
+
+                 */
+
+                binding.ivMyProfileImage.setImageBitmap(GlobalClass.currentUserImage)
+            }
+            //**********************************************************************************************************************
+
+
             //remove loading screen
             binding.ivLoadingLogo.visibility = View.GONE
             binding.pbLoadingBar.visibility = View.GONE
 
+
+
             for (user in GlobalClass.Users) {
-                val activityLayout = binding.llContactsList;
-                var newContact = contact_card(activity)
 
-                newContact.binding.tvContactName.text = "${user.FirstName} ${user.LastName}"
+                if (user != GlobalClass.currentUser) {
 
-                var userType = getString(R.string.memberText)
+                    val activityLayout = binding.llContactsList;
+                    var newContact = contact_card(activity)
 
-                if (user.MemberTypeID == 2)
-                {
-                    userType = getString(R.string.seniorMemberText)
-                }
+                    newContact.binding.tvContactName.text = user.getFullName() //"${user.FirstName} ${user.LastName}"
 
+                    var userType = getString(R.string.memberText)
 
-
-            newContact.binding.tvContactRole.text = userType
-
-            newContact.setOnClickListener()
-            {
-                //create local fragment controller
-                val fragmentControl = FragmentManager()
-
-                val expandedContactView = expanded_contact()
-                val args = Bundle()
+                    if (user.MemberTypeID == 2) {
+                        userType = getString(R.string.seniorMemberText)
+                    }
 
 
-                args.putString("selectedUserID", user.UserID)
-                /*
+
+                    newContact.binding.tvContactRole.text = userType
+
+                    newContact.setOnClickListener()
+                    {
+                        /*
+                        //create local fragment controller
+                        val fragmentControl = FragmentManager()
+
+                        val expandedContactView = expanded_contact()
+                        val args = Bundle()
+
+
+                        args.putString("selectedUserID", user.UserID)
+                        /*
                 args.putBoolean("myProfile", false)
                 args.putString("firstName", user.FirstName)
                 args.putString("lastName", user.LastName)
@@ -112,27 +212,31 @@ class contacts : Fragment() {
 
                  */
 
-                expandedContactView.arguments = args
+                        expandedContactView.arguments = args
 
-                fragmentControl.replaceFragment(
-                    expandedContactView,
-                    R.id.flContent,
-                    parentFragmentManager
-                )
+                        fragmentControl.replaceFragment(
+                            expandedContactView,
+                            R.id.flContent,
+                            parentFragmentManager
+                        )
 
+                         */
+
+                        invokeExpandedContactsView(user.UserID)
+                    }
+                    //add the new view
+                    activityLayout.addView(newContact)
+
+
+                    val scale = requireActivity().resources.displayMetrics.density
+                    val pixels = (14 * scale + 0.5f)
+
+                    val spacer = Space(activity)
+                    spacer.minimumHeight = pixels.toInt()
+                    activityLayout.addView(spacer)
+
+                }
             }
-            //add the new view
-            activityLayout.addView(newContact)
-
-
-            val scale = requireActivity().resources.displayMetrics.density
-            val pixels = (14 * scale + 0.5f)
-
-            val spacer = Space(activity)
-            spacer.minimumHeight = pixels.toInt()
-            activityLayout.addView(spacer)
-
-        }
 
 
 

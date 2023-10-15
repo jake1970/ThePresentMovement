@@ -15,8 +15,11 @@ data class UserDataClass
     var CompanyName: String = "",
     var LinkedIn: String = "",
     var Website : String = "",
-    var UserImageURI: String = ""
+    var HasImage: Boolean = false
             )
 {
-
+fun getFullName(): String
+{
+    return "$FirstName $LastName"
+}
 }

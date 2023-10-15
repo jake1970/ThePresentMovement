@@ -1,8 +1,21 @@
 package com.cjras.thepresentmovement
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.view.View
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import java.io.File
 
 
 class DatabaseManager {
@@ -30,7 +43,7 @@ class DatabaseManager {
             val newCompanyName: String = document.data.getValue("CompanyName").toString()
             val newLinkedIn: String = document.data.getValue("LinkedIn").toString()
             val newWebsite : String = document.data.getValue("Website").toString()
-            val newUserImageURI: String = document.data.getValue("UserImageURI").toString()
+            val newHasImage: Boolean = document.data.getValue("HasImage").toString().toBoolean()
 
             val tempUser = UserDataClass(
                 UserID  = newUserID,
@@ -43,7 +56,7 @@ class DatabaseManager {
                 CompanyName = newCompanyName,
                 LinkedIn = newLinkedIn,
                 Website  = newWebsite,
-                UserImageURI = newUserImageURI
+                HasImage = newHasImage
             )
 
             allUsers.add(tempUser)
@@ -54,5 +67,34 @@ class DatabaseManager {
 
         return allUsers
     }
+
+
+
+    suspend fun getUserImage(context: Context, userID : String, userHasImage: Boolean) : Bitmap?
+    {
+        val storageReference = FirebaseStorage.getInstance().reference.child("ContactImages/$userID")
+
+        var bitmap = ContextCompat.getDrawable(context, R.drawable.person_icon)?.toBitmap()//: Bitmap?  =  BitmapFactory.decodeResource(context.resources, R.drawable.person_icon)
+
+        val imgFile = File.createTempFile("temptImage", "jpg")
+
+        if (userHasImage) {
+            try {
+                storageReference.getFile(imgFile).await()
+                bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+            } catch (e: Error) {
+                GlobalClass.InformUser(
+                    context.getString(R.string.errorText),
+                    "${e.toString()}",
+                    context
+                )
+            }
+        }
+
+        return bitmap
+    }
+
+
+
 
 }

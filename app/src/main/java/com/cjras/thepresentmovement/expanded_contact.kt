@@ -3,9 +3,11 @@ package com.cjras.thepresentmovement
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -16,9 +18,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import com.cjras.thepresentmovement.databinding.FragmentExpandedContactBinding
-import com.google.firebase.firestore.auth.User
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -35,6 +39,10 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
     private var _binding: FragmentExpandedContactBinding? = null
     private val binding get() = _binding!!
+
+    //private var selectedImageUri  = R.drawable.person_icon
+    private lateinit var selectedImageUri : Uri
+    private var currentUserID = ""
     //private var cameraManager = CameraHandler()
 
     //private lateinit var storageRef : StorageRe
@@ -49,14 +57,14 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
 
         _binding = FragmentExpandedContactBinding.inflate(inflater, container, false)
         val view = binding.root
 
 
-
+/*
         //----------------------------------------------------------------------------------------------------
 
         /*
@@ -90,6 +98,54 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
          */
 
+
+
+        //binding.tvContactName.setText(myPhoneNumber) // = getString("Your text")//myPhoneNumber.toString()
+
+        //binding.tfContactNumber.text  = getString("Your text")//myPhoneNumber.toString()
+
+        /*
+        if (myProfile == true)
+        {
+
+        }
+
+         */
+
+ */
+
+        //********************************************************
+        //upload image to firestore
+        //********************************************************
+
+        selectedImageUri = Uri.parse(
+            ContentResolver.SCHEME_ANDROID_RESOURCE +
+                    "://" + resources.getResourcePackageName(R.drawable.person_icon)
+                    + '/' + resources.getResourceTypeName(R.drawable.person_icon) + '/' + resources.getResourceEntryName(
+                R.drawable.person_icon
+            )
+        )
+
+        /*
+        binding.ivModifyContact.setOnClickListener()
+        {
+
+
+            val storageReference = FirebaseStorage.getInstance().getReference("ContactImages/${currentUserID}")
+
+            // binding.ivMyProfileImage.image
+
+            storageReference.putFile(selectedImageUri).
+                addOnSuccessListener {
+                    Toast.makeText(activity, "Imaged Uploaded To Cloud Firestore", Toast.LENGTH_SHORT)
+                }
+                .addOnFailureListener{
+                    Toast.makeText(activity, "Imaged Failed To Upload", Toast.LENGTH_SHORT)
+                }
+        }
+
+         */
+
         val selectedUserID = arguments?.getString("selectedUserID")
 
         if (!selectedUserID.isNullOrEmpty())
@@ -98,6 +154,7 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
             {
                 if (user.UserID == selectedUserID)
                 {
+                    currentUserID = user.UserID
                     binding.tvContactName.text = "${user.FirstName} ${user.LastName}"
 
                     var userType = getString(R.string.memberText)
@@ -119,19 +176,47 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
         }
 
-        //binding.tvContactName.setText(myPhoneNumber) // = getString("Your text")//myPhoneNumber.toString()
-
-        //binding.tfContactNumber.text  = getString("Your text")//myPhoneNumber.toString()
-
-        /*
-        if (myProfile == true)
+        binding.tvContactName.setOnClickListener()
         {
+
+            val imageLocation = "ContactImages/$currentUserID"
+            val storageReference = FirebaseStorage.getInstance().getReference(imageLocation)
+
+            // binding.ivMyProfileImage.image
+
+            storageReference.putFile(selectedImageUri).
+            addOnSuccessListener {
+                Toast.makeText(activity, "Imaged Uploaded To Cloud Firestore", Toast.LENGTH_SHORT)
+            }
+                .addOnFailureListener{
+                    Toast.makeText(activity, "Imaged Failed To Upload", Toast.LENGTH_SHORT)
+                }
+        }
+
+
+        binding.ivModifyContact.setOnClickListener()
+        {
+
+
+            val storageReference = FirebaseStorage.getInstance().reference.child("ContactImages/${currentUserID}")
+
+            val imgFile = File.createTempFile("temptImage", "jpg")
+            storageReference.getFile(imgFile)
+                .addOnSuccessListener {
+                    Toast.makeText(activity, "Image Retrieved From Cloud Firestore", Toast.LENGTH_SHORT)
+
+                    val bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+                    binding.ivMyProfileImage.setImageBitmap(bitmap)
+
+                }
+                .addOnFailureListener{
+                    Toast.makeText(activity, "Image Failed To Be Retrieved From Cloud Firestore", Toast.LENGTH_SHORT)
+                }
+
 
         }
 
-         */
-
-
+        //********************************************************
 
         //----------------------------------------------------------------------------------------------------
 
@@ -139,10 +224,7 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         //Select an image
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-        // val cameraManager = CameraHandler(requireActivity(), binding.ivMyProfileImage)
-        //val cameraManager = CameraHandler()
-        //cameraManager.currentActivity = requireActivity()
-       // cameraManager.imageContainer = binding.ivMyProfileImage
+
 
         binding.ivMyProfileImageTint.setOnClickListener()
         {
@@ -293,18 +375,27 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
         if ((requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) || (requestCode == PICK_FROM_GALLERY && resultCode == Activity.RESULT_OK)) {
 
-            var imageBitmap = data?.extras?.get("data") as Bitmap?
 
-            if (imageBitmap == null)
-            {
-                val imageUri = data?.data
-                imageBitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, Uri.parse(imageUri.toString()))
+            if ((requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) || (requestCode == PICK_FROM_GALLERY && resultCode == Activity.RESULT_OK)) {
+
+
+                var imageBitmap = data?.extras?.get("data") as Bitmap?
+
+                if (imageBitmap == null) {
+                    val imageUri = data?.data
+                    imageBitmap = MediaStore.Images.Media.getBitmap(
+                        activity?.contentResolver,
+                        Uri.parse(imageUri.toString())
+                    )
+                }
+
+
+                binding.ivMyProfileImage.setImageBitmap(imageBitmap)
+                saveImageLocally(imageBitmap)
+
+
+
             }
-
-            binding.ivMyProfileImage.setImageBitmap(imageBitmap)
-            saveImageLocally(imageBitmap)
-
-
         }
 
     }
@@ -322,6 +413,8 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val imageFile = File(storageDir, imageFileName)
 
+       selectedImageUri = imageFile.toUri()
+
         //return view
         try {
             val fileOutputStream = FileOutputStream(imageFile)
@@ -337,4 +430,5 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
+
 }
