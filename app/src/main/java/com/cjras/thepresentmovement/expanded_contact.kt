@@ -148,6 +148,18 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
         val selectedUserID = arguments?.getString("selectedUserID")
 
+
+        if (selectedUserID == GlobalClass.currentUser.UserID)
+        {
+            binding.ivMyProfileImage.setImageBitmap(GlobalClass.currentUserImage)
+        }
+        else
+        {
+          //new db manager r and get the users photo
+        }
+
+
+
         if (!selectedUserID.isNullOrEmpty())
         {
             for (user in GlobalClass.Users)

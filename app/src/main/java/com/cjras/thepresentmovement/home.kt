@@ -51,7 +51,7 @@ class home : Fragment() {
 
                     //********************************************************
                     //temp code to set current user
-                    GlobalClass.currentUser = GlobalClass.Users[0]
+                    //GlobalClass.currentUser = GlobalClass.Users[0]
                     //********************************************************
 
                     //get the users image
@@ -80,7 +80,7 @@ class home : Fragment() {
         //*****************************************************************************************
         //temp code to set current user
        // GlobalClass.setDefaultBitmap(requireContext())
-        GlobalClass.currentUser = GlobalClass.Users[1]
+        //GlobalClass.currentUser = GlobalClass.Users[1]
 
 
         //if (GlobalClass.currentUser.HasImage == true)

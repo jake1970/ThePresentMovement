@@ -26,7 +26,12 @@ class MainActivity : AppCompatActivity() {
 
     binding.btnSignUp.setOnClickListener()
     {
+        /*
         var intent = Intent(this, home_bottom_navigation::class.java) //ViewActivity
+        startActivity(intent)
+         */
+
+        var intent = Intent(this, login::class.java) //ViewActivity
         startActivity(intent)
     }
 

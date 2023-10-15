@@ -30,34 +30,43 @@ class DatabaseManager {
         val querySnapshot = db.collection("Users").get().await()
         //GlobalClass.documents = DocumentID()
         for (document in querySnapshot) {
-            //if (document.data.getValue("UserID").toString().toInt() == userID) {
 
 
-            val newUserID : String = document.data.getValue("UserID").toString()
+            val newUserID: String = document.data.getValue("UserID").toString()
             val newFirstName: String = document.data.getValue("FirstName").toString()
             val newLastName: String = document.data.getValue("LastName").toString()
-            val newEmailAddress : String = document.data.getValue("EmailAddress").toString()
+            val newEmailAddress: String = document.data.getValue("EmailAddress").toString()
             val newMemberTypeID: Int = document.data.getValue("MemberTypeID").toString().toInt()
             val newQuote: String = document.data.getValue("Quote").toString()
-            val newContactNumber : String = document.data.getValue("ContactNumber").toString()
+            val newContactNumber: String = document.data.getValue("ContactNumber").toString()
             val newCompanyName: String = document.data.getValue("CompanyName").toString()
             val newLinkedIn: String = document.data.getValue("LinkedIn").toString()
-            val newWebsite : String = document.data.getValue("Website").toString()
+            val newWebsite: String = document.data.getValue("Website").toString()
             val newHasImage: Boolean = document.data.getValue("HasImage").toString().toBoolean()
 
             val tempUser = UserDataClass(
-                UserID  = newUserID,
+                UserID = newUserID,
                 FirstName = newFirstName,
                 LastName = newLastName,
-                EmailAddress  = newEmailAddress,
+                EmailAddress = newEmailAddress,
                 MemberTypeID = newMemberTypeID,
                 Quote = newQuote,
-                ContactNumber  = newContactNumber,
+                ContactNumber = newContactNumber,
                 CompanyName = newCompanyName,
                 LinkedIn = newLinkedIn,
-                Website  = newWebsite,
+                Website = newWebsite,
                 HasImage = newHasImage
             )
+
+
+            if (GlobalClass.currentUser.FirstName == "")
+            {
+                if (document.data.getValue("UserID").toString() == GlobalClass.currentUser.UserID) {
+
+                    GlobalClass.currentUser = tempUser
+
+                }
+            }
 
             allUsers.add(tempUser)
             GlobalClass.documents.allUserIDs.add(document.id)
