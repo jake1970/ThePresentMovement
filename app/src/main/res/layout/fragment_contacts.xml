@@ -11,30 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/ivLoadingLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/tpm_logo" />
-
-        <ProgressBar
-            android:id="@+id/pbLoadingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:layout_marginTop="100dp"
-            android:layout_below="@id/ivLoadingLogo"
-            android:layout_marginLeft="60dp"
-            android:indeterminateTint="#00B7FF" />
-
-
-
-    </RelativeLayout>
 
 
 
@@ -81,7 +57,8 @@
                 android:layout_width="66dp"
                 android:layout_height="66dp"
                 app:shapeAppearanceOverlay="@style/circleImageView"
-                app:srcCompat="@drawable/ic_launcher_background"
+                app:srcCompat="@color/accent_grey"
+                android:background="@color/accent_grey"
                 android:layout_marginLeft="2dp"
                 android:layout_weight="0"
                 android:scaleType="centerCrop"

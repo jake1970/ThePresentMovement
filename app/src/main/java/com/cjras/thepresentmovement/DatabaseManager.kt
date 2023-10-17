@@ -1,20 +1,13 @@
 package com.cjras.thepresentmovement
 
+import android.R.attr.left
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.view.View
-import android.widget.Toast
-import androidx.core.content.ContextCompat
+import android.graphics.*
 import androidx.core.graphics.drawable.toBitmap
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import java.io.File
 
 
@@ -59,7 +52,8 @@ class DatabaseManager {
             )
 
 
-            if (GlobalClass.currentUser.FirstName == "")
+
+            if (GlobalClass.currentUser.EmailAddress == "")
             {
                 if (document.data.getValue("UserID").toString() == GlobalClass.currentUser.UserID) {
 
@@ -67,6 +61,8 @@ class DatabaseManager {
 
                 }
             }
+
+
 
             allUsers.add(tempUser)
             GlobalClass.documents.allUserIDs.add(document.id)
@@ -81,17 +77,24 @@ class DatabaseManager {
 
     suspend fun getUserImage(context: Context, userID : String, userHasImage: Boolean) : Bitmap?
     {
-        val storageReference = FirebaseStorage.getInstance().reference.child("ContactImages/$userID")
 
-        var bitmap = ContextCompat.getDrawable(context, R.drawable.person_icon)?.toBitmap()//: Bitmap?  =  BitmapFactory.decodeResource(context.resources, R.drawable.person_icon)
+        var defaultUserImage = context.getDrawable(R.drawable.person_icon)
+        if (defaultUserImage != null) {
+            defaultUserImage = defaultUserImage.mutate()
+            defaultUserImage.colorFilter = PorterDuffColorFilter(context.resources.getColor(R.color.sub_grey), PorterDuff.Mode.SRC_IN)
+        }
 
-        val imgFile = File.createTempFile("temptImage", "jpg")
+        var bitmap = defaultUserImage?.toBitmap()
+        bitmap = addPaddingToBitmap(bitmap!!, 10)
+
 
         if (userHasImage) {
             try {
+                val storageReference = FirebaseStorage.getInstance().reference.child("ContactImages/$userID")
+                val imgFile = File.createTempFile("tempImage", "jpg")
                 storageReference.getFile(imgFile).await()
                 bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-            } catch (e: Error) {
+            } catch (e: Exception) {
                 GlobalClass.InformUser(
                     context.getString(R.string.errorText),
                     "${e.toString()}",
@@ -102,6 +105,32 @@ class DatabaseManager {
 
         return bitmap
     }
+
+
+
+    private fun addPaddingToBitmap(originalBitmap: Bitmap, padding: Int): Bitmap {
+        val newWidth = originalBitmap.width + 2 * padding
+        val newHeight = originalBitmap.height + 2 * padding
+
+        // Create a new Bitmap with the increased size
+        val paddedBitmap = Bitmap.createBitmap(newWidth, newHeight, originalBitmap.config)
+
+        val canvas = Canvas(paddedBitmap)
+
+        // Calculate the position to center the original image with padding
+        val left = padding
+        val top = padding
+
+        // Draw the original Bitmap on the new Bitmap with padding
+        canvas.drawBitmap(originalBitmap, left.toFloat(), top.toFloat(), null)
+
+        return paddedBitmap
+    }
+
+
+
+
+
 
 
 

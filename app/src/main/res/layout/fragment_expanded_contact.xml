@@ -73,7 +73,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:shapeAppearanceOverlay="@style/circleImageView"
-                    app:srcCompat="@drawable/ic_launcher_background"
+                    android:background="@color/accent_grey"
+                    app:srcCompat="@color/accent_grey"
                     android:scaleType="centerCrop"
                     />
 

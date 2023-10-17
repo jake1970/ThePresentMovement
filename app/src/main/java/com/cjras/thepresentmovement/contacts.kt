@@ -43,19 +43,28 @@ class contacts : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
         //initial data population
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
+
         try {
+
+            loadingCover.visibility = View.GONE
+
             //Read Data
             GlobalScope.launch{
                 if (GlobalClass.UpdateDataBase == true)
                 {
-                    var DBManger = DatabaseManager()
 
-                    GlobalClass.Users = DBManger.getAllUsersFromFirestore()
+                    loadingCover.visibility = View.VISIBLE
+
+                    var databaseManager = DatabaseManager()
+
+                    GlobalClass.Users = databaseManager.getAllUsersFromFirestore()
                     GlobalClass.UpdateDataBase = false
 
                 }
                 withContext(Dispatchers.Main) {
-                    UpdateUI()
+                    UpdateUI(loadingCover)
                 }
             }
         }
@@ -102,9 +111,11 @@ args.putString("userImageURI", user.UserImageURI)
         )
     }
 
-    fun UpdateUI() {
+    fun UpdateUI(loadingCover : ViewGroup) {
 
         try {
+
+            loadingCover.visibility = View.GONE
 
             binding.llMyProfileCard.setOnClickListener()
             {
@@ -162,8 +173,10 @@ args.putString("userImageURI", user.UserImageURI)
 
 
             //remove loading screen
+            /*
             binding.ivLoadingLogo.visibility = View.GONE
             binding.pbLoadingBar.visibility = View.GONE
+             */
 
 
 

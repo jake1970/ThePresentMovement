@@ -3,10 +3,15 @@ package com.cjras.thepresentmovement
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.cjras.thepresentmovement.databinding.ActivityHomeBottomNavigationBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class home_bottom_navigation : AppCompatActivity() {
 
@@ -15,6 +20,8 @@ class home_bottom_navigation : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_bottom_navigation)
+
+
 
         //-----------------------------------------------------------------------//
 
@@ -30,6 +37,7 @@ class home_bottom_navigation : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.main_grey)
 
         //-----------------------------------------------------------------------//
+
 
         //create local fragment controller
         val fragmentControl = FragmentManager()
@@ -58,6 +66,44 @@ class home_bottom_navigation : AppCompatActivity() {
             true
         }
 
+
+
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------
+        //initial data population
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------
+        try {
+
+            var loadingCover = GlobalClass.addLoadingCover(layoutInflater, binding.root)
+
+            //Read Data
+            GlobalScope.launch{
+                if (GlobalClass.UpdateDataBase == true)
+                {
+                    var DBManger = DatabaseManager()
+
+                    GlobalClass.Users = DBManger.getAllUsersFromFirestore()
+                    GlobalClass.UpdateDataBase = false
+
+                    //********************************************************
+                    //temp code to set current user
+                    //GlobalClass.currentUser = GlobalClass.Users[0]
+                    //********************************************************
+
+                    //get the users image
+                    GlobalClass.currentUserImage = DBManger.getUserImage(baseContext, GlobalClass.currentUser.UserID, GlobalClass.currentUser.HasImage)
+                }
+                withContext(Dispatchers.Main) {
+
+                    loadingCover.visibility = View.GONE
+                }
+            }
+        }
+        catch (e: Exception)
+        {
+            GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", this)
+        }
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     }
 

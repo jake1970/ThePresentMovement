@@ -27,6 +27,9 @@ class home : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+   //private lateinit var loadingCover : ViewGroup
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,18 +38,35 @@ class home : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        /*
+        val loadingProgressBar = layoutInflater.inflate(R.layout.loading_cover, null) as ViewGroup
+        view.addView(loadingProgressBar)
+         */
+
+        //loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
+        //loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
+
+
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
         //initial data population
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
+        var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
+
         try {
+
+           // var loadingCover = View(activity) as ViewGroup
+            loadingCover.visibility = View.GONE
 
             //Read Data
             GlobalScope.launch{
                 if (GlobalClass.UpdateDataBase == true)
                 {
-                    var DBManger = DatabaseManager()
+                    //var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
+                    loadingCover.visibility = View.VISIBLE
 
-                    GlobalClass.Users = DBManger.getAllUsersFromFirestore()
+                    var databaseManager = DatabaseManager()
+
+                    GlobalClass.Users = databaseManager.getAllUsersFromFirestore()
                     GlobalClass.UpdateDataBase = false
 
                     //********************************************************
@@ -55,12 +75,11 @@ class home : Fragment() {
                     //********************************************************
 
                     //get the users image
-                    GlobalClass.currentUserImage = DBManger.getUserImage(requireContext(), GlobalClass.currentUser.UserID, GlobalClass.currentUser.HasImage)
+                    GlobalClass.currentUserImage = databaseManager.getUserImage(requireContext(), GlobalClass.currentUser.UserID, GlobalClass.currentUser.HasImage)
                 }
                 withContext(Dispatchers.Main) {
 
-
-                    UpdateUI()
+                    UpdateUI(loadingCover)
                 }
             }
         }
@@ -70,11 +89,12 @@ class home : Fragment() {
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
         // Inflate the layout for this fragment
         return view
     }
 
-    fun UpdateUI ()
+    fun UpdateUI (loadingCover : ViewGroup)
     {
 
         //*****************************************************************************************
@@ -98,9 +118,13 @@ class home : Fragment() {
 
         try {
             //remove loading screen
+            /*
             binding.ivLoadingLogo.visibility = View.GONE
             binding.pbLoadingBar.visibility = View.GONE
 
+             */
+
+            loadingCover.visibility = View.GONE
 
             // binding.tvEvents.text = Html.fromHtml("<html><body><font size=5 color=red>Hello </font> World </body><html>"))
             binding.tvEvents.text = Html.fromHtml("5" + "<small>" + "<small>" + "<small>" + " " + getString(R.string.upcomingText) + "</small>" + "</small>" + "</small>" + "<br />" + getString(R.string.eventsText))
@@ -134,7 +158,7 @@ class home : Fragment() {
             //---------------------------------------------------------------------------------------------
 
         }
-        catch (e: Error)
+        catch (e: Exception)
         {
             GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
         }

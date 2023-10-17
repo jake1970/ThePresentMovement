@@ -12,17 +12,25 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Space
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.cjras.thepresentmovement.databinding.FragmentExpandedContactBinding
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -43,6 +51,10 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
     //private var selectedImageUri  = R.drawable.person_icon
     private lateinit var selectedImageUri : Uri
     private var currentUserID = ""
+
+
+    private var selectedUserID : String? = ""
+
     //private var cameraManager = CameraHandler()
 
     //private lateinit var storageRef : StorageRe
@@ -63,6 +75,49 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         _binding = FragmentExpandedContactBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------
+        //initial data population
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------
+        var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
+
+        try {
+
+            // var loadingCover = View(activity) as ViewGroup
+            //loadingCover.visibility = View.GONE
+
+            selectedUserID = arguments?.getString("selectedUserID")
+
+            if (selectedUserID == GlobalClass.currentUser.UserID)
+            {
+                loadingCover.visibility = View.GONE
+            }
+
+
+            //Read Data
+            GlobalScope.launch{
+                if (GlobalClass.UpdateDataBase == true)
+                {
+                    //var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
+                    loadingCover.visibility = View.VISIBLE
+
+                    var databaseManager = DatabaseManager()
+
+                    GlobalClass.Users = databaseManager.getAllUsersFromFirestore()
+                    GlobalClass.UpdateDataBase = false
+
+                }
+                withContext(Dispatchers.Main) {
+
+
+                    UpdateUI(loadingCover)
+                }
+            }
+        }
+        catch (e: Error)
+        {
+            GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
+        }
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
 /*
         //----------------------------------------------------------------------------------------------------
@@ -146,48 +201,8 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
          */
 
-        val selectedUserID = arguments?.getString("selectedUserID")
 
-
-        if (selectedUserID == GlobalClass.currentUser.UserID)
-        {
-            binding.ivMyProfileImage.setImageBitmap(GlobalClass.currentUserImage)
-        }
-        else
-        {
-          //new db manager r and get the users photo
-        }
-
-
-
-        if (!selectedUserID.isNullOrEmpty())
-        {
-            for (user in GlobalClass.Users)
-            {
-                if (user.UserID == selectedUserID)
-                {
-                    currentUserID = user.UserID
-                    binding.tvContactName.text = "${user.FirstName} ${user.LastName}"
-
-                    var userType = getString(R.string.memberText)
-                    if (user.MemberTypeID == 2)
-                    {
-                        userType = getString(R.string.seniorMemberText)
-                    }
-                    binding.tvRole.text = userType
-
-                    binding.tfQuote.setText(user.Quote)
-                    binding.tfContactNumber.setText(user.ContactNumber)
-                    binding.tfEmailAddress.setText(user.EmailAddress)
-                    binding.tfCompanyName.setText(user.CompanyName)
-                    binding.tfLinkedIn.setText(user.LinkedIn)
-                    binding.tfWebsite.setText(user.Website)
-
-                }
-            }
-
-        }
-
+/*
         binding.tvContactName.setOnClickListener()
         {
 
@@ -198,32 +213,37 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
             storageReference.putFile(selectedImageUri).
             addOnSuccessListener {
-                Toast.makeText(activity, "Imaged Uploaded To Cloud Firestore", Toast.LENGTH_SHORT)
+                Toast.makeText(activity, "Imaged Uploaded To Cloud Firestore", Toast.LENGTH_SHORT).show()
             }
                 .addOnFailureListener{
-                    Toast.makeText(activity, "Imaged Failed To Upload", Toast.LENGTH_SHORT)
+                    Toast.makeText(activity, "Imaged Failed To Upload", Toast.LENGTH_SHORT).show()
                 }
         }
+        */
 
 
         binding.ivModifyContact.setOnClickListener()
         {
 
-
+            Toast.makeText(activity, "Clicked", Toast.LENGTH_SHORT).show()
+            GlobalClass.InformUser("", "", requireContext())
+            /*
             val storageReference = FirebaseStorage.getInstance().reference.child("ContactImages/${currentUserID}")
 
             val imgFile = File.createTempFile("temptImage", "jpg")
             storageReference.getFile(imgFile)
                 .addOnSuccessListener {
-                    Toast.makeText(activity, "Image Retrieved From Cloud Firestore", Toast.LENGTH_SHORT)
+                    Toast.makeText(activity, "Image Retrieved From Cloud Firestore", Toast.LENGTH_SHORT).show()
 
                     val bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
                     binding.ivMyProfileImage.setImageBitmap(bitmap)
 
                 }
                 .addOnFailureListener{
-                    Toast.makeText(activity, "Image Failed To Be Retrieved From Cloud Firestore", Toast.LENGTH_SHORT)
+                    Toast.makeText(activity, "Image Failed To Be Retrieved From Cloud Firestore", Toast.LENGTH_SHORT).show()
                 }
+
+             */
 
 
         }
@@ -272,10 +292,94 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         return view
     }
 
+    suspend fun UpdateUI (loadingCover : ViewGroup)
+    {
+
+        try
+        {
+
+
+            if (!selectedUserID.isNullOrEmpty())
+            {
+
+
+                for (user in GlobalClass.Users)
+                {
+                    if (user.UserID == selectedUserID)
+                    {
+                        currentUserID = user.UserID
+                        binding.tvContactName.text = "${user.FirstName} ${user.LastName}"
+
+                        var userType = getString(R.string.memberText)
+                        if (user.MemberTypeID == 2)
+                        {
+                            userType = getString(R.string.seniorMemberText)
+                        }
+                        binding.tvRole.text = userType
+
+                        binding.tfQuote.setText(user.Quote)
+                        binding.tfContactNumber.setText(user.ContactNumber)
+                        binding.tfEmailAddress.setText(user.EmailAddress)
+                        binding.tfCompanyName.setText(user.CompanyName)
+                        binding.tfLinkedIn.setText(user.LinkedIn)
+                        binding.tfWebsite.setText(user.Website)
+
+                        if (selectedUserID == GlobalClass.currentUser.UserID)
+                        {
+                            binding.ivMyProfileImage.setImageBitmap(GlobalClass.currentUserImage)
+                        }
+                        else
+                        {
+                                setGeneralView()
+
+                                loadingCover.visibility = View.VISIBLE
+
+                                var databaseManager = DatabaseManager()
+                                var bitmap = databaseManager.getUserImage(requireContext(), user.UserID, user.HasImage)
+
+
+                                binding.ivMyProfileImage.setImageBitmap(bitmap)
+
+                        }
+
+                        //exit loop once user is found
+                        break
+
+                    }
+                }
+
+            }
+
+            loadingCover.visibility = View.GONE
+
+        }
+        catch (e: Exception)
+        {
+            GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
+        }
+
+
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+    private fun setGeneralView()
+    {
+        binding.ivModifyContact.isVisible = false
+        binding.ivMyProfileImageTint.isVisible = false
+        binding.tvMyProfileImageEditText.isVisible = false
+
+        binding.tfQuote.isEnabled = false
+        binding.tfContactNumber.isEnabled = false
+        binding.tfEmailAddress.isEnabled = false
+        binding.tfCompanyName.isEnabled = false
+        binding.tfLinkedIn.isEnabled = false
+        binding.tfWebsite.isEnabled = false
+    }
+
 
 
 

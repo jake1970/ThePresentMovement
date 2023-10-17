@@ -44,8 +44,12 @@ class login : AppCompatActivity() {
         binding.btnSignUp.setOnClickListener()
         {
 
+            //me
+            //GlobalClass.currentUser.UserID = "PMYdocWRj7R2GS4REUQq"
 
-            GlobalClass.currentUser.UserID = "PMYdocWRj7R2GS4REUQq"
+            //robz
+            GlobalClass.currentUser.UserID = "dgYsVK3ezlrXpwZLmQiq"
+
 
 
             var intent = Intent(this, home_bottom_navigation::class.java) //ViewActivity
