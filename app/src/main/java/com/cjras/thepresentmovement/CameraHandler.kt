@@ -6,25 +6,30 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CameraHandler () {
 
-    lateinit var currentActivity: FragmentActivity
-    lateinit var imageContainer: ImageView
+class CameraHandler(
+    //var currentActivity: FragmentActivity,
+    var currentActivity: Activity,
+    var imageContainer: ImageView,
+    var modifiedPicture: Boolean,
+) {
+
+  //  lateinit var currentActivity: FragmentActivity
+    //lateinit var imageContainer: ImageView
 
 
     //----------------------------------------------------------------------------------------------------
@@ -133,6 +138,7 @@ class CameraHandler () {
         } else {
             Toast.makeText(currentActivity, "Camera is not available", Toast.LENGTH_SHORT).show()
         }
+
     }
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -140,31 +146,82 @@ class CameraHandler () {
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
     //Catch Finished Activity
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+    //override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //@Suppress("DEPRECATION")
+        //super.onActivityResult(requestCode, resultCode, data)
+
+        //cameraManager.currentActivity = requireActivity()
+        //cameraManager.imageContainer = binding.ivMyProfileImage
+        //cameraManager.onActivityResult(requestCode, resultCode, data)
+
+        /*
+        if ((requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) || (requestCode == PICK_FROM_GALLERY && resultCode == Activity.RESULT_OK)) {
+
+
+            if ((requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) || (requestCode == PICK_FROM_GALLERY && resultCode == Activity.RESULT_OK)) {
+
+
+                var imageBitmap = data?.extras?.get("data") as Bitmap?
+
+                if (imageBitmap == null) {
+                    val imageUri = data?.data
+                    imageBitmap = MediaStore.Images.Media.getBitmap(
+                        activity?.contentResolver,
+                        Uri.parse(imageUri.toString())
+                    )
+                }
+
+                modifiedPicture = true
+                binding.ivMyProfileImage.setImageBitmap(imageBitmap)
+                saveImageLocally(imageBitmap)
+
+
+
+            }
+        }
+
+         */
+
+   // }
+
+    /*
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         @Suppress("DEPRECATION")
        // super.onActivityResult(requestCode, resultCode, data)
+
+        GlobalClass.InformUser("", "", currentActivity)
+
         if ((requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) || (requestCode == PICK_FROM_GALLERY && resultCode == Activity.RESULT_OK)) {
 
-            var imageBitmap = data?.extras?.get("data") as Bitmap?
 
-            if (imageBitmap == null)
-            {
-                val imageUri = data?.data
-                imageBitmap = MediaStore.Images.Media.getBitmap(currentActivity?.contentResolver, Uri.parse(imageUri.toString()))
+            if ((requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) || (requestCode == PICK_FROM_GALLERY && resultCode == Activity.RESULT_OK)) {
+
+
+                var imageBitmap = data?.extras?.get("data") as Bitmap?
+
+                if (imageBitmap == null) {
+                    val imageUri = data?.data
+                    imageBitmap = MediaStore.Images.Media.getBitmap(
+                        currentActivity.contentResolver,
+                        Uri.parse(imageUri.toString())
+                    )
+                }
+
+                modifiedPicture = true
+                imageContainer.setImageBitmap(imageBitmap)
+                saveImageLocally(imageBitmap)
+
+
+
             }
-
-            val builder = AlertDialog.Builder(currentActivity)
-            builder.setTitle("Androidly Alert")
-            builder.setMessage(imageBitmap.toString())
-            builder.show()
-
-            imageContainer.setImageBitmap(imageBitmap)
-            saveImageLocally(imageBitmap)
-
-
         }
 
     }
+     */
+
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------------

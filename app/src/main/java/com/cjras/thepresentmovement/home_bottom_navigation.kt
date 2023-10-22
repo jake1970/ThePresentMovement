@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -16,6 +17,7 @@ import kotlinx.coroutines.withContext
 class home_bottom_navigation : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBottomNavigationBinding
+    // lateinit var loadingCover: ViewGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,9 +74,11 @@ class home_bottom_navigation : AppCompatActivity() {
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
         //initial data population
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
+        //loadingCover = GlobalClass.addLoadingCover(layoutInflater, binding.root)
         try {
 
             var loadingCover = GlobalClass.addLoadingCover(layoutInflater, binding.root)
+
 
             //Read Data
             GlobalScope.launch{

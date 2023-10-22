@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".home_bottom_navigation"
     android:background="@color/main_grey"
+    android:id="@+id/flBase"
    >
 
     <LinearLayout

@@ -7,16 +7,15 @@ import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Space
+import android.widget.FrameLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -24,12 +23,9 @@ import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.cjras.thepresentmovement.databinding.FragmentExpandedContactBinding
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
@@ -52,11 +48,14 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
     private lateinit var selectedImageUri : Uri
     private var currentUserID = ""
 
+    private var currentEditMode = false
+
+    private var modifiedPicture = false
 
     private var selectedUserID : String? = ""
 
     //private var cameraManager = CameraHandler()
-
+    private lateinit var cameraManager : CameraHandler
     //private lateinit var storageRef : StorageRe
 
     //----------------------------------------------------------------------------------------------------
@@ -115,7 +114,7 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         }
         catch (e: Error)
         {
-            GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
+            GlobalClass.InformUser(getString(R.string.errorText), "$e", requireContext())
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -225,8 +224,78 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         binding.ivModifyContact.setOnClickListener()
         {
 
-            Toast.makeText(activity, "Clicked", Toast.LENGTH_SHORT).show()
-            GlobalClass.InformUser("", "", requireContext())
+
+            currentEditMode = !currentEditMode
+
+            setEditMode(currentEditMode)
+
+            if (currentEditMode == false)
+            {
+
+                var givenUserData = UserDataClass(
+                    //UserID = selectedUserID!!,
+                    UserID = GlobalClass.currentUser.UserID,
+                    FirstName = GlobalClass.currentUser.FirstName,
+                    LastName = GlobalClass.currentUser.LastName,
+                    EmailAddress = binding.tfEmailAddress.text.toString(),
+                    MemberTypeID = GlobalClass.currentUser.MemberTypeID,
+                    Quote = binding.tfQuote.text.toString(),
+                    ContactNumber = binding.tfContactNumber.text.toString(),
+                    CompanyName = binding.tfCompanyName.text.toString(),
+                    LinkedIn = binding.tfLinkedIn.text.toString(),
+                    Website = binding.tfWebsite.text.toString(),
+                    HasImage = GlobalClass.currentUser.HasImage
+                )
+
+                if (!givenUserData.equals(GlobalClass.currentUser) || modifiedPicture == true) {
+
+                    val currentUserIndex = GlobalClass.Users.indexOf(GlobalClass.currentUser)
+                    val currentUserDocumentIndex = GlobalClass.documents.allUserIDs[currentUserIndex]
+
+
+                    //loading screen on parent base view
+                    val parentView = requireActivity().findViewById<FrameLayout>(R.id.flBase)
+                    var loadingCover = GlobalClass.addLoadingCover(layoutInflater, parentView)
+
+
+                    GlobalScope.launch() {
+                        var databaseManager = DatabaseManager()
+
+                        databaseManager.setUserImage(
+                            requireContext(),
+                            currentUserID,
+                            selectedImageUri
+                        )
+                        databaseManager.updateUserInFirestore(
+                            givenUserData,
+                            currentUserDocumentIndex
+                        )
+
+                        if (modifiedPicture == true) {
+                            GlobalClass.currentUserImage = databaseManager.getUserImage(
+                                requireContext(),
+                                GlobalClass.currentUser.UserID,
+                                GlobalClass.currentUser.HasImage
+                            )
+                        }
+
+                        //val currentUserIndex = GlobalClass.documents.allUserIDs[currentUserID]
+
+
+                        withContext(Dispatchers.Main) {
+                            GlobalClass.UpdateDataBase = true
+                            Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
+                            loadingCover.visibility = View.GONE
+                        }
+                    }
+
+                }
+            }
+
+
+
+            //Toast.makeText(activity, "Clicked", Toast.LENGTH_SHORT).show()
+            //GlobalClass.InformUser("", "", requireContext())
             /*
             val storageReference = FirebaseStorage.getInstance().reference.child("ContactImages/${currentUserID}")
 
@@ -261,16 +330,16 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         binding.ivMyProfileImageTint.setOnClickListener()
         {
             //method to add an image
-            handlePhoto()
-            //cameraManager.handlePhoto()
+           // handlePhoto()
+            cameraManager.handlePhoto()
         }
 
 
         binding.tvMyProfileImageEditText.setOnClickListener()
         {
             //method to add an image
-            handlePhoto()
-           // cameraManager.handlePhoto()
+           // handlePhoto()
+            cameraManager.handlePhoto()
         }
 
         //----------------------------------------------------------------------------------------------------
@@ -327,6 +396,7 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
                         if (selectedUserID == GlobalClass.currentUser.UserID)
                         {
                             binding.ivMyProfileImage.setImageBitmap(GlobalClass.currentUserImage)
+                            setEditMode(false)
                         }
                         else
                         {
@@ -355,7 +425,7 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         }
         catch (e: Exception)
         {
-            GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
+            GlobalClass.InformUser(getString(R.string.errorText), "$e", requireContext())
         }
 
 
@@ -379,6 +449,61 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         binding.tfLinkedIn.isEnabled = false
         binding.tfWebsite.isEnabled = false
     }
+
+    private fun setEditMode(currentlyEditing: Boolean)
+    {
+
+
+
+
+
+        if (currentlyEditing == true)
+        {
+            //cameraManager.currentActivity = requireActivity()
+            //cameraManager.imageContainer = binding.ivMyProfileImage
+            cameraManager = CameraHandler(requireActivity(), binding.ivMyProfileImage, modifiedPicture)
+
+            binding.ivModifyContact.setImageDrawable(activity?.getDrawable(R.drawable.tick_icon))
+
+            binding.ivMyProfileImageTint.isVisible = true
+            binding.tvMyProfileImageEditText.isVisible = true
+
+            binding.tfQuote.isEnabled = true
+            binding.tfContactNumber.isEnabled = true
+            binding.tfEmailAddress.isEnabled = true
+            binding.tfCompanyName.isEnabled = true
+            binding.tfLinkedIn.isEnabled = true
+            binding.tfWebsite.isEnabled = true
+
+
+//            binding.etQuote.setEndIconDrawable(R.drawable.edit_icon)
+//            binding.etContactNumber.setEndIconDrawable(R.drawable.edit_icon)
+//            binding.etEmailAddress.setEndIconDrawable(R.drawable.edit_icon)
+//            binding.etCompanyName.setEndIconDrawable(R.drawable.edit_icon)
+//            binding.etLinkedIn.setEndIconDrawable(R.drawable.edit_icon)
+//            binding.etWebsite.setEndIconDrawable(R.drawable.edit_icon)
+        }
+        else
+        {
+
+            binding.ivModifyContact.setImageDrawable(activity?.getDrawable(R.drawable.edit_icon))
+
+            binding.ivMyProfileImageTint.isVisible = false
+            binding.tvMyProfileImageEditText.isVisible = false
+
+            binding.tfQuote.isEnabled = false
+            binding.tfContactNumber.isEnabled = false
+            binding.tfEmailAddress.isEnabled = false
+            binding.tfCompanyName.isEnabled = false
+            binding.tfLinkedIn.isEnabled = false
+            binding.tfWebsite.isEnabled = false
+
+            //binding.etQuote.endIconDrawable?.setVisible(false, true)
+        }
+
+    }
+
+
 
 
 
@@ -455,7 +580,7 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
         if (galleryIntent.resolveActivity(requireActivity().packageManager) != null) {
             @Suppress("DEPRECATION")
-            startActivityForResult(galleryIntent, PICK_FROM_GALLERY);
+            startActivityForResult(galleryIntent, PICK_FROM_GALLERY)
         } else {
             Toast.makeText(requireContext(), "Photo Library is not available", Toast.LENGTH_SHORT).show()
         }
@@ -487,8 +612,12 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         @Suppress("DEPRECATION")
         super.onActivityResult(requestCode, resultCode, data)
 
+        //cameraManager.currentActivity = requireActivity()
+        //cameraManager.imageContainer = binding.ivMyProfileImage
        // cameraManager.onActivityResult(requestCode, resultCode, data)
+        GlobalClass.InformUser("", "", requireActivity())
 
+        /*
         if ((requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) || (requestCode == PICK_FROM_GALLERY && resultCode == Activity.RESULT_OK)) {
 
 
@@ -505,7 +634,7 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
                     )
                 }
 
-
+                modifiedPicture = true
                 binding.ivMyProfileImage.setImageBitmap(imageBitmap)
                 saveImageLocally(imageBitmap)
 
@@ -513,6 +642,8 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
             }
         }
+
+         */
 
     }
     //---------------------------------------------------------------------------------------------------------------------------------------------------------

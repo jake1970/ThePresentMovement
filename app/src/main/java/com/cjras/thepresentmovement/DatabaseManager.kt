@@ -1,8 +1,12 @@
 package com.cjras.thepresentmovement
 
 import android.R.attr.left
+import android.content.ContentValues
 import android.content.Context
 import android.graphics.*
+import android.net.Uri
+import android.util.Log
+import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -20,6 +24,8 @@ class DatabaseManager {
     //get all users from database
     suspend fun getAllUsersFromFirestore(): ArrayList<UserDataClass> {
         val allUsers = arrayListOf<UserDataClass>()
+        GlobalClass.documents.allUserIDs.clear()
+
         val querySnapshot = db.collection("Users").get().await()
         //GlobalClass.documents = DocumentID()
         for (document in querySnapshot) {
@@ -53,14 +59,12 @@ class DatabaseManager {
 
 
 
-            if (GlobalClass.currentUser.EmailAddress == "")
-            {
+            //if (GlobalClass.currentUser.EmailAddress == "")
+            //{
                 if (document.data.getValue("UserID").toString() == GlobalClass.currentUser.UserID) {
-
                     GlobalClass.currentUser = tempUser
-
                 }
-            }
+           // }
 
 
 
@@ -69,10 +73,40 @@ class DatabaseManager {
             //}
         }
 
-
+        //GlobalClass.Users = allUsers
         return allUsers
     }
 
+
+    //add new user to the users table
+    fun addNewUserToFirestore(newUser: UserDataClass)
+    {
+        db.collection("Users")
+            .add(newUser)
+            .addOnSuccessListener {
+                Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${it.id}")
+                GlobalClass.UpdateDataBase = true
+            }
+    }
+
+    suspend fun updateUserInFirestore(currentUser: UserDataClass, ID: String) {
+        val userRef = db.collection("Users").document(ID)
+        userRef.update(
+            mapOf(
+                "UserID" to currentUser.UserID,
+                "FirstName" to currentUser.FirstName,
+                "LastName" to currentUser.LastName,
+                "EmailAddress" to currentUser.EmailAddress,
+                "MemberTypeID" to currentUser.MemberTypeID,
+                "Quote" to currentUser.Quote,
+                "ContactNumber" to currentUser.ContactNumber,
+                "CompanyName" to currentUser.CompanyName,
+                "LinkedIn" to currentUser.LinkedIn,
+                "Website" to currentUser.Website,
+                "HasImage" to currentUser.HasImage,
+            )
+        ).await()
+    }
 
 
     suspend fun getUserImage(context: Context, userID : String, userHasImage: Boolean) : Bitmap?
@@ -106,7 +140,48 @@ class DatabaseManager {
         return bitmap
     }
 
+    suspend fun setUserImage(context: Context, userID : String, selectedImageUri : Uri)
+    {
 
+        val imageLocation = "ContactImages/$userID"
+        val storageReference = FirebaseStorage.getInstance().getReference(imageLocation)
+
+        // binding.ivMyProfileImage.image
+
+        storageReference.putFile(selectedImageUri)
+            .addOnFailureListener{
+                Toast.makeText(context, "Imaged Failed To Upload", Toast.LENGTH_SHORT).show()
+            }
+            .addOnSuccessListener {
+                GlobalClass.currentUser.HasImage = true
+        }.await()
+           /*
+            .addOnFailureListener{
+              Toast.makeText(context, "Imaged Failed To Upload", Toast.LENGTH_SHORT).show()
+            }
+            */
+
+    }
+
+
+
+
+
+    /*
+    val tempUser = UserDataClass(
+                UserID = newUserID,
+                FirstName = newFirstName,
+                LastName = newLastName,
+                EmailAddress = newEmailAddress,
+                MemberTypeID = newMemberTypeID,
+                Quote = newQuote,
+                ContactNumber = newContactNumber,
+                CompanyName = newCompanyName,
+                LinkedIn = newLinkedIn,
+                Website = newWebsite,
+                HasImage = newHasImage
+            )
+     */
 
     private fun addPaddingToBitmap(originalBitmap: Bitmap, padding: Int): Bitmap {
         val newWidth = originalBitmap.width + 2 * padding

@@ -56,6 +56,8 @@ class login : AppCompatActivity() {
 
             //robz
             //GlobalClass.currentUser.UserID = "dgYsVK3ezlrXpwZLmQiq"
+
+
             val email = etUsername.text.toString()
             val password = etPassword.text.toString()
             if (email.isNotEmpty() && password.isNotEmpty()) {
