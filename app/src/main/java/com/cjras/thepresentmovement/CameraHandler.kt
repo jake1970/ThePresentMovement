@@ -28,7 +28,6 @@ import java.util.*
 
 
  class CameraHandler(
-    //var currentActivity: FragmentActivity,
      private val currentFragment: Fragment,
      private var imageContainer: ImageView,
      private var modifiedPicture: Boolean,

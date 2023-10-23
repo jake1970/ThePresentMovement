@@ -39,7 +39,8 @@ class home_bottom_navigation : AppCompatActivity() {
         supportActionBar?.hide()
 
         //set status bar color
-        window.statusBarColor = ContextCompat.getColor(this, R.color.main_grey)
+        //window.statusBarColor = ContextCompat.getColor(this, R.color.main_grey)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.sub_grey)
 
         //-----------------------------------------------------------------------//
 
@@ -102,6 +103,12 @@ class home_bottom_navigation : AppCompatActivity() {
                     GlobalClass.currentUserImage = DBManger.getUserImage(baseContext, GlobalClass.currentUser.UserID, GlobalClass.currentUser.HasImage)
                 }
                 withContext(Dispatchers.Main) {
+
+                    //hide admin menu
+                    if (GlobalClass.currentUser.MemberTypeID != 2)
+                    {
+                        binding.bnvHomeNavigation.menu.removeItem(R.id.iAdmin)
+                    }
 
                     //loadingCover.visibility = View.GONE
                     binding.rlLoadingCover.visibility = View.GONE

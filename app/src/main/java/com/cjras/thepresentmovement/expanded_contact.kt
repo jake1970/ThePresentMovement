@@ -140,7 +140,7 @@ class expanded_contact : Fragment() {
                     CompanyName = binding.tfCompanyName.text.toString(),
                     LinkedIn = binding.tfLinkedIn.text.toString(),
                     Website = binding.tfWebsite.text.toString(),
-                    HasImage = GlobalClass.currentUser.HasImage
+                    HasImage = !GlobalClass.currentUser.HasImage
                 )
 
                 if (!givenUserData.equals(GlobalClass.currentUser) || cameraManager.getModifiedImageStatus() == true) {
@@ -253,6 +253,7 @@ class expanded_contact : Fragment() {
                         currentUserID = user.UserID
                         binding.tvContactName.text = "${user.FirstName} ${user.LastName}"
 
+                        binding.tvCardHeader.text = user.FirstName + getString(R.string.cardOwnerHeading)
                         /*
                         var userType = getString(R.string.memberText)
                         if (user.MemberTypeID == 2) {
