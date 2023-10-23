@@ -1,7 +1,8 @@
 package com.cjras.thepresentmovement
 
 data class DocumentID (
-        var allUserIDs: ArrayList<String> = ArrayList()
+        var allUserIDs: ArrayList<String> = ArrayList(),
+        var allMemberTypeIDs: ArrayList<String> = ArrayList()
     )
 {
 }

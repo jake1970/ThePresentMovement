@@ -21,9 +21,11 @@ class GlobalClass : Application()
         var documents = DocumentID()
 
         var currentUser = UserDataClass()
+        var currentUserMemberType = ""
         var currentUserImage: Bitmap? = null
 
         var Users = arrayListOf<UserDataClass>()
+        var MemberTypes = arrayListOf<MemberTypeDataClass>()
 
         fun addLoadingCover(fragmentInflater: LayoutInflater, fragmentFrameLayout: FrameLayout) : ViewGroup
         {

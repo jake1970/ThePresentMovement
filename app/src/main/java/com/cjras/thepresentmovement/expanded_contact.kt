@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
@@ -34,30 +35,24 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [expanded_contact.newInstance] factory method to
- * create an instance of this fragment.
- */
-class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
+
+class expanded_contact : Fragment() {
 
     private var _binding: FragmentExpandedContactBinding? = null
     private val binding get() = _binding!!
 
-    //private var selectedImageUri  = R.drawable.person_icon
-    private lateinit var selectedImageUri : Uri
     private var currentUserID = ""
 
     private var currentEditMode = false
 
     private var modifiedPicture = false
 
-    private var selectedUserID : String? = ""
+    private var selectedUserID: String? = ""
 
-    //private var cameraManager = CameraHandler()
-    private lateinit var cameraManager : CameraHandler
-    //private lateinit var storageRef : StorageRe
 
+    private lateinit var cameraManager: CameraHandler
+
+/*
     //----------------------------------------------------------------------------------------------------
     companion object {
         private const val CAMERA_PERMISSION_CODE = 100
@@ -65,6 +60,7 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         private const val PICK_FROM_GALLERY = 1
     }
     //----------------------------------------------------------------------------------------------------
+ */
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,6 +70,8 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         _binding = FragmentExpandedContactBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        cameraManager = CameraHandler(this, binding.ivMyProfileImage, modifiedPicture)
+
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
         //initial data population
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -81,27 +79,24 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
         try {
 
-            // var loadingCover = View(activity) as ViewGroup
-            //loadingCover.visibility = View.GONE
-
             selectedUserID = arguments?.getString("selectedUserID")
 
-            if (selectedUserID == GlobalClass.currentUser.UserID)
-            {
+            if (selectedUserID == GlobalClass.currentUser.UserID) {
                 loadingCover.visibility = View.GONE
             }
 
 
             //Read Data
-            GlobalScope.launch{
-                if (GlobalClass.UpdateDataBase == true)
-                {
-                    //var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
+            GlobalScope.launch {
+                if (GlobalClass.UpdateDataBase == true) {
+
                     loadingCover.visibility = View.VISIBLE
 
                     var databaseManager = DatabaseManager()
 
+                    GlobalClass.MemberTypes = databaseManager.getAllMemberTypesFromFirestore()
                     GlobalClass.Users = databaseManager.getAllUsersFromFirestore()
+
                     GlobalClass.UpdateDataBase = false
 
                 }
@@ -111,114 +106,13 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
                     UpdateUI(loadingCover)
                 }
             }
-        }
-        catch (e: Error)
-        {
+        } catch (e: Error) {
             GlobalClass.InformUser(getString(R.string.errorText), "$e", requireContext())
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-/*
+
         //----------------------------------------------------------------------------------------------------
-
-        /*
-         args.putBoolean("myProfile", false)
-                 args.putBoolean("myProfile", false)
-                args.putString("firstName", user.FirstName)
-                args.putString("lastName", user.LastName)
-                args.putString("emailAddress", user.EmailAddress)
-                args.putString("memberType", userType)
-                args.putString("quote", user.Quote)
-                args.putString("contactNumber", user.ContactNumber)
-                args.putString("companyName", user.CompanyName)
-                args.putString("linkedIn", user.LinkedIn)
-                args.putString("website", user.Website)
-                args.putString("userImageURI", user.UserImageURI)
-         */
-
-        /*
-        val myProfile = arguments?.getBoolean("myProfile")
-
-        val firstName = arguments?.getString("firstName")
-        val lastName = arguments?.getString("lastName")
-        val emailAddress = arguments?.getString("emailAddress")
-        val memberType = arguments?.getString("memberType")
-        val quote = arguments?.getString("quote")
-        val contactNumber = arguments?.getString("contactNumber")
-        val companyName = arguments?.getString("companyName")
-        val linkedIn = arguments?.getString("linkedIn")
-        val website = arguments?.getString("website")
-        val userImageURI = arguments?.getString("userImageURI")
-
-         */
-
-
-
-        //binding.tvContactName.setText(myPhoneNumber) // = getString("Your text")//myPhoneNumber.toString()
-
-        //binding.tfContactNumber.text  = getString("Your text")//myPhoneNumber.toString()
-
-        /*
-        if (myProfile == true)
-        {
-
-        }
-
-         */
-
- */
-
-        //********************************************************
-        //upload image to firestore
-        //********************************************************
-
-        selectedImageUri = Uri.parse(
-            ContentResolver.SCHEME_ANDROID_RESOURCE +
-                    "://" + resources.getResourcePackageName(R.drawable.person_icon)
-                    + '/' + resources.getResourceTypeName(R.drawable.person_icon) + '/' + resources.getResourceEntryName(
-                R.drawable.person_icon
-            )
-        )
-
-        /*
-        binding.ivModifyContact.setOnClickListener()
-        {
-
-
-            val storageReference = FirebaseStorage.getInstance().getReference("ContactImages/${currentUserID}")
-
-            // binding.ivMyProfileImage.image
-
-            storageReference.putFile(selectedImageUri).
-                addOnSuccessListener {
-                    Toast.makeText(activity, "Imaged Uploaded To Cloud Firestore", Toast.LENGTH_SHORT)
-                }
-                .addOnFailureListener{
-                    Toast.makeText(activity, "Imaged Failed To Upload", Toast.LENGTH_SHORT)
-                }
-        }
-
-         */
-
-
-/*
-        binding.tvContactName.setOnClickListener()
-        {
-
-            val imageLocation = "ContactImages/$currentUserID"
-            val storageReference = FirebaseStorage.getInstance().getReference(imageLocation)
-
-            // binding.ivMyProfileImage.image
-
-            storageReference.putFile(selectedImageUri).
-            addOnSuccessListener {
-                Toast.makeText(activity, "Imaged Uploaded To Cloud Firestore", Toast.LENGTH_SHORT).show()
-            }
-                .addOnFailureListener{
-                    Toast.makeText(activity, "Imaged Failed To Upload", Toast.LENGTH_SHORT).show()
-                }
-        }
-        */
 
 
         binding.ivModifyContact.setOnClickListener()
@@ -229,11 +123,9 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
             setEditMode(currentEditMode)
 
-            if (currentEditMode == false)
-            {
+            if (currentEditMode == false) {
 
                 var givenUserData = UserDataClass(
-                    //UserID = selectedUserID!!,
                     UserID = GlobalClass.currentUser.UserID,
                     FirstName = GlobalClass.currentUser.FirstName,
                     LastName = GlobalClass.currentUser.LastName,
@@ -247,10 +139,11 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
                     HasImage = GlobalClass.currentUser.HasImage
                 )
 
-                if (!givenUserData.equals(GlobalClass.currentUser) || modifiedPicture == true) {
+                if (!givenUserData.equals(GlobalClass.currentUser) || cameraManager.getModifiedImageStatus() == true) {
 
                     val currentUserIndex = GlobalClass.Users.indexOf(GlobalClass.currentUser)
-                    val currentUserDocumentIndex = GlobalClass.documents.allUserIDs[currentUserIndex]
+                    val currentUserDocumentIndex =
+                        GlobalClass.documents.allUserIDs[currentUserIndex]
 
 
                     //loading screen on parent base view
@@ -261,23 +154,29 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
                     GlobalScope.launch() {
                         var databaseManager = DatabaseManager()
 
-                        databaseManager.setUserImage(
-                            requireContext(),
-                            currentUserID,
-                            selectedImageUri
-                        )
+
                         databaseManager.updateUserInFirestore(
                             givenUserData,
                             currentUserDocumentIndex
                         )
 
-                        if (modifiedPicture == true) {
+                        //if (modifiedPicture == true) {
+                        if (cameraManager.getModifiedImageStatus() == true) {
+                            //GlobalClass.InformUser("", "", requireActivity())
+                            databaseManager.setUserImage(
+                                requireContext(),
+                                currentUserID,
+                                cameraManager.getSelectedUri()
+                                //selectedImageUri
+                            )
+
                             GlobalClass.currentUserImage = databaseManager.getUserImage(
                                 requireContext(),
                                 GlobalClass.currentUser.UserID,
                                 GlobalClass.currentUser.HasImage
                             )
                         }
+
 
                         //val currentUserIndex = GlobalClass.documents.allUserIDs[currentUserID]
 
@@ -288,49 +187,24 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
                             loadingCover.visibility = View.GONE
                         }
                     }
-
                 }
+
             }
-
-
-
-            //Toast.makeText(activity, "Clicked", Toast.LENGTH_SHORT).show()
-            //GlobalClass.InformUser("", "", requireContext())
-            /*
-            val storageReference = FirebaseStorage.getInstance().reference.child("ContactImages/${currentUserID}")
-
-            val imgFile = File.createTempFile("temptImage", "jpg")
-            storageReference.getFile(imgFile)
-                .addOnSuccessListener {
-                    Toast.makeText(activity, "Image Retrieved From Cloud Firestore", Toast.LENGTH_SHORT).show()
-
-                    val bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-                    binding.ivMyProfileImage.setImageBitmap(bitmap)
-
-                }
-                .addOnFailureListener{
-                    Toast.makeText(activity, "Image Failed To Be Retrieved From Cloud Firestore", Toast.LENGTH_SHORT).show()
-                }
-
-             */
-
-
         }
 
-        //********************************************************
 
         //----------------------------------------------------------------------------------------------------
+
+
 
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
         //Select an image
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-
         binding.ivMyProfileImageTint.setOnClickListener()
         {
             //method to add an image
-           // handlePhoto()
             cameraManager.handlePhoto()
         }
 
@@ -338,12 +212,10 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         binding.tvMyProfileImageEditText.setOnClickListener()
         {
             //method to add an image
-           // handlePhoto()
             cameraManager.handlePhoto()
         }
 
         //----------------------------------------------------------------------------------------------------
-
 
 
         binding.ivBackArrow.setOnClickListener()
@@ -361,30 +233,31 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         return view
     }
 
-    suspend fun UpdateUI (loadingCover : ViewGroup)
-    {
+    suspend fun UpdateUI(loadingCover: ViewGroup) {
 
-        try
-        {
+        try {
 
 
-            if (!selectedUserID.isNullOrEmpty())
-            {
+            if (!selectedUserID.isNullOrEmpty()) {
 
 
-                for (user in GlobalClass.Users)
-                {
-                    if (user.UserID == selectedUserID)
-                    {
+                for (user in GlobalClass.Users) {
+                    if (user.UserID == selectedUserID) {
                         currentUserID = user.UserID
                         binding.tvContactName.text = "${user.FirstName} ${user.LastName}"
 
+                        /*
                         var userType = getString(R.string.memberText)
-                        if (user.MemberTypeID == 2)
-                        {
+                        if (user.MemberTypeID == 2) {
                             userType = getString(R.string.seniorMemberText)
                         }
                         binding.tvRole.text = userType
+                         */
+                        /*
+                        var databaseManager = DatabaseManager()
+                        binding.tvRole.text = databaseManager.getSingleMemberType(user.MemberTypeID)
+                         */
+                        //binding.tvRole.text
 
                         binding.tfQuote.setText(user.Quote)
                         binding.tfContactNumber.setText(user.ContactNumber)
@@ -393,22 +266,27 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
                         binding.tfLinkedIn.setText(user.LinkedIn)
                         binding.tfWebsite.setText(user.Website)
 
-                        if (selectedUserID == GlobalClass.currentUser.UserID)
-                        {
+                        if (selectedUserID == GlobalClass.currentUser.UserID) {
                             binding.ivMyProfileImage.setImageBitmap(GlobalClass.currentUserImage)
                             setEditMode(false)
-                        }
-                        else
-                        {
-                                setGeneralView()
+                            binding.tvRole.text = GlobalClass.currentUserMemberType
+                        } else {
+                            setGeneralView()
 
-                                loadingCover.visibility = View.VISIBLE
+                            var databaseManager = DatabaseManager()
+                            binding.tvRole.text = MemberTypeDataClass().getSingleMemberType(user.MemberTypeID)
 
-                                var databaseManager = DatabaseManager()
-                                var bitmap = databaseManager.getUserImage(requireContext(), user.UserID, user.HasImage)
+                            loadingCover.visibility = View.VISIBLE
 
 
-                                binding.ivMyProfileImage.setImageBitmap(bitmap)
+                            var bitmap = databaseManager.getUserImage(
+                                requireContext(),
+                                user.UserID,
+                                user.HasImage
+                            )
+
+
+                            binding.ivMyProfileImage.setImageBitmap(bitmap)
 
                         }
 
@@ -422,9 +300,7 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
 
             loadingCover.visibility = View.GONE
 
-        }
-        catch (e: Exception)
-        {
+        } catch (e: Exception) {
             GlobalClass.InformUser(getString(R.string.errorText), "$e", requireContext())
         }
 
@@ -436,8 +312,7 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         _binding = null
     }
 
-    private fun setGeneralView()
-    {
+    private fun setGeneralView() {
         binding.ivModifyContact.isVisible = false
         binding.ivMyProfileImageTint.isVisible = false
         binding.tvMyProfileImageEditText.isVisible = false
@@ -450,18 +325,10 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
         binding.tfWebsite.isEnabled = false
     }
 
-    private fun setEditMode(currentlyEditing: Boolean)
-    {
+    private fun setEditMode(currentlyEditing: Boolean) {
 
 
-
-
-
-        if (currentlyEditing == true)
-        {
-            //cameraManager.currentActivity = requireActivity()
-            //cameraManager.imageContainer = binding.ivMyProfileImage
-            cameraManager = CameraHandler(requireActivity(), binding.ivMyProfileImage, modifiedPicture)
+        if (currentlyEditing == true) {
 
             binding.ivModifyContact.setImageDrawable(activity?.getDrawable(R.drawable.tick_icon))
 
@@ -475,16 +342,7 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
             binding.tfLinkedIn.isEnabled = true
             binding.tfWebsite.isEnabled = true
 
-
-//            binding.etQuote.setEndIconDrawable(R.drawable.edit_icon)
-//            binding.etContactNumber.setEndIconDrawable(R.drawable.edit_icon)
-//            binding.etEmailAddress.setEndIconDrawable(R.drawable.edit_icon)
-//            binding.etCompanyName.setEndIconDrawable(R.drawable.edit_icon)
-//            binding.etLinkedIn.setEndIconDrawable(R.drawable.edit_icon)
-//            binding.etWebsite.setEndIconDrawable(R.drawable.edit_icon)
-        }
-        else
-        {
+        } else {
 
             binding.ivModifyContact.setImageDrawable(activity?.getDrawable(R.drawable.edit_icon))
 
@@ -498,184 +356,9 @@ class expanded_contact : Fragment() { //R.layout.fragment_expanded_contact
             binding.tfLinkedIn.isEnabled = false
             binding.tfWebsite.isEnabled = false
 
-            //binding.etQuote.endIconDrawable?.setVisible(false, true)
         }
 
     }
 
-
-
-
-
-
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
-    //Camera Functions
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
-    //Method to handle selecting and starting an image source for the contact photo
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
-    private fun handlePhoto() {
-
-        //new dialog
-        val builder = AlertDialog.Builder(activity)
-
-        //set the dialog title
-        builder.setTitle(R.string.imageSourcePrompt)
-
-        //set the source options for the dialog
-        builder.setItems(R.array.imageSources) { dialog, which ->
-
-            if (which == 0)
-            {
-                //if 0 then the user wants to take a new photo
-                //call camera
-                //check permissions
-                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-
-                    //call open camera method
-                    startCamera()
-                } else {
-                    ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
-                }
-
-            }
-            else
-            {
-                if (which == 1)
-                {
-
-                    //if 1 then the user wants to select an existing photo
-                    //call photo library
-                    //check permissions
-                    if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-
-                        //call image selector method
-                        startImageSelector()
-                    } else {
-                        ActivityCompat.requestPermissions(
-                            requireActivity(), arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), PICK_FROM_GALLERY
-                        )
-                    }
-
-
-                }
-            }
-
-        }
-
-        //show the dialog
-        builder.show()
-    }
-
-
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
-    //Method to open image picker
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
-    private fun startImageSelector() {
-        //val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI) //EXTERNAL_CONTENT_URI
-        //@Suppress("DEPRECATION")
-        //startActivityForResult(gallery, PICK_FROM_GALLERY)
-
-        if (galleryIntent.resolveActivity(requireActivity().packageManager) != null) {
-            @Suppress("DEPRECATION")
-            startActivityForResult(galleryIntent, PICK_FROM_GALLERY)
-        } else {
-            Toast.makeText(requireContext(), "Photo Library is not available", Toast.LENGTH_SHORT).show()
-        }
-
-    }
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
-    //Method to start camera
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
-    private fun startCamera() {
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (cameraIntent.resolveActivity(requireActivity().packageManager) != null) {
-            @Suppress("DEPRECATION")
-            startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
-        } else {
-            Toast.makeText(requireContext(), "Camera is not available", Toast.LENGTH_SHORT).show()
-        }
-    }
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
-    //Catch Finished Activity
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        @Suppress("DEPRECATION")
-        super.onActivityResult(requestCode, resultCode, data)
-
-        //cameraManager.currentActivity = requireActivity()
-        //cameraManager.imageContainer = binding.ivMyProfileImage
-       // cameraManager.onActivityResult(requestCode, resultCode, data)
-        GlobalClass.InformUser("", "", requireActivity())
-
-        /*
-        if ((requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) || (requestCode == PICK_FROM_GALLERY && resultCode == Activity.RESULT_OK)) {
-
-
-            if ((requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) || (requestCode == PICK_FROM_GALLERY && resultCode == Activity.RESULT_OK)) {
-
-
-                var imageBitmap = data?.extras?.get("data") as Bitmap?
-
-                if (imageBitmap == null) {
-                    val imageUri = data?.data
-                    imageBitmap = MediaStore.Images.Media.getBitmap(
-                        activity?.contentResolver,
-                        Uri.parse(imageUri.toString())
-                    )
-                }
-
-                modifiedPicture = true
-                binding.ivMyProfileImage.setImageBitmap(imageBitmap)
-                saveImageLocally(imageBitmap)
-
-
-
-            }
-        }
-
-         */
-
-    }
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
-    //Method Save Captured Image On Device Storage
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-    private fun saveImageLocally(imageBitmap: Bitmap?) {
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val imageFileName = "IMG_$timeStamp.jpg"
-
-        val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        val imageFile = File(storageDir, imageFileName)
-
-       selectedImageUri = imageFile.toUri()
-
-        //return view
-        try {
-            val fileOutputStream = FileOutputStream(imageFile)
-            imageBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
-            fileOutputStream.close()
-
-            Toast.makeText(requireContext(), "Image saved successfully", Toast.LENGTH_SHORT).show()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            Toast.makeText(requireContext(), "Failed to save image", Toast.LENGTH_SHORT).show()
-        }
-    }
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
 }

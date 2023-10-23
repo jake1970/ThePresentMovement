@@ -66,6 +66,7 @@ class home : Fragment() {
 
                     var databaseManager = DatabaseManager()
 
+                    GlobalClass.MemberTypes = databaseManager.getAllMemberTypesFromFirestore()
                     GlobalClass.Users = databaseManager.getAllUsersFromFirestore()
                     GlobalClass.UpdateDataBase = false
 

@@ -87,6 +87,7 @@ class home_bottom_navigation : AppCompatActivity() {
                     var DBManger = DatabaseManager()
 
                     GlobalClass.Users = DBManger.getAllUsersFromFirestore()
+                    GlobalClass.MemberTypes = DBManger.getAllMemberTypesFromFirestore()
                     GlobalClass.UpdateDataBase = false
 
                     //********************************************************

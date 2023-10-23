@@ -59,6 +59,7 @@ class contacts : Fragment() {
 
                     var databaseManager = DatabaseManager()
 
+                    GlobalClass.MemberTypes = databaseManager.getAllMemberTypesFromFirestore()
                     GlobalClass.Users = databaseManager.getAllUsersFromFirestore()
                     GlobalClass.UpdateDataBase = false
 
@@ -127,12 +128,13 @@ args.putString("userImageURI", user.UserImageURI)
             {
                 binding.tvContactName.text = getFullName()
 
-                var userType = getString(R.string.memberText)
-
-                if (MemberTypeID == 2) {
-                    userType = getString(R.string.seniorMemberText)
-                }
-                binding.tvContactRole.text= userType
+//                var userType = getString(R.string.memberText)
+//
+//                if (MemberTypeID == 2) {
+//                    userType = getString(R.string.seniorMemberText)
+//                }
+//                binding.tvContactRole.text= userType
+                binding.tvContactRole.text= GlobalClass.currentUserMemberType
 
                 /*
                 val storageReference = FirebaseStorage.getInstance().reference.child("ContactImages/${UserID}")
@@ -180,28 +182,45 @@ args.putString("userImageURI", user.UserImageURI)
 
 
 
-            for (user in GlobalClass.Users) {
+                for (user in GlobalClass.Users) {
 
-                if (user != GlobalClass.currentUser) {
+                    if (user != GlobalClass.currentUser) {
 
-                    val activityLayout = binding.llContactsList;
-                    var newContact = contact_card(activity)
+                        val activityLayout = binding.llContactsList;
+                        var newContact = contact_card(activity)
 
-                    newContact.binding.tvContactName.text = user.getFullName() //"${user.FirstName} ${user.LastName}"
-
-                    var userType = getString(R.string.memberText)
-
-                    if (user.MemberTypeID == 2) {
-                        userType = getString(R.string.seniorMemberText)
-                    }
+                        newContact.binding.tvContactName.text =
+                            user.getFullName() //"${user.FirstName} ${user.LastName}"
 
 
-
-                    newContact.binding.tvContactRole.text = userType
-
-                    newContact.setOnClickListener()
-                    {
+                        var memberType = MemberTypeDataClass().getSingleMemberType(user.MemberTypeID)
+                        newContact.binding.tvContactRole.text = memberType
                         /*
+                        var memberType = ""
+                        newContact.binding.tvContactRole.text = ""
+
+                        GlobalScope.launch {
+                            var databaseManager = DatabaseManager()
+                            memberType = databaseManager.getSingleMemberType(user.MemberTypeID)
+
+                            withContext(Dispatchers.Main) {
+                                newContact.binding.tvContactRole.text = memberType
+                            }
+                        }
+                                                 */
+
+
+//                    var userType = getString(R.string.memberText)
+//                    if (user.MemberTypeID == 2) {
+//                        userType = getString(R.string.seniorMemberText)
+//                    }
+//                    newContact.binding.tvContactRole.text = userType
+//
+
+
+                        newContact.setOnClickListener()
+                        {
+                            /*
                         //create local fragment controller
                         val fragmentControl = FragmentManager()
 
@@ -235,24 +254,21 @@ args.putString("userImageURI", user.UserImageURI)
 
                          */
 
-                        invokeExpandedContactsView(user.UserID)
+                            invokeExpandedContactsView(user.UserID)
+                        }
+                        //add the new view
+                        activityLayout.addView(newContact)
+
+
+                        val scale = requireActivity().resources.displayMetrics.density
+                        val pixels = (14 * scale + 0.5f)
+
+                        val spacer = Space(activity)
+                        spacer.minimumHeight = pixels.toInt()
+                        activityLayout.addView(spacer)
+
                     }
-                    //add the new view
-                    activityLayout.addView(newContact)
-
-
-                    val scale = requireActivity().resources.displayMetrics.density
-                    val pixels = (14 * scale + 0.5f)
-
-                    val spacer = Space(activity)
-                    spacer.minimumHeight = pixels.toInt()
-                    activityLayout.addView(spacer)
-
                 }
-            }
-
-
-
 
 
         }

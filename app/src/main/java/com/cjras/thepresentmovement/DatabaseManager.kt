@@ -63,6 +63,7 @@ class DatabaseManager {
             //{
                 if (document.data.getValue("UserID").toString() == GlobalClass.currentUser.UserID) {
                     GlobalClass.currentUser = tempUser
+                    GlobalClass.currentUserMemberType = MemberTypeDataClass().getSingleMemberType(tempUser.MemberTypeID)
                 }
            // }
 
@@ -77,6 +78,63 @@ class DatabaseManager {
         return allUsers
     }
 
+
+    //get all member types
+    suspend fun getAllMemberTypesFromFirestore(): ArrayList<MemberTypeDataClass> {
+        val allMemberTypes = arrayListOf<MemberTypeDataClass>()
+        GlobalClass.documents.allUserIDs.clear()
+
+        val querySnapshot = db.collection("MemberType").get().await()
+        //GlobalClass.documents = DocumentID()
+        for (document in querySnapshot) {
+
+
+            val newMemberTypeID: Int = document.data.getValue("MemberTypeID").toString().toInt()
+            val newMemberType: String = document.data.getValue("MemberType").toString()
+
+
+            val tempMemberType = MemberTypeDataClass(
+                MemberTypeID = newMemberTypeID,
+                MemberType = newMemberType
+            )
+
+
+            allMemberTypes.add(tempMemberType)
+            GlobalClass.documents.allMemberTypeIDs.add(document.id)
+
+        }
+
+        return allMemberTypes
+    }
+
+
+
+
+//    suspend fun getSingleMemberType(givenMemberTypeID : Int): String {
+//        val allMemberTypes = arrayListOf<MemberTypeDataClass>()
+//        GlobalClass.documents.allUserIDs.clear()
+//
+//        var memberTypeString = ""
+//
+//        val querySnapshot = db.collection("MemberType").get().await()
+//        //GlobalClass.documents = DocumentID()
+//        for (document in querySnapshot) {
+//
+//
+//            val indexMemberTypeID: Int = document.data.getValue("MemberTypeID").toString().toInt()
+//            val indexnewMemberType: String = document.data.getValue("MemberType").toString()
+//
+//
+//            if (givenMemberTypeID == indexMemberTypeID)
+//            {
+//                memberTypeString = indexnewMemberType
+//                break
+//            }
+//
+//        }
+//
+//        return memberTypeString
+//    }
 
     //add new user to the users table
     fun addNewUserToFirestore(newUser: UserDataClass)
