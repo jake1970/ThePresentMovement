@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.Space
 import android.widget.Toast
 import com.cjras.thepresentmovement.databinding.FragmentContactsBinding
@@ -44,18 +45,21 @@ class contacts : Fragment() {
         //initial data population
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-        var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
+       // var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
+        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
 
         try {
 
-            loadingCover.visibility = View.GONE
+            //loadingCover.visibility = View.GONE
+            //requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
             //Read Data
             GlobalScope.launch{
                 if (GlobalClass.UpdateDataBase == true)
                 {
 
-                    loadingCover.visibility = View.VISIBLE
+                    //loadingCover.visibility = View.VISIBLE
+                    //requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
 
                     var databaseManager = DatabaseManager()
 
@@ -65,7 +69,7 @@ class contacts : Fragment() {
 
                 }
                 withContext(Dispatchers.Main) {
-                    UpdateUI(loadingCover)
+                    UpdateUI()
                 }
             }
         }
@@ -112,11 +116,12 @@ args.putString("userImageURI", user.UserImageURI)
         )
     }
 
-    fun UpdateUI(loadingCover : ViewGroup) {
+    fun UpdateUI(/*loadingCover : ViewGroup*/) {
 
         try {
 
-            loadingCover.visibility = View.GONE
+            //loadingCover.visibility = View.GONE
+            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
             binding.llMyProfileCard.setOnClickListener()
             {

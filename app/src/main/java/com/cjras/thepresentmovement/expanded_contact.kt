@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -75,14 +76,16 @@ class expanded_contact : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
         //initial data population
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
-        var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
+       // var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
+        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
 
         try {
 
             selectedUserID = arguments?.getString("selectedUserID")
 
             if (selectedUserID == GlobalClass.currentUser.UserID) {
-                loadingCover.visibility = View.GONE
+                //loadingCover.visibility = View.GONE
+                requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
             }
 
 
@@ -90,7 +93,8 @@ class expanded_contact : Fragment() {
             GlobalScope.launch {
                 if (GlobalClass.UpdateDataBase == true) {
 
-                    loadingCover.visibility = View.VISIBLE
+                    //loadingCover.visibility = View.VISIBLE
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
 
                     var databaseManager = DatabaseManager()
 
@@ -103,7 +107,7 @@ class expanded_contact : Fragment() {
                 withContext(Dispatchers.Main) {
 
 
-                    UpdateUI(loadingCover)
+                    UpdateUI()
                 }
             }
         } catch (e: Error) {
@@ -147,8 +151,10 @@ class expanded_contact : Fragment() {
 
 
                     //loading screen on parent base view
-                    val parentView = requireActivity().findViewById<FrameLayout>(R.id.flBase)
-                    var loadingCover = GlobalClass.addLoadingCover(layoutInflater, parentView)
+                    //val parentView = requireActivity().findViewById<FrameLayout>(R.id.flBase)
+                    //var loadingCover = GlobalClass.addLoadingCover(layoutInflater, parentView)
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+
 
 
                     GlobalScope.launch() {
@@ -184,7 +190,8 @@ class expanded_contact : Fragment() {
                         withContext(Dispatchers.Main) {
                             GlobalClass.UpdateDataBase = true
                             Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
-                            loadingCover.visibility = View.GONE
+                            //loadingCover.visibility = View.GONE
+                            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
                         }
                     }
                 }
@@ -233,7 +240,7 @@ class expanded_contact : Fragment() {
         return view
     }
 
-    suspend fun UpdateUI(loadingCover: ViewGroup) {
+    suspend fun UpdateUI(/*loadingCover: ViewGroup*/) {
 
         try {
 
@@ -276,7 +283,8 @@ class expanded_contact : Fragment() {
                             var databaseManager = DatabaseManager()
                             binding.tvRole.text = MemberTypeDataClass().getSingleMemberType(user.MemberTypeID)
 
-                            loadingCover.visibility = View.VISIBLE
+                           // loadingCover.visibility = View.VISIBLE
+                            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
 
 
                             var bitmap = databaseManager.getUserImage(
@@ -298,7 +306,8 @@ class expanded_contact : Fragment() {
 
             }
 
-            loadingCover.visibility = View.GONE
+            //loadingCover.visibility = View.GONE
+            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
         } catch (e: Exception) {
             GlobalClass.InformUser(getString(R.string.errorText), "$e", requireContext())

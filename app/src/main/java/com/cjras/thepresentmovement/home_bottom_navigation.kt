@@ -17,11 +17,14 @@ import kotlinx.coroutines.withContext
 class home_bottom_navigation : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBottomNavigationBinding
+
     // lateinit var loadingCover: ViewGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_bottom_navigation)
+
+
 
 
 
@@ -77,8 +80,8 @@ class home_bottom_navigation : AppCompatActivity() {
         //loadingCover = GlobalClass.addLoadingCover(layoutInflater, binding.root)
         try {
 
-            var loadingCover = GlobalClass.addLoadingCover(layoutInflater, binding.root)
-
+           // var loadingCover = GlobalClass.addLoadingCover(layoutInflater, binding.root)
+            binding.rlLoadingCover.visibility = View.VISIBLE
 
             //Read Data
             GlobalScope.launch{
@@ -100,7 +103,8 @@ class home_bottom_navigation : AppCompatActivity() {
                 }
                 withContext(Dispatchers.Main) {
 
-                    loadingCover.visibility = View.GONE
+                    //loadingCover.visibility = View.GONE
+                    binding.rlLoadingCover.visibility = View.GONE
                 }
             }
         }

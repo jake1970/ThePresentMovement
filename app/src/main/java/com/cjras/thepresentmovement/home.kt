@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.Space
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -50,19 +51,22 @@ class home : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
         //initial data population
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
-        var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
+        //var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
+        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
 
         try {
 
            // var loadingCover = View(activity) as ViewGroup
-            loadingCover.visibility = View.GONE
+            //loadingCover.visibility = View.GONE
+            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
             //Read Data
             GlobalScope.launch{
                 if (GlobalClass.UpdateDataBase == true)
                 {
                     //var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
-                    loadingCover.visibility = View.VISIBLE
+                    //loadingCover.visibility = View.VISIBLE
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
 
                     var databaseManager = DatabaseManager()
 
@@ -80,7 +84,7 @@ class home : Fragment() {
                 }
                 withContext(Dispatchers.Main) {
 
-                    UpdateUI(loadingCover)
+                    UpdateUI()
                 }
             }
         }
@@ -95,7 +99,7 @@ class home : Fragment() {
         return view
     }
 
-    fun UpdateUI (loadingCover : ViewGroup)
+    fun UpdateUI (/*loadingCover : ViewGroup*/)
     {
 
         //*****************************************************************************************
@@ -125,7 +129,8 @@ class home : Fragment() {
 
              */
 
-            loadingCover.visibility = View.GONE
+            //loadingCover.visibility = View.GONE
+            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
             // binding.tvEvents.text = Html.fromHtml("<html><body><font size=5 color=red>Hello </font> World </body><html>"))
             binding.tvEvents.text = Html.fromHtml("5" + "<small>" + "<small>" + "<small>" + " " + getString(R.string.upcomingText) + "</small>" + "</small>" + "</small>" + "<br />" + getString(R.string.eventsText))
