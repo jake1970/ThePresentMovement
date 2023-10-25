@@ -53,17 +53,47 @@ class home_bottom_navigation : AppCompatActivity() {
        // replaceFragment(home())
         binding.bnvHomeNavigation.selectedItemId = R.id.iHome
 
+        //
+        val bottomNavBarStateList = arrayOf(
+            intArrayOf(android.R.attr.state_checked),
+            intArrayOf(-android.R.attr.state_checked)
+        )
 
+        fun updateBottomNavBarColor(currentSelectedColor: Int) {
+            val colorList = intArrayOf(
+                ContextCompat.getColor(this, currentSelectedColor),
+                ContextCompat.getColor(this, R.color.white)
+            )
+            val colorStateList = ColorStateList(bottomNavBarStateList, colorList)
+            binding.bnvHomeNavigation.itemIconTintList = colorStateList
+            binding.bnvHomeNavigation.itemTextColor = colorStateList
+        }
+        //
 
         binding.bnvHomeNavigation.setOnItemSelectedListener {
            when(it.itemId)
            {
 
-               R.id.iNotices -> fragmentControl.replaceFragment(notices(), R.id.flContent, supportFragmentManager)
-               R.id.iHome -> fragmentControl.replaceFragment(home(), R.id.flContent, supportFragmentManager)
-               R.id.iContact -> fragmentControl.replaceFragment(contacts(), R.id.flContent, supportFragmentManager)
-               R.id.iSettings -> fragmentControl.replaceFragment(settings(), R.id.flContent, supportFragmentManager)
-               R.id.iAdmin -> fragmentControl.replaceFragment(admin(), R.id.flContent, supportFragmentManager)
+               R.id.iNotices -> {
+                   fragmentControl.replaceFragment(notices(), R.id.flContent, supportFragmentManager)
+                   updateBottomNavBarColor(R.color.present_yellow)
+               }
+               R.id.iHome -> {
+                   fragmentControl.replaceFragment(home(), R.id.flContent, supportFragmentManager)
+                   updateBottomNavBarColor(R.color.present_blue)
+               }
+               R.id.iContact -> {
+                   fragmentControl.replaceFragment(contacts(), R.id.flContent, supportFragmentManager)
+                   updateBottomNavBarColor(R.color.present_red)
+               }
+               R.id.iSettings -> {
+                   fragmentControl.replaceFragment(settings(), R.id.flContent, supportFragmentManager)
+                   updateBottomNavBarColor(R.color.present_green)
+               }
+               R.id.iAdmin -> {
+                   fragmentControl.replaceFragment(admin(), R.id.flContent, supportFragmentManager)
+                   updateBottomNavBarColor(R.color.admin_orange)
+               }
 
                else -> {
 

@@ -16,7 +16,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/sub_grey"
+            android:background="@color/accent_grey"
             android:id="@+id/rlHeader"
             android:paddingBottom="10dp"
             >
