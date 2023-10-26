@@ -13,6 +13,11 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 import java.io.File
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class DatabaseManager {
@@ -107,10 +112,45 @@ class DatabaseManager {
         return allMemberTypes
     }
 
+   //get all announcements
+    suspend fun getAllAnnouncementsFromFirestore(): ArrayList<AnnouncementDataClass> {
+        val allAnnouncements = arrayListOf<AnnouncementDataClass>()
+        GlobalClass.documents.allUserIDs.clear()
+
+        val querySnapshot = db.collection("Announcements").get().await()
+
+        for (document in querySnapshot) {
+
+            val newAnnouncementID: Int = document.data.getValue("AnnouncementID").toString().toInt()
+            val newAnnouncementTitle: String = document.data.getValue("AnnouncementTitle").toString()
+            val newAnnouncementMessage: String = document.data.getValue("AnnouncementMessage").toString()
+            val newAnnouncementDate: LocalDate = LocalDate.parse(document.data.getValue("AnnouncementDate").toString())
+            val newUserID: String = document.data.getValue("UserID").toString()
+
+
+
+            val tempAnnouncement = AnnouncementDataClass(
+                 AnnouncementID = newAnnouncementID,
+                 AnnouncementTitle = newAnnouncementTitle,
+                 AnnouncementMessage  = newAnnouncementMessage,
+                 AnnouncementDate = newAnnouncementDate,
+                 UserID  = newUserID
+            )
+
+
+            allAnnouncements.add(tempAnnouncement)
+            GlobalClass.documents.allAnnouncmentIds.add(document.id)
+
+        }
+
+        return allAnnouncements
+    }
+
     suspend fun updateFromDatabase()
     {
         GlobalClass.MemberTypes = getAllMemberTypesFromFirestore()
         GlobalClass.Users = getAllUsersFromFirestore()
+        GlobalClass.Announcements = getAllAnnouncementsFromFirestore()
 
         GlobalClass.UpdateDataBase = false
     }

@@ -81,7 +81,7 @@ class expanded_contact : Fragment() {
             selectedUserID = arguments?.getString("selectedUserID")
 
             if (selectedUserID == GlobalClass.currentUser.UserID) {
-                //loadingCover.visibility = View.GONE
+
                 requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
             }
 
@@ -93,16 +93,13 @@ class expanded_contact : Fragment() {
                 withContext(Dispatchers.Default) {
 
 
-                    //loadingCover.visibility = View.VISIBLE
+
 
 
                     var databaseManager = DatabaseManager()
 
                     databaseManager.updateFromDatabase()
-                    //GlobalClass.MemberTypes = databaseManager.getAllMemberTypesFromFirestore()
-                   // GlobalClass.Users = databaseManager.getAllUsersFromFirestore()
 
-                    //GlobalClass.UpdateDataBase = false
 
                 }
                 }
@@ -117,8 +114,6 @@ class expanded_contact : Fragment() {
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-        //----------------------------------------------------------------------------------------------------
 
 
         binding.ivModifyContact.setOnClickListener()
@@ -142,7 +137,7 @@ class expanded_contact : Fragment() {
                     CompanyName = binding.tfCompanyName.text.toString(),
                     LinkedIn = binding.tfLinkedIn.text.toString(),
                     Website = binding.tfWebsite.text.toString(),
-                    HasImage = !GlobalClass.currentUser.HasImage
+                    HasImage = true
                 )
 
                 if (!givenUserData.equals(GlobalClass.currentUser) || cameraManager.getModifiedImageStatus() == true) {
@@ -151,10 +146,6 @@ class expanded_contact : Fragment() {
                     val currentUserDocumentIndex =
                         GlobalClass.documents.allUserIDs[currentUserIndex]
 
-
-                    //loading screen on parent base view
-                    //val parentView = requireActivity().findViewById<FrameLayout>(R.id.flBase)
-                    //var loadingCover = GlobalClass.addLoadingCover(layoutInflater, parentView)
                     requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
 
 
@@ -169,14 +160,11 @@ class expanded_contact : Fragment() {
                             currentUserDocumentIndex
                         )
 
-                        //if (modifiedPicture == true) {
                         if (cameraManager.getModifiedImageStatus() == true) {
-                            //GlobalClass.InformUser("", "", requireActivity())
                             databaseManager.setUserImage(
                                 requireContext(),
                                 currentUserID,
                                 cameraManager.getSelectedUri()
-                                //selectedImageUri
                             )
 
                             GlobalClass.currentUserImage = databaseManager.getUserImage(
@@ -187,13 +175,8 @@ class expanded_contact : Fragment() {
                         }
                     }
 
-                        //val currentUserIndex = GlobalClass.documents.allUserIDs[currentUserID]
-
-
-
                             GlobalClass.UpdateDataBase = true
                             Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
-                            //loadingCover.visibility = View.GONE
                             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
                     }
@@ -246,7 +229,7 @@ class expanded_contact : Fragment() {
         return view
     }
 
-    suspend fun UpdateUI(/*loadingCover: ViewGroup*/) {
+    suspend fun UpdateUI() {
 
         try {
 
@@ -260,18 +243,6 @@ class expanded_contact : Fragment() {
                         binding.tvContactName.text = "${user.FirstName} ${user.LastName}"
 
                         binding.tvCardHeader.text = user.FirstName + getString(R.string.cardOwnerHeading)
-                        /*
-                        var userType = getString(R.string.memberText)
-                        if (user.MemberTypeID == 2) {
-                            userType = getString(R.string.seniorMemberText)
-                        }
-                        binding.tvRole.text = userType
-                         */
-                        /*
-                        var databaseManager = DatabaseManager()
-                        binding.tvRole.text = databaseManager.getSingleMemberType(user.MemberTypeID)
-                         */
-                        //binding.tvRole.text
 
                         binding.tfQuote.setText(user.Quote)
                         binding.tfContactNumber.setText(user.ContactNumber)
@@ -330,8 +301,9 @@ class expanded_contact : Fragment() {
 
     private fun setGeneralView() {
         binding.ivModifyContact.isVisible = false
-        binding.ivMyProfileImageTint.isVisible = false
-        binding.tvMyProfileImageEditText.isVisible = false
+
+        binding.ivMyProfileImageTint.visibility = View.GONE
+        binding.tvMyProfileImageEditText.visibility = View.GONE
 
         binding.tfQuote.isEnabled = false
         binding.tfContactNumber.isEnabled = false
@@ -348,8 +320,8 @@ class expanded_contact : Fragment() {
 
             binding.ivModifyContact.setImageDrawable(activity?.getDrawable(R.drawable.tick_icon))
 
-            binding.ivMyProfileImageTint.isVisible = true
-            binding.tvMyProfileImageEditText.isVisible = true
+            binding.ivMyProfileImageTint.visibility = View.VISIBLE
+            binding.tvMyProfileImageEditText.visibility = View.VISIBLE
 
             binding.tfQuote.isEnabled = true
             binding.tfContactNumber.isEnabled = true
@@ -362,8 +334,8 @@ class expanded_contact : Fragment() {
 
             binding.ivModifyContact.setImageDrawable(activity?.getDrawable(R.drawable.edit_icon))
 
-            binding.ivMyProfileImageTint.isVisible = false
-            binding.tvMyProfileImageEditText.isVisible = false
+            binding.ivMyProfileImageTint.visibility = View.GONE
+            binding.tvMyProfileImageEditText.visibility = View.GONE
 
             binding.tfQuote.isEnabled = false
             binding.tfContactNumber.isEnabled = false

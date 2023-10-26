@@ -6,22 +6,24 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Space
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import com.cjras.thepresentmovement.databinding.FragmentNoticesBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [notices.newInstance] factory method to
- * create an instance of this fragment.
- */
 class notices : Fragment() {
 
     private var _binding: FragmentNoticesBinding? = null
@@ -35,64 +37,141 @@ class notices : Fragment() {
         _binding = FragmentNoticesBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        try {
+
+
+
+            //Read Data
+            MainScope().launch{
+
+                if (GlobalClass.UpdateDataBase == true) {
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+                withContext(Dispatchers.Default) {
+
+                    var databaseManager = DatabaseManager()
+                    databaseManager.updateFromDatabase()
+                }
+                }
+                UpdateUI()
+            }
+        }
+        catch (e: Error)
+        {
+            GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
+        }
 
         binding.tvStartDate.setOnClickListener(){
             datePicker(true, binding.tvStartDate)
+
         }
 
         binding.tvEndDate.setOnClickListener(){
             datePicker(false, binding.tvEndDate)
         }
 
-        //---------------------------------------------------------------------------------------------
-        //test code for custom components
-        //---------------------------------------------------------------------------------------------
-        for (i in 1..8) {
-
-            val activityLayout = binding.llNotices;
-            var newAnnouncement = announcement_card(activity)
-
-            newAnnouncement.binding.tvAnnouncementTime.text = "10/12/23"
-            newAnnouncement.binding.tvAnnouncementTitle.text = "Changes to the Think For Good Event"
-            newAnnouncement.binding.tvAnnouncementText.text = "Hello Members\n" +
-                    "The think for good event has been postponed until the 26th, I have updated the card in the present movements app.\n" +
-                    "Take care\n" +
-                    "{Person}"
-
-            newAnnouncement.setOnClickListener()
-            {
-                var fullNotice = MaterialAlertDialogBuilder(requireContext(), R.style.NoticeAlert)
-                    .setTitle(newAnnouncement.binding.tvAnnouncementTitle.text)
-                    .setMessage(newAnnouncement.binding.tvAnnouncementText.text)
-                    .setIcon((R.drawable.notification_bell))
-                    .setNeutralButton(resources.getString(R.string.okText)) { dialog, which ->
-                        // Respond to neutral button press
-                    }
-
-                    fullNotice.show()
-            }
-
-
-            //add the new view
-            activityLayout.addView(newAnnouncement)
-
-
-            val scale = requireActivity().resources.displayMetrics.density
-            val pixels = (14 * scale + 0.5f)
-
-            val spacer = Space(activity)
-            spacer.minimumHeight = pixels.toInt()
-            activityLayout.addView(spacer)
-
+        binding.tvStartDate.doAfterTextChanged { char ->
+            LoadAnnouncements(binding.etSearch.text.toString(), binding.llNotices, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
         }
-        //---------------------------------------------------------------------------------------------
+
+        binding.tvEndDate.doAfterTextChanged { char ->
+            LoadAnnouncements(binding.etSearch.text.toString(), binding.llNotices, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+        }
+
 
         binding.ivRefresh.setOnClickListener()
         {
             GlobalClass.RefreshFragment(this)
         }
 
+
+        binding.etSearch.addTextChangedListener { charSequence ->
+
+            LoadAnnouncements(charSequence.toString(), binding.llNotices, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+        }
+
         return view
+    }
+
+    private fun LoadAnnouncements(searchTerm: String, displayLayout: LinearLayout, startDate: String, endDate: String)
+    {
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
+
+        displayLayout.removeAllViews()
+        val scrollViewUtils = ScrollViewTools()
+
+        for (announcement in GlobalClass.Announcements) {
+            if (announcement.AnnouncementTitle.lowercase().contains(searchTerm.lowercase()) || announcement.AnnouncementMessage.lowercase().contains(searchTerm.lowercase()) || searchTerm == "") {
+
+                var startDateFormatted : LocalDate? = null
+                var endDateFormatted : LocalDate? = null
+
+               if (startDate != getString(R.string.blankDate)) {
+                    startDateFormatted = LocalDate.parse(startDate, formatter)
+               }
+
+                if (endDate != getString(R.string.blankDate)) {
+                    endDateFormatted = LocalDate.parse(endDate, formatter)
+                }
+
+                if (startDate == getString(R.string.blankDate) || (startDateFormatted != null && (announcement.AnnouncementDate.isAfter(startDateFormatted!!)  || announcement.AnnouncementDate.isEqual(startDateFormatted!!)))) {
+
+                    if (endDate == getString(R.string.blankDate) || (endDateFormatted != null && (announcement.AnnouncementDate.isBefore(endDateFormatted!!) || announcement.AnnouncementDate.isEqual(endDateFormatted!!)))) {
+
+
+                        val activityLayout = binding.llNotices;
+                        var newAnnouncement = announcement_card(activity)
+
+
+                        newAnnouncement.binding.tvAnnouncementTime.text =
+                            announcement.AnnouncementDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
+                        newAnnouncement.binding.tvAnnouncementTitle.text =
+                            announcement.AnnouncementTitle
+                        newAnnouncement.binding.tvAnnouncementText.text =
+                            announcement.AnnouncementMessage
+
+                        newAnnouncement.setOnClickListener()
+                        {
+                            var fullNotice =
+                                MaterialAlertDialogBuilder(requireContext(), R.style.NoticeAlert)
+                                    .setTitle(newAnnouncement.binding.tvAnnouncementTitle.text)
+                                    .setMessage(newAnnouncement.binding.tvAnnouncementText.text)
+                                    .setIcon((R.drawable.notification_bell))
+                                    .setNeutralButton(resources.getString(R.string.okText)) { dialog, which ->
+                                        // Respond to neutral button press
+                                    }
+
+                            fullNotice.show()
+                        }
+
+                        //add the new view
+                        activityLayout.addView(newAnnouncement)
+
+                        //add space between custom cards
+                        scrollViewUtils.generateSpacer(activityLayout, requireActivity(), 14)
+
+                    }
+                }
+            }
+        }
+    }
+
+    private fun UpdateUI()
+    {
+
+
+        try {
+
+            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+            LoadAnnouncements("", binding.llNotices, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+
+        }
+        catch (e: Exception)
+        {
+            GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
+        }
+
+
+
     }
 
     private fun datePicker(startPrompt: Boolean, entryField: TextView)

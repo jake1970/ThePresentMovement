@@ -130,6 +130,7 @@
                     android:layout_height="match_parent"
                     android:alpha="0.6"
                     android:src="@drawable/palette_circle"
+                    android:visibility="gone"
                     app:tint="@color/black" />
 
                 <TextView
@@ -138,6 +139,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:textColor="@color/white"
+                    android:visibility="gone"
                     android:text="@string/editText" />
 
             </RelativeLayout>

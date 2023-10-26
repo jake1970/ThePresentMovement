@@ -50,10 +50,9 @@ class home_bottom_navigation : AppCompatActivity() {
 
         fragmentControl.replaceFragment(home(), R.id.flContent, supportFragmentManager)
 
-       // replaceFragment(home())
         binding.bnvHomeNavigation.selectedItemId = R.id.iHome
 
-        //
+
         val bottomNavBarStateList = arrayOf(
             intArrayOf(android.R.attr.state_checked),
             intArrayOf(-android.R.attr.state_checked)
@@ -68,7 +67,7 @@ class home_bottom_navigation : AppCompatActivity() {
             binding.bnvHomeNavigation.itemIconTintList = colorStateList
             binding.bnvHomeNavigation.itemTextColor = colorStateList
         }
-        //
+
 
         binding.bnvHomeNavigation.setOnItemSelectedListener {
            when(it.itemId)
@@ -102,60 +101,6 @@ class home_bottom_navigation : AppCompatActivity() {
             true
         }
 
-
-
-/*
-        //---------------------------------------------------------------------------------------------------------------------------------------------------------
-        //initial data population
-        //---------------------------------------------------------------------------------------------------------------------------------------------------------
-        //loadingCover = GlobalClass.addLoadingCover(layoutInflater, binding.root)
-        try {
-
-           // var loadingCover = GlobalClass.addLoadingCover(layoutInflater, binding.root)
-            binding.rlLoadingCover.visibility = View.VISIBLE
-
-            //Read Data
-            GlobalScope.launch{
-                if (GlobalClass.UpdateDataBase == true && GlobalClass.currentUser.UserID == "")
-                {
-                    var databaseManager = DatabaseManager()
-
-                   // GlobalClass.Users = DBManger.getAllUsersFromFirestore()
-                   // GlobalClass.MemberTypes = DBManger.getAllMemberTypesFromFirestore()
-                   // GlobalClass.UpdateDataBase = false
-                    databaseManager.updateFromDatabase()
-
-                    //********************************************************
-                    //temp code to set current user
-                    //GlobalClass.currentUser = GlobalClass.Users[0]
-                    //********************************************************
-
-                    //get the users image
-                    GlobalClass.currentUserImage = databaseManager.getUserImage(baseContext, GlobalClass.currentUser.UserID, GlobalClass.currentUser.HasImage)
-                }
-                withContext(Dispatchers.Main) {
-
-                    //hide admin menu
-                    if (GlobalClass.currentUser.MemberTypeID != 2)
-                    {
-                        binding.bnvHomeNavigation.menu.removeItem(R.id.iAdmin)
-                    }
-
-                    //loadingCover.visibility = View.GONE
-                    binding.rlLoadingCover.visibility = View.GONE
-                }
-            }
-        }
-        catch (e: Exception)
-        {
-            GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", this)
-        }
-
- */
- */
- */
-
-        //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     }
 
