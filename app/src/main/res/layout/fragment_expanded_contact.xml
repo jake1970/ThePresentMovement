@@ -401,8 +401,15 @@
                 android:layout_weight="1"
                 android:layout_marginHorizontal="4dp"
                 android:src="@drawable/tpm_semi_circle"
-
                 />
+
+            <ImageView
+                android:id="@+id/ivHeart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
+                android:src="@drawable/tpm_heart" />
 
             <ImageView
                 android:id="@+id/ivSpeechBubble"
@@ -420,13 +427,7 @@
                 android:layout_marginHorizontal="4dp"
                 android:src="@drawable/tpm_triangle" />
 
-            <ImageView
-                android:id="@+id/ivHeart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="4dp"
-                android:src="@drawable/tpm_heart" />
+
 
         </LinearLayout>
 

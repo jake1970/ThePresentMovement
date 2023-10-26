@@ -115,7 +115,7 @@ class DatabaseManager {
    //get all announcements
     suspend fun getAllAnnouncementsFromFirestore(): ArrayList<AnnouncementDataClass> {
         val allAnnouncements = arrayListOf<AnnouncementDataClass>()
-        GlobalClass.documents.allUserIDs.clear()
+        GlobalClass.documents.allAnnouncmentIds.clear()
 
         val querySnapshot = db.collection("Announcements").get().await()
 

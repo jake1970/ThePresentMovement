@@ -136,7 +136,6 @@
             android:layout_below="@id/tvMyFeed"
             android:layout_marginTop="6dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginHorizontal="10dp"
             android:requiresFadingEdge="vertical"
             android:fadingEdgeLength="1dp">
 
@@ -144,6 +143,7 @@
                 android:id="@+id/llFeed"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingHorizontal="10dp"
                 android:orientation="vertical" />
         </ScrollView>
 

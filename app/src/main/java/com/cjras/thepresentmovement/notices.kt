@@ -39,8 +39,6 @@ class notices : Fragment() {
 
         try {
 
-
-
             //Read Data
             MainScope().launch{
 

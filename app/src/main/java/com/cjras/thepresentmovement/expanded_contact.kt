@@ -143,8 +143,7 @@ class expanded_contact : Fragment() {
                 if (!givenUserData.equals(GlobalClass.currentUser) || cameraManager.getModifiedImageStatus() == true) {
 
                     val currentUserIndex = GlobalClass.Users.indexOf(GlobalClass.currentUser)
-                    val currentUserDocumentIndex =
-                        GlobalClass.documents.allUserIDs[currentUserIndex]
+                    val currentUserDocumentIndex = GlobalClass.documents.allUserIDs[currentUserIndex] //issue is here
 
                     requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
 
