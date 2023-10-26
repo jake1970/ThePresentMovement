@@ -5,7 +5,7 @@ data class DocumentID (
         var allMemberTypeIDs: ArrayList<String> = ArrayList(),
         var allAnnouncmentIds: ArrayList<String> = ArrayList(),
         var allEventIDs: ArrayList<String> = ArrayList(),
-        var allProjectIds: ArrayList<String> = ArrayList()
+        var allProjectIds: ArrayList<String> = ArrayList(),
         var allUserProjectIds: ArrayList<String> = ArrayList()
     )
 {

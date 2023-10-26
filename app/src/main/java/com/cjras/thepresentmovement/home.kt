@@ -95,6 +95,18 @@ class home : Fragment() {
             GlobalClass.RefreshFragment(this)
         }
 
+        binding.tvProjects.setOnClickListener()
+        {
+            //create local fragment controller
+            val fragmentControl = FragmentManager()
+
+            fragmentControl.replaceFragment(
+                all_projects(),
+                R.id.flContent,
+                parentFragmentManager
+            )
+        }
+
         // Inflate the layout for this fragment
         return view
     }

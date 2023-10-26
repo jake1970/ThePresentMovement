@@ -41,6 +41,7 @@
     <string name="editText">Edit</string>
     <string name="errorText">Error</string>
     <string name="memberText">Member</string>
+    <string name="upcomingProjectsText">Upcoming Projects</string>
     <string name="seniorMemberText">Senior Member</string>
     <string-array name="imageSources">
         <item>Camera</item>
