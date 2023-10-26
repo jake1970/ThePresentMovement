@@ -220,6 +220,36 @@ class DatabaseManager {
         return allProjects
     }
 
+
+    //get all projects
+    suspend fun getAllUserProjectsFromFirestore(): ArrayList<UserProjectDataClass> {
+        val allUserProjects = arrayListOf<UserProjectDataClass>()
+        GlobalClass.documents.allUserProjectIds.clear()
+
+        val querySnapshot = db.collection("UserProjects").get().await()
+
+        for (document in querySnapshot) {
+
+            val newUserProjectID: Int = document.data.getValue("UserProjectID").toString().toInt()
+            val newUserID: String = document.data.getValue("UserID").toString()
+            val newProjectID : Int = document.data.getValue("ProjectID").toString().toInt()
+
+
+            val tempUserProject = UserProjectDataClass(
+                UserProjectID = newProjectID,
+                UserID = newUserID,
+                ProjectID  = newProjectID,
+            )
+
+            allUserProjects.add(tempUserProject)
+            GlobalClass.documents.allUserProjectIds.add(document.id)
+
+        }
+
+        return allUserProjects
+    }
+
+
     suspend fun updateFromDatabase()
     {
         GlobalClass.MemberTypes = getAllMemberTypesFromFirestore()
@@ -227,6 +257,7 @@ class DatabaseManager {
         GlobalClass.Announcements = getAllAnnouncementsFromFirestore()
         GlobalClass.Events = getAllEventsFromFirestore()
         GlobalClass.Projects = getAllProjectsFromFirestore()
+        GlobalClass.UserProjects = getAllUserProjectsFromFirestore()
 
         GlobalClass.UpdateDataBase = false
     }

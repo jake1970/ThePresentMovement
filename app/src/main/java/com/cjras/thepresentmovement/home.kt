@@ -134,13 +134,13 @@ class home : Fragment() {
             val activityLayout = binding.llFeed;
 
 
+                val feedSize = 10
+                var recentEvents = GlobalClass.Events.take(feedSize).sortedBy { it.EventDate }
+                var recentProjects = GlobalClass.Projects.take(feedSize).sortedBy { it.ProjectDate }
 
-                var recentEvents = GlobalClass.Events.take(10).sortedBy { it.EventDate }
-                var recentProjects = GlobalClass.Projects.take(10).sortedBy { it.ProjectDate }
+                var combinedFeed = recentEvents + recentProjects
 
-                var a = recentEvents + recentProjects
-
-                val sortedList = a.sortedBy {
+                val sortedList = combinedFeed.sortedBy {
                     when(it) {
                         is EventDataClass -> it.EventDate
                         is ProjectDataClass -> it.ProjectDate
@@ -158,6 +158,11 @@ class home : Fragment() {
                         newFeedItem.binding.tvEntryText.text = getString(R.string.newEventAddedText)
                         newFeedItem.binding.tvEntryDate.text = (sortedList[i] as EventDataClass).EventDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
                         newFeedItem.binding.ivEntryIcon.setImageBitmap(databaseManager.getEventDefaultImage(requireActivity()))
+
+                        newFeedItem.setOnClickListener()
+                        {
+                            //open event full view
+                        }
                     }
                     else
                     {
@@ -165,6 +170,11 @@ class home : Fragment() {
                         newFeedItem.binding.tvEntryText.text = getString(R.string.newProjectAddedText)
                         newFeedItem.binding.tvEntryDate.text = (sortedList[i] as ProjectDataClass).ProjectDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
                         newFeedItem.binding.ivEntryIcon.setImageBitmap(databaseManager.getProjectDefaultImage(requireActivity()))
+
+                        newFeedItem.setOnClickListener()
+                        {
+                            //open project full view
+                        }
                     }
 
                     //add the new view

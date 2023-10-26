@@ -31,6 +31,7 @@ class GlobalClass : Application()
         var Announcements = arrayListOf<AnnouncementDataClass>()
         var Events = arrayListOf<EventDataClass>()
         var Projects = arrayListOf<ProjectDataClass>()
+        var UserProjects = arrayListOf<UserProjectDataClass>()
 
 
 
@@ -55,17 +56,6 @@ class GlobalClass : Application()
                 currentFragment.fragmentManager?.beginTransaction()?.detach(currentFragment)?.attach(currentFragment)?.commit();
             }
         }
-
-        /*
-        fun setDefaultBitmap(context: Context)
-        {
-            currentUserImage = BitmapFactory.decodeResource(
-                context.resources,
-                R.drawable.person_icon
-            )
-        }
-
-         */
 
 
 
