@@ -124,14 +124,6 @@ class contacts : Fragment() {
 
                     //add space between custom cards
                     scrollViewUtils.generateSpacer(activityLayout, requireActivity(), 14)
-                    /*
-                    val scale = requireActivity().resources.displayMetrics.density
-                    val pixels = (14 * scale + 0.5f)
-
-                    val spacer = Space(activity)
-                    spacer.minimumHeight = pixels.toInt()
-                    activityLayout.addView(spacer)
-                     */
 
                 }
             }
@@ -142,9 +134,6 @@ class contacts : Fragment() {
     fun UpdateUI() {
 
         try {
-
-
-            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
             binding.llMyProfileCard.setOnClickListener()
             {
@@ -162,6 +151,7 @@ class contacts : Fragment() {
             }
 
             loadContacts("",  binding.llContactsList)
+            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
         }
         catch (e: Error)

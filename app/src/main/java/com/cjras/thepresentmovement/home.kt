@@ -1,5 +1,7 @@
 package com.cjras.thepresentmovement
 
+import android.content.ClipData
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.Html
@@ -11,10 +13,14 @@ import android.widget.RelativeLayout
 import android.widget.Space
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.children
 import com.cjras.thepresentmovement.databinding.FragmentHomeBinding
 import com.cjras.thepresentmovement.databinding.FragmentNoticesBinding
+import com.google.android.gms.tasks.Tasks.await
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 /**
  * A simple [Fragment] subclass.
@@ -54,14 +60,9 @@ class home : Fragment() {
                     requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
                 withContext(Dispatchers.Default) {
 
-
-
-
-
                         var databaseManager = DatabaseManager()
 
                         databaseManager.updateFromDatabase()
-
 
                         //get the users image
                         GlobalClass.currentUserImage = databaseManager.getUserImage(
@@ -103,37 +104,78 @@ class home : Fragment() {
 
         try {
 
-            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
 
-            binding.tvEvents.text = Html.fromHtml("5" + "<small>" + "<small>" + "<small>" + " " + getString(R.string.upcomingText) + "</small>" + "</small>" + "</small>" + "<br />" + getString(R.string.eventsText))
-            binding.tvProjects.text = Html.fromHtml("5" + "<small>" + "<small>" + "<small>" + " " + getString(R.string.upcomingText) + "</small>" + "</small>" + "</small>" + "<br />" + getString(R.string.projectsText))
+            val eventCount = GlobalClass.Events.count()
+            val projectCount = GlobalClass.Projects.count()
 
+            var eventText = getString(R.string.eventsText)
+            var projectText = getString(R.string.projectsText)
 
-            //---------------------------------------------------------------------------------------------
-            //test code for custom components
-            //---------------------------------------------------------------------------------------------
-            for (i in 1..8) {
-
-                val activityLayout = binding.llFeed;
-                var newFeedItem = home_feed_card(activity)
-
-                newFeedItem.binding.tvEntryTitle.text = "Think For Good"
-                newFeedItem.binding.tvEntryText.text = "New Event Added"
-                newFeedItem.binding.tvEntryDate.text = "12 Oct 2023"
-
-                //add the new view
-                activityLayout.addView(newFeedItem)
-
-                val scale = requireActivity().resources.displayMetrics.density
-                val pixels = (14 * scale + 0.5f)
-
-                val spacer = Space(activity)
-                spacer.minimumHeight = pixels.toInt()
-                activityLayout.addView(spacer)
-
+            if (eventCount == 1)
+            {
+                eventText = getString(R.string.eventsTextSingle)
             }
-            //---------------------------------------------------------------------------------------------
+
+            if (projectCount == 1)
+            {
+                projectText = getString(R.string.projectsTextSingle)
+            }
+
+            binding.tvEvents.text = Html.fromHtml(eventCount.toString() + "<small>" + "<small>" + "<small>" + " " + getString(R.string.upcomingText) + "</small>" + "</small>" + "</small>" + "<br />" + eventText)
+            binding.tvProjects.text = Html.fromHtml(projectCount.toString() + "<small>" + "<small>" + "<small>" + " " + getString(R.string.upcomingText) + "</small>" + "</small>" + "</small>" + "<br />" + projectText)
+
+
+
+
+
+            var databaseManager = DatabaseManager()
+            val scrollViewUtils = ScrollViewTools()
+            val activityLayout = binding.llFeed;
+
+
+
+                var recentEvents = GlobalClass.Events.take(10).sortedBy { it.EventDate }
+                var recentProjects = GlobalClass.Projects.take(10).sortedBy { it.ProjectDate }
+
+                var a = recentEvents + recentProjects
+
+                val sortedList = a.sortedBy {
+                    when(it) {
+                        is EventDataClass -> it.EventDate
+                        is ProjectDataClass -> it.ProjectDate
+                        else -> throw IllegalArgumentException("Unknown type for sorting!")
+                    }
+                }
+
+                for (i in sortedList.indices)
+                {
+                    val newFeedItem = home_feed_card(activity)
+
+                    if (sortedList[i] is EventDataClass)
+                    {
+                        newFeedItem.binding.tvEntryTitle.text = (sortedList[i] as EventDataClass).EventTitle
+                        newFeedItem.binding.tvEntryText.text = getString(R.string.newEventAddedText)
+                        newFeedItem.binding.tvEntryDate.text = (sortedList[i] as EventDataClass).EventDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
+                        newFeedItem.binding.ivEntryIcon.setImageBitmap(databaseManager.getEventDefaultImage(requireActivity()))
+                    }
+                    else
+                    {
+                        newFeedItem.binding.tvEntryTitle.text = (sortedList[i] as ProjectDataClass).ProjectTitle
+                        newFeedItem.binding.tvEntryText.text = getString(R.string.newProjectAddedText)
+                        newFeedItem.binding.tvEntryDate.text = (sortedList[i] as ProjectDataClass).ProjectDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
+                        newFeedItem.binding.ivEntryIcon.setImageBitmap(databaseManager.getProjectDefaultImage(requireActivity()))
+                    }
+
+                    //add the new view
+                    activityLayout.addView(newFeedItem)
+
+                    //add space between custom cards
+                    scrollViewUtils.generateSpacer(activityLayout, requireActivity(), 14)
+                }
+
+
+            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
         }
         catch (e: Exception)

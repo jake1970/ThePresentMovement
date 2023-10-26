@@ -159,8 +159,9 @@ class notices : Fragment() {
 
         try {
 
-            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+
             LoadAnnouncements("", binding.llNotices, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
         }
         catch (e: Exception)

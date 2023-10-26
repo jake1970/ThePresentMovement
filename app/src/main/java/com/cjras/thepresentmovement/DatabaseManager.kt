@@ -201,14 +201,14 @@ class DatabaseManager {
             val newHasImage: Boolean = document.data.getValue("HasImage").toString().toBoolean()
 
             val tempProject = ProjectDataClass(
-                ProjectID = 0,
-                ProjectTitle = "",
-                ProjectDate  = LocalDate.now(),
-                ProjectOverview = "",
-                ProjectCompanyName = "",
-                ProjectCompanyAbout = "",
-                UserID  = "",
-                HasImage = false
+                ProjectID = newProjectID,
+                ProjectTitle = newProjectTitle,
+                ProjectDate  = newProjectDate,
+                ProjectOverview = newProjectOverview,
+                ProjectCompanyName = newProjectCompanyName,
+                ProjectCompanyAbout = newProjectCompanyAbout,
+                UserID  = newUserID,
+                HasImage = newHasImage
             )
 
 
@@ -320,6 +320,59 @@ class DatabaseManager {
         return bitmap
     }
 
+
+    suspend fun getEventImage(context: Context, eventID : Int, eventHasImage: Boolean) : Bitmap?
+    {
+
+        var bitmap = getEventDefaultImage(context)
+
+        if (eventHasImage) {
+            try {
+                val storageReference = FirebaseStorage.getInstance().reference.child("EventImages/$eventID.jpg") //until add images from the ui is in, add .jpg extension
+                val imgFile = File.createTempFile("tempImage", "jpg")
+                storageReference.getFile(imgFile).await()
+                bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+            } catch (e: Exception) {
+                GlobalClass.InformUser(
+                    context.getString(R.string.errorText),
+                    "${e.toString()}",
+                    context
+                )
+            }
+        }
+
+        return bitmap
+    }
+
+
+    fun getEventDefaultImage(context: Context) : Bitmap?
+    {
+        var defaultUserImage = context.getDrawable(R.drawable.e_icon)
+        if (defaultUserImage != null) {
+            defaultUserImage = defaultUserImage.mutate()
+            defaultUserImage.colorFilter = PorterDuffColorFilter(context.resources.getColor(R.color.sub_grey), PorterDuff.Mode.SRC_IN)
+        }
+
+        var bitmap = defaultUserImage?.toBitmap()
+        bitmap = addPaddingToBitmap(bitmap!!, 10)
+
+        return bitmap
+    }
+
+    fun getProjectDefaultImage(context: Context) : Bitmap?
+    {
+        var defaultUserImage = context.getDrawable(R.drawable.p_icon)
+        if (defaultUserImage != null) {
+            defaultUserImage = defaultUserImage.mutate()
+            defaultUserImage.colorFilter = PorterDuffColorFilter(context.resources.getColor(R.color.sub_grey), PorterDuff.Mode.SRC_IN)
+        }
+
+        var bitmap = defaultUserImage?.toBitmap()
+        bitmap = addPaddingToBitmap(bitmap!!, 10)
+
+        return bitmap
+    }
+
     suspend fun setUserImage(context: Context, userID : String, selectedImageUri : Uri)
     {
 
@@ -335,11 +388,6 @@ class DatabaseManager {
             .addOnSuccessListener {
                 GlobalClass.currentUser.HasImage = true
         }.await()
-           /*
-            .addOnFailureListener{
-              Toast.makeText(context, "Imaged Failed To Upload", Toast.LENGTH_SHORT).show()
-            }
-            */
 
     }
 
@@ -347,21 +395,6 @@ class DatabaseManager {
 
 
 
-    /*
-    val tempUser = UserDataClass(
-                UserID = newUserID,
-                FirstName = newFirstName,
-                LastName = newLastName,
-                EmailAddress = newEmailAddress,
-                MemberTypeID = newMemberTypeID,
-                Quote = newQuote,
-                ContactNumber = newContactNumber,
-                CompanyName = newCompanyName,
-                LinkedIn = newLinkedIn,
-                Website = newWebsite,
-                HasImage = newHasImage
-            )
-     */
 
     private fun addPaddingToBitmap(originalBitmap: Bitmap, padding: Int): Bitmap {
         val newWidth = originalBitmap.width + 2 * padding

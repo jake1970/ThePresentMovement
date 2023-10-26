@@ -21,6 +21,10 @@
     <string name="upcomingText">Upcoming</string>
     <string name="eventsText">Events</string>
     <string name="projectsText">Projects</string>
+    <string name="eventsTextSingle">Event</string>
+    <string name="projectsTextSingle">Project</string>
+    <string name="newEventAddedText">New Event Added</string>
+    <string name="newProjectAddedText">New Project Added</string>
     <string name="dateStartPrompt">Select a start date</string>
     <string name="dateEndPrompt">Select an end date</string>
     <string name="okText">ok</string>
