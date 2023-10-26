@@ -29,6 +29,8 @@ class GlobalClass : Application()
         var Users = arrayListOf<UserDataClass>()
         var MemberTypes = arrayListOf<MemberTypeDataClass>()
         var Announcements = arrayListOf<AnnouncementDataClass>()
+        var Events = arrayListOf<EventDataClass>()
+        var Projects = arrayListOf<ProjectDataClass>()
 
 
 

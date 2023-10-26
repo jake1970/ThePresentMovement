@@ -146,11 +146,87 @@ class DatabaseManager {
         return allAnnouncements
     }
 
+
+    //get all events
+    suspend fun getAllEventsFromFirestore(): ArrayList<EventDataClass> {
+        val allEvents = arrayListOf<EventDataClass>()
+        GlobalClass.documents.allEventIDs.clear()
+
+        val querySnapshot = db.collection("Events").get().await()
+
+        for (document in querySnapshot) {
+
+            val newEventID: Int = document.data.getValue("EventID").toString().toInt()
+            val newEventTitle: String = document.data.getValue("EventTitle").toString()
+            val newEventDate : LocalDate = LocalDate.parse(document.data.getValue("EventDate").toString())
+            val newEventLink: String = document.data.getValue("EventLink").toString()
+            val newUserID : String = document.data.getValue("UserID").toString()
+            val newHasImage: Boolean = document.data.getValue("HasImage").toString().toBoolean()
+
+
+            val tempEvent = EventDataClass(
+                EventID = newEventID,
+                EventTitle = newEventTitle,
+                EventDate = newEventDate,
+                EventLink = newEventLink,
+                UserID  = newUserID,
+                HasImage = newHasImage
+            )
+
+
+            allEvents.add(tempEvent)
+            GlobalClass.documents.allEventIDs.add(document.id)
+
+        }
+
+        return allEvents
+    }
+
+    //get all projects
+    suspend fun getAllProjectsFromFirestore(): ArrayList<ProjectDataClass> {
+        val allProjects = arrayListOf<ProjectDataClass>()
+        GlobalClass.documents.allProjectIds.clear()
+
+        val querySnapshot = db.collection("Projects").get().await()
+
+        for (document in querySnapshot) {
+
+            val newProjectID: Int = document.data.getValue("ProjectID").toString().toInt()
+            val newProjectTitle: String = document.data.getValue("ProjectTitle").toString()
+            val newProjectDate : LocalDate = LocalDate.parse(document.data.getValue("ProjectDate").toString())
+            val newProjectOverview: String = document.data.getValue("ProjectOverview").toString()
+            val newProjectCompanyName : String = document.data.getValue("ProjectCompanyName").toString()
+            val newProjectCompanyAbout: String = document.data.getValue("ProjectCompanyAbout").toString()
+            val newUserID : String = document.data.getValue("UserID").toString()
+            val newHasImage: Boolean = document.data.getValue("HasImage").toString().toBoolean()
+
+            val tempProject = ProjectDataClass(
+                ProjectID = 0,
+                ProjectTitle = "",
+                ProjectDate  = LocalDate.now(),
+                ProjectOverview = "",
+                ProjectCompanyName = "",
+                ProjectCompanyAbout = "",
+                UserID  = "",
+                HasImage = false
+            )
+
+
+            allProjects.add(tempProject)
+            GlobalClass.documents.allProjectIds.add(document.id)
+
+        }
+
+        return allProjects
+    }
+
     suspend fun updateFromDatabase()
     {
         GlobalClass.MemberTypes = getAllMemberTypesFromFirestore()
         GlobalClass.Users = getAllUsersFromFirestore()
         GlobalClass.Announcements = getAllAnnouncementsFromFirestore()
+        GlobalClass.Events = getAllEventsFromFirestore()
+        GlobalClass.Projects = getAllProjectsFromFirestore()
 
         GlobalClass.UpdateDataBase = false
     }
