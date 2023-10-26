@@ -13,10 +13,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.cjras.thepresentmovement.databinding.FragmentHomeBinding
 import com.cjras.thepresentmovement.databinding.FragmentNoticesBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.*
 
 /**
  * A simple [Fragment] subclass.
@@ -52,40 +50,56 @@ class home : Fragment() {
         //initial data population
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
         //var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
-        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+       // requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
 
         try {
 
            // var loadingCover = View(activity) as ViewGroup
             //loadingCover.visibility = View.GONE
-            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+            //requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
             //Read Data
-            GlobalScope.launch{
-                if (GlobalClass.UpdateDataBase == true)
-                {
+            MainScope().launch{
+
+                if (GlobalClass.UpdateDataBase == true) {
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+                withContext(Dispatchers.Default) {
+
                     //var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
                     //loadingCover.visibility = View.VISIBLE
-                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
 
-                    var databaseManager = DatabaseManager()
 
-                    GlobalClass.MemberTypes = databaseManager.getAllMemberTypesFromFirestore()
-                    GlobalClass.Users = databaseManager.getAllUsersFromFirestore()
-                    GlobalClass.UpdateDataBase = false
 
-                    //********************************************************
-                    //temp code to set current user
-                    //GlobalClass.currentUser = GlobalClass.Users[0]
-                    //********************************************************
+                        var databaseManager = DatabaseManager()
 
-                    //get the users image
-                    GlobalClass.currentUserImage = databaseManager.getUserImage(requireContext(), GlobalClass.currentUser.UserID, GlobalClass.currentUser.HasImage)
+                        databaseManager.updateFromDatabase()
+                        //GlobalClass.MemberTypes = databaseManager.getAllMemberTypesFromFirestore()
+                        //GlobalClass.Users = databaseManager.getAllUsersFromFirestore()
+                        //GlobalClass.UpdateDataBase = false
+
+                        //********************************************************
+                        //temp code to set current user
+                        //GlobalClass.currentUser = GlobalClass.Users[0]
+                        //********************************************************
+
+                        //get the users image
+                        GlobalClass.currentUserImage = databaseManager.getUserImage(
+                            requireContext(),
+                            GlobalClass.currentUser.UserID,
+                            GlobalClass.currentUser.HasImage
+                        )
+                    }
                 }
-                withContext(Dispatchers.Main) {
+
 
                     UpdateUI()
-                }
+
+                    //hide admin menu
+                    if (GlobalClass.currentUser.MemberTypeID != 2)
+                    {
+                        requireActivity().findViewById<BottomNavigationView>(R.id.bnvHomeNavigation).menu.removeItem(R.id.iAdmin)
+                    }
+
             }
         }
         catch (e: Error)
@@ -94,6 +108,10 @@ class home : Fragment() {
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
+        binding.ivRefresh.setOnClickListener()
+        {
+            GlobalClass.RefreshFragment(this)
+        }
 
         // Inflate the layout for this fragment
         return view

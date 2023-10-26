@@ -107,7 +107,13 @@ class DatabaseManager {
         return allMemberTypes
     }
 
+    suspend fun updateFromDatabase()
+    {
+        GlobalClass.MemberTypes = getAllMemberTypesFromFirestore()
+        GlobalClass.Users = getAllUsersFromFirestore()
 
+        GlobalClass.UpdateDataBase = false
+    }
 
 
 //    suspend fun getSingleMemberType(givenMemberTypeID : Int): String {

@@ -22,18 +22,17 @@
             android:paddingBottom="10dp"
             >
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:id="@+id/llHeader"
-                android:layout_centerVertical="true"
-                android:orientation="horizontal">
-
-
-
-
-            </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/homeText"
+                    android:id="@+id/tvScreenTitle"
+                    android:textColor="@color/white"
+                    android:textSize="26dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:textStyle="bold"
+                    />
 
             <ImageView
                 android:id="@+id/ivRefresh"
@@ -41,10 +40,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 app:srcCompat="@drawable/refresh_icon"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="0dp"
+                android:layout_toLeftOf="@id/ivLogo"
                 android:layout_centerVertical="true"
                 android:layout_weight="0"
-                android:layout_alignParentRight="true"
                 app:tint="@color/white" />
 
             <ImageView
@@ -54,38 +53,40 @@
                 android:layout_marginLeft="10dp"
                 app:srcCompat="@drawable/tpm_logo"
                 android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_weight="0"
                 />
         </RelativeLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/homeText"
-            android:id="@+id/tvScreenTitle"
+            android:text="@string/initiativesText"
+            android:id="@+id/tvInitiatives"
             android:textColor="@color/white"
-            android:textSize="26dp"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
+            android:textSize="22dp"
             android:layout_below="@id/rlHeader"
+            android:layout_marginTop="26dp"
             android:layout_marginLeft="10dp"
             />
 
 <!--        android:layout_marginTop="36dp"-->
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@id/tvScreenTitle"
-            android:layout_marginTop="10dp"
+            android:layout_below="@id/tvInitiatives"
+            android:layout_marginTop="6dp"
             android:layout_marginHorizontal="10dp"
             android:id="@+id/llInfoBlocks">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/placeHolderText"
+                android:text=""
                 android:id="@+id/tvEvents"
                 android:textColor="@color/white"
                 android:textSize="26dp"
@@ -101,7 +102,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/placeHolderText"
+                android:text=""
                 android:id="@+id/tvProjects"
                 android:textColor="@color/white"
                 android:textSize="26dp"

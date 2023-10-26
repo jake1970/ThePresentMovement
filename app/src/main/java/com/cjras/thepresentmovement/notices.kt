@@ -87,6 +87,11 @@ class notices : Fragment() {
         }
         //---------------------------------------------------------------------------------------------
 
+        binding.ivRefresh.setOnClickListener()
+        {
+            GlobalClass.RefreshFragment(this)
+        }
+
         return view
     }
 

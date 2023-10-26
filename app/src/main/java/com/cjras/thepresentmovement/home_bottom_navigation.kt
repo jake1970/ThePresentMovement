@@ -104,7 +104,7 @@ class home_bottom_navigation : AppCompatActivity() {
 
 
 
-
+/*
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
         //initial data population
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -116,13 +116,14 @@ class home_bottom_navigation : AppCompatActivity() {
 
             //Read Data
             GlobalScope.launch{
-                if (GlobalClass.UpdateDataBase == true)
+                if (GlobalClass.UpdateDataBase == true && GlobalClass.currentUser.UserID == "")
                 {
-                    var DBManger = DatabaseManager()
+                    var databaseManager = DatabaseManager()
 
-                    GlobalClass.Users = DBManger.getAllUsersFromFirestore()
-                    GlobalClass.MemberTypes = DBManger.getAllMemberTypesFromFirestore()
-                    GlobalClass.UpdateDataBase = false
+                   // GlobalClass.Users = DBManger.getAllUsersFromFirestore()
+                   // GlobalClass.MemberTypes = DBManger.getAllMemberTypesFromFirestore()
+                   // GlobalClass.UpdateDataBase = false
+                    databaseManager.updateFromDatabase()
 
                     //********************************************************
                     //temp code to set current user
@@ -130,7 +131,7 @@ class home_bottom_navigation : AppCompatActivity() {
                     //********************************************************
 
                     //get the users image
-                    GlobalClass.currentUserImage = DBManger.getUserImage(baseContext, GlobalClass.currentUser.UserID, GlobalClass.currentUser.HasImage)
+                    GlobalClass.currentUserImage = databaseManager.getUserImage(baseContext, GlobalClass.currentUser.UserID, GlobalClass.currentUser.HasImage)
                 }
                 withContext(Dispatchers.Main) {
 
@@ -149,6 +150,11 @@ class home_bottom_navigation : AppCompatActivity() {
         {
             GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", this)
         }
+
+ */
+ */
+ */
+
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     }

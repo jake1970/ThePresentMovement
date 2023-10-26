@@ -8,6 +8,9 @@
     android:background="@color/main_grey">
 
 
+
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -16,31 +19,22 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/accent_grey"
+            android:background="@color/sub_grey"
             android:id="@+id/rlHeader"
             android:paddingBottom="10dp"
             >
 
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/noticesText"
+                android:id="@+id/tvScreenTitle"
+                android:textColor="@color/white"
+                android:textSize="26dp"
                 android:layout_marginLeft="10dp"
-                android:id="@+id/llHeader"
                 android:layout_centerVertical="true"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/noticesText"
-                    android:id="@+id/tvScreenTitle"
-                    android:textColor="@color/white"
-                    android:textSize="26dp"
-                    android:textStyle="bold"
-                    />
-
-            </LinearLayout>
+                android:textStyle="bold"
+                />
 
             <ImageView
                 android:id="@+id/ivRefresh"

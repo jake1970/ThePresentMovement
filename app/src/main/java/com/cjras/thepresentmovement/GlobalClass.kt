@@ -5,12 +5,14 @@ import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import androidx.fragment.app.Fragment
 
 
 class GlobalClass : Application()
@@ -44,6 +46,19 @@ class GlobalClass : Application()
             alert.setPositiveButton(context.getString(R.string.okText), null)
 
             alert.show()
+        }
+
+
+        fun RefreshFragment(currentFragment: Fragment)
+        {
+            UpdateDataBase = true
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                currentFragment.fragmentManager?.beginTransaction()?.detach(currentFragment)?.commitNow();
+                currentFragment.fragmentManager?.beginTransaction()?.attach(currentFragment)?.commitNow();
+            } else {
+                currentFragment.fragmentManager?.beginTransaction()?.detach(currentFragment)?.attach(currentFragment)?.commit();
+            }
         }
 
         /*

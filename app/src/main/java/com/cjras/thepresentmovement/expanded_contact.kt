@@ -25,10 +25,7 @@ import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.cjras.thepresentmovement.databinding.FragmentExpandedContactBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -90,25 +87,30 @@ class expanded_contact : Fragment() {
 
 
             //Read Data
-            GlobalScope.launch {
+            MainScope().launch {
                 if (GlobalClass.UpdateDataBase == true) {
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+                withContext(Dispatchers.Default) {
+
 
                     //loadingCover.visibility = View.VISIBLE
-                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+
 
                     var databaseManager = DatabaseManager()
 
-                    GlobalClass.MemberTypes = databaseManager.getAllMemberTypesFromFirestore()
-                    GlobalClass.Users = databaseManager.getAllUsersFromFirestore()
+                    databaseManager.updateFromDatabase()
+                    //GlobalClass.MemberTypes = databaseManager.getAllMemberTypesFromFirestore()
+                   // GlobalClass.Users = databaseManager.getAllUsersFromFirestore()
 
-                    GlobalClass.UpdateDataBase = false
+                    //GlobalClass.UpdateDataBase = false
 
                 }
-                withContext(Dispatchers.Main) {
+                }
+
 
 
                     UpdateUI()
-                }
+
             }
         } catch (e: Error) {
             GlobalClass.InformUser(getString(R.string.errorText), "$e", requireContext())
@@ -157,7 +159,8 @@ class expanded_contact : Fragment() {
 
 
 
-                    GlobalScope.launch() {
+                    MainScope().launch() {
+                        withContext(Dispatchers.Default) {
                         var databaseManager = DatabaseManager()
 
 
@@ -182,17 +185,17 @@ class expanded_contact : Fragment() {
                                 GlobalClass.currentUser.HasImage
                             )
                         }
-
+                    }
 
                         //val currentUserIndex = GlobalClass.documents.allUserIDs[currentUserID]
 
 
-                        withContext(Dispatchers.Main) {
+
                             GlobalClass.UpdateDataBase = true
                             Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
                             //loadingCover.visibility = View.GONE
                             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
-                        }
+
                     }
                 }
 
@@ -202,7 +205,10 @@ class expanded_contact : Fragment() {
 
         //----------------------------------------------------------------------------------------------------
 
-
+        binding.ivRefresh.setOnClickListener()
+        {
+            GlobalClass.RefreshFragment(this)
+        }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
         //Select an image

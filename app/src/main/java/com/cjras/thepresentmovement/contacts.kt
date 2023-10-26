@@ -1,25 +1,18 @@
 package com.cjras.thepresentmovement
 
-import android.content.Intent
-import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.Space
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.cjras.thepresentmovement.databinding.FragmentContactsBinding
-import com.cjras.thepresentmovement.databinding.FragmentNoticesBinding
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.firestore.auth.User
-import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
+import kotlinx.coroutines.*
 
 
 /**
@@ -35,7 +28,7 @@ class contacts : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
 
         _binding = FragmentContactsBinding.inflate(inflater, container, false)
@@ -46,7 +39,7 @@ class contacts : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
        // var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
-        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+
 
         try {
 
@@ -54,23 +47,30 @@ class contacts : Fragment() {
             //requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
             //Read Data
-            GlobalScope.launch{
-                if (GlobalClass.UpdateDataBase == true)
-                {
+            //GlobalScope.launch{
+            //val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
+            MainScope().launch{
+                if (GlobalClass.UpdateDataBase == true) {
+                requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+                withContext(Dispatchers.Default) {
+
+                    // Toast.makeText(activity, "loading", Toast.LENGTH_SHORT).show()
 
                     //loadingCover.visibility = View.VISIBLE
                     //requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
 
                     var databaseManager = DatabaseManager()
 
-                    GlobalClass.MemberTypes = databaseManager.getAllMemberTypesFromFirestore()
-                    GlobalClass.Users = databaseManager.getAllUsersFromFirestore()
-                    GlobalClass.UpdateDataBase = false
+                    databaseManager.updateFromDatabase()
+                }
+                    //GlobalClass.MemberTypes = databaseManager.getAllMemberTypesFromFirestore()
+                    //GlobalClass.Users = databaseManager.getAllUsersFromFirestore()
+                    //GlobalClass.UpdateDataBase = false
 
                 }
-                withContext(Dispatchers.Main) {
+               // withContext(Dispatchers.Main) {
                     UpdateUI()
-                }
+               // }
             }
         }
         catch (e: Error)
@@ -78,6 +78,18 @@ class contacts : Fragment() {
             GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
         }
 
+
+        binding.etSearch.addTextChangedListener { charSequence ->
+
+            binding.llContactsList.removeAllViews()
+
+            loadContacts(charSequence.toString())
+        }
+
+        binding.ivRefresh.setOnClickListener()
+        {
+            GlobalClass.RefreshFragment(this)
+        }
 
         // Inflate the layout for this fragment
         return view
@@ -115,6 +127,46 @@ args.putString("userImageURI", user.UserImageURI)
             parentFragmentManager
         )
     }
+
+    fun loadContacts(searchTerm: String)
+    {
+        for (user in GlobalClass.Users) {
+
+            if (user != GlobalClass.currentUser) {
+
+                if (user.getFullName().lowercase().contains(searchTerm.lowercase()) || searchTerm == "") {
+                    val activityLayout = binding.llContactsList;
+                    var newContact = contact_card(activity)
+
+                    newContact.binding.tvContactName.text =
+                        user.getFullName() //"${user.FirstName} ${user.LastName}"
+
+
+                    var memberType = MemberTypeDataClass().getSingleMemberType(user.MemberTypeID)
+                    newContact.binding.tvContactRole.text = memberType
+
+
+                    newContact.setOnClickListener()
+                    {
+
+                        invokeExpandedContactsView(user.UserID)
+                    }
+                    //add the new view
+                    activityLayout.addView(newContact)
+
+
+                    val scale = requireActivity().resources.displayMetrics.density
+                    val pixels = (14 * scale + 0.5f)
+
+                    val spacer = Space(activity)
+                    spacer.minimumHeight = pixels.toInt()
+                    activityLayout.addView(spacer)
+
+                }
+            }
+        }
+    }
+
 
     fun UpdateUI(/*loadingCover : ViewGroup*/) {
 
@@ -184,9 +236,9 @@ args.putString("userImageURI", user.UserImageURI)
             binding.ivLoadingLogo.visibility = View.GONE
             binding.pbLoadingBar.visibility = View.GONE
              */
-
-
-
+            binding.llContactsList.removeAllViews()
+        loadContacts("")
+/*
                 for (user in GlobalClass.Users) {
 
                     if (user != GlobalClass.currentUser) {
@@ -275,6 +327,8 @@ args.putString("userImageURI", user.UserImageURI)
                     }
                 }
 
+
+ */
 
         }
         catch (e: Error)
