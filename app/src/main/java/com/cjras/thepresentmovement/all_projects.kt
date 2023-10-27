@@ -5,13 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import com.cjras.thepresentmovement.databinding.FragmentAllProjectsBinding
 import com.cjras.thepresentmovement.databinding.FragmentNoticesBinding
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 
@@ -73,6 +81,28 @@ class all_projects : Fragment() {
 
         }
 
+        binding.tvStartDate.setOnClickListener(){
+            datePicker(true, binding.tvStartDate)
+
+        }
+
+        binding.tvEndDate.setOnClickListener(){
+            datePicker(false, binding.tvEndDate)
+        }
+
+        binding.tvStartDate.doAfterTextChanged { char ->
+            LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+        }
+
+        binding.tvEndDate.doAfterTextChanged { char ->
+            LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+        }
+
+
+        binding.etSearch.addTextChangedListener { charSequence ->
+
+            LoadProjects(charSequence.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+        }
 
         // Inflate the layout for this fragment
         return view
@@ -80,32 +110,93 @@ class all_projects : Fragment() {
 
     private fun UpdateUI()
     {
+
+        LoadProjects("", binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+    }
+
+    private fun datePicker(startPrompt: Boolean, entryField: TextView)
+    {
+
+        var entryPrompt =getString(R.string.dateEndPrompt)
+
+        if (startPrompt)
+        {
+            entryPrompt = getString(R.string.dateStartPrompt)
+        }
+
+        val builder = MaterialDatePicker.Builder.datePicker()
+        builder.setTitleText(entryPrompt)
+        val picker = builder.build()
+        picker.show(childFragmentManager, picker.toString())
+
+        picker.addOnPositiveButtonClickListener {
+            // Respond to positive button click.
+            val selectedDate = SimpleDateFormat("dd/MM/yy")
+            entryField.text = selectedDate.format(picker.selection)
+        }
+
+        picker.addOnNegativeButtonClickListener {
+            // Respond to negative button click.
+            entryField.text = getString(R.string.blankDate)
+        }
+
+        picker.addOnCancelListener {
+            // Respond to cancel button click.
+            entryField.text = getString(R.string.blankDate)
+        }
+    }
+
+    private fun LoadProjects(searchTerm: String, displayLayout: LinearLayout, startDate: String, endDate: String)
+    {
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
         var databaseManager = DatabaseManager()
         val scrollViewUtils = ScrollViewTools()
         val activityLayout = binding.llUpcomingProjects;
 
-        for (project in GlobalClass.Projects)
-        {
-            val newProjectCard = home_feed_card(activity)
+        displayLayout.removeAllViews()
 
-            newProjectCard.binding.tvEntryTitle.text = project.ProjectTitle
-            newProjectCard.binding.tvEntryText.text = project.ProjectCompanyName //project company name instead of uppcoming project header
-            newProjectCard.binding.tvEntryDate.text = project.ProjectDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
-            newProjectCard.binding.ivEntryIcon.setImageBitmap(databaseManager.getProjectDefaultImage(requireActivity()))
 
-            newProjectCard.setOnClickListener()
-            {
-                //open project full view
+        for (project in GlobalClass.Projects) {
+            if (project.ProjectTitle.lowercase().contains(searchTerm.lowercase()) || project.ProjectCompanyName.lowercase().contains(searchTerm.lowercase()) || searchTerm == "") {
+
+                var startDateFormatted : LocalDate? = null
+                var endDateFormatted : LocalDate? = null
+
+                if (startDate != getString(R.string.blankDate)) {
+                    startDateFormatted = LocalDate.parse(startDate, formatter)
+                }
+
+                if (endDate != getString(R.string.blankDate)) {
+                    endDateFormatted = LocalDate.parse(endDate, formatter)
+                }
+
+                if (startDate == getString(R.string.blankDate) || (startDateFormatted != null && (project.ProjectDate.isAfter(startDateFormatted!!)  || project.ProjectDate.isEqual(startDateFormatted!!)))) {
+
+                    if (endDate == getString(R.string.blankDate) || (endDateFormatted != null && (project.ProjectDate.isBefore(endDateFormatted!!) || project.ProjectDate.isEqual(endDateFormatted!!)))) {
+
+
+                        val newProjectCard = home_feed_card(activity)
+
+                        newProjectCard.binding.tvEntryTitle.text = project.ProjectTitle
+                        newProjectCard.binding.tvEntryText.text = project.ProjectCompanyName //project company name instead of uppcoming project header
+                        newProjectCard.binding.tvEntryDate.text = project.ProjectDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
+                        newProjectCard.binding.ivEntryIcon.setImageBitmap(databaseManager.getProjectDefaultImage(requireActivity()))
+
+                        newProjectCard.setOnClickListener()
+                        {
+                            //open project full view
+                        }
+
+                        //add the new view
+                        activityLayout.addView(newProjectCard)
+
+                        //add space between custom cards
+                        scrollViewUtils.generateSpacer(activityLayout, requireActivity(), 14)
+
+                    }
+                }
             }
-
-            //add the new view
-            activityLayout.addView(newProjectCard)
-
-            //add space between custom cards
-            scrollViewUtils.generateSpacer(activityLayout, requireActivity(), 14)
         }
-
-        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
     }
-
 }

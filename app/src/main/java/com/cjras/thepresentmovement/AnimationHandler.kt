@@ -43,7 +43,7 @@ class AnimationHandler {
 
             rotateAnimation.interpolator = DecelerateInterpolator()
             rotateAnimation.repeatCount = 0
-            rotateAnimation.duration = 200
+            rotateAnimation.duration = 150
             rotateAnimation.fillAfter = true
             menuArrow.startAnimation(rotateAnimation)
 
