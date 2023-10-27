@@ -95,6 +95,18 @@ class home : Fragment() {
             GlobalClass.RefreshFragment(this)
         }
 
+        binding.tvEvents.setOnClickListener()
+        {
+            //create local fragment controller
+            val fragmentControl = FragmentManager()
+
+            fragmentControl.replaceFragment(
+                all_events(),
+                R.id.flContent,
+                parentFragmentManager
+            )
+        }
+
         binding.tvProjects.setOnClickListener()
         {
             //create local fragment controller

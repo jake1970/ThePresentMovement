@@ -28,6 +28,7 @@ class notices : Fragment() {
 
     private var _binding: FragmentNoticesBinding? = null
     private val binding get() = _binding!!
+    private val scrollViewUtils = ScrollViewTools()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,12 +60,12 @@ class notices : Fragment() {
         }
 
         binding.tvStartDate.setOnClickListener(){
-            datePicker(true, binding.tvStartDate)
+            scrollViewUtils.datePicker(this, true, binding.tvStartDate)
 
         }
 
         binding.tvEndDate.setOnClickListener(){
-            datePicker(false, binding.tvEndDate)
+            scrollViewUtils.datePicker(this, false, binding.tvEndDate)
         }
 
         binding.tvStartDate.doAfterTextChanged { char ->
@@ -95,7 +96,7 @@ class notices : Fragment() {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
 
         displayLayout.removeAllViews()
-        val scrollViewUtils = ScrollViewTools()
+        //val scrollViewUtils = ScrollViewTools()
 
         for (announcement in GlobalClass.Announcements) {
             if (announcement.AnnouncementTitle.lowercase().contains(searchTerm.lowercase()) || announcement.AnnouncementMessage.lowercase().contains(searchTerm.lowercase()) || searchTerm == "") {
@@ -171,38 +172,6 @@ class notices : Fragment() {
 
 
 
-    }
-
-    private fun datePicker(startPrompt: Boolean, entryField: TextView)
-    {
-
-        var entryPrompt =getString(R.string.dateEndPrompt)
-
-        if (startPrompt)
-        {
-            entryPrompt = getString(R.string.dateStartPrompt)
-        }
-
-        val builder = MaterialDatePicker.Builder.datePicker()
-        builder.setTitleText(entryPrompt)
-        val picker = builder.build()
-        picker.show(childFragmentManager, picker.toString())
-
-        picker.addOnPositiveButtonClickListener {
-            // Respond to positive button click.
-            val selectedDate = SimpleDateFormat("dd/MM/yy")
-            entryField.text = selectedDate.format(picker.selection)
-        }
-
-        picker.addOnNegativeButtonClickListener {
-            // Respond to negative button click.
-            entryField.text = getString(R.string.blankDate)
-        }
-
-        picker.addOnCancelListener {
-            // Respond to cancel button click.
-            entryField.text = getString(R.string.blankDate)
-        }
     }
 
     override fun onDestroyView() {

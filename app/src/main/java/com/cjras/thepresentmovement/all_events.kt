@@ -7,25 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
+import com.cjras.thepresentmovement.databinding.FragmentAllEventsBinding
 import com.cjras.thepresentmovement.databinding.FragmentAllProjectsBinding
-import com.cjras.thepresentmovement.databinding.FragmentNoticesBinding
-import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 
-class all_projects : Fragment() {
+class all_events : Fragment() {
 
-    private var _binding: FragmentAllProjectsBinding? = null
+
+    private var _binding: FragmentAllEventsBinding? = null
     private val binding get() = _binding!!
     private val scrollViewUtils = ScrollViewTools()
 
@@ -34,8 +31,9 @@ class all_projects : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
 
-        _binding = FragmentAllProjectsBinding.inflate(inflater, container, false)
+        _binding = FragmentAllEventsBinding.inflate(inflater, container, false)
         val view = binding.root
+
 
         try {
 
@@ -93,18 +91,19 @@ class all_projects : Fragment() {
         }
 
         binding.tvStartDate.doAfterTextChanged { char ->
-            LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+            LoadEvents(binding.etSearch.text.toString(), binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
         }
 
         binding.tvEndDate.doAfterTextChanged { char ->
-            LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+            LoadEvents(binding.etSearch.text.toString(), binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
         }
 
 
         binding.etSearch.addTextChangedListener { charSequence ->
 
-            LoadProjects(charSequence.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+            LoadEvents(charSequence.toString(), binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
         }
+
 
         // Inflate the layout for this fragment
         return view
@@ -112,26 +111,24 @@ class all_projects : Fragment() {
 
     private fun UpdateUI()
     {
-        LoadProjects("", binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+
+        LoadEvents("", binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
 
         requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+
     }
 
-
-
-
-    private fun LoadProjects(searchTerm: String, displayLayout: LinearLayout, startDate: String, endDate: String)
+    private fun LoadEvents(searchTerm: String, displayLayout: LinearLayout, startDate: String, endDate: String)
     {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
         var databaseManager = DatabaseManager()
-       // val scrollViewUtils = ScrollViewTools()
-        val activityLayout = binding.llUpcomingProjects;
+        val activityLayout = binding.llUpcomingEvents;
 
         displayLayout.removeAllViews()
 
 
-        for (project in GlobalClass.Projects) {
-            if (project.ProjectTitle.lowercase().contains(searchTerm.lowercase()) || project.ProjectCompanyName.lowercase().contains(searchTerm.lowercase()) || searchTerm == "") {
+        for (event in GlobalClass.Events) {
+            if (event.EventTitle.lowercase().contains(searchTerm.lowercase()) || event.EventLink.lowercase().contains(searchTerm.lowercase()) || searchTerm == "") {
 
                 var startDateFormatted : LocalDate? = null
                 var endDateFormatted : LocalDate? = null
@@ -144,25 +141,25 @@ class all_projects : Fragment() {
                     endDateFormatted = LocalDate.parse(endDate, formatter)
                 }
 
-                if (startDate == getString(R.string.blankDate) || (startDateFormatted != null && (project.ProjectDate.isAfter(startDateFormatted!!)  || project.ProjectDate.isEqual(startDateFormatted!!)))) {
+                if (startDate == getString(R.string.blankDate) || (startDateFormatted != null && (event.EventDate.isAfter(startDateFormatted!!)  || event.EventDate.isEqual(startDateFormatted!!)))) {
 
-                    if (endDate == getString(R.string.blankDate) || (endDateFormatted != null && (project.ProjectDate.isBefore(endDateFormatted!!) || project.ProjectDate.isEqual(endDateFormatted!!)))) {
+                    if (endDate == getString(R.string.blankDate) || (endDateFormatted != null && (event.EventDate.isBefore(endDateFormatted!!) || event.EventDate.isEqual(endDateFormatted!!)))) {
 
 
-                        val newProjectCard = home_feed_card(activity)
+                        val newEventCard = home_feed_card(activity)
 
-                        newProjectCard.binding.tvEntryTitle.text = project.ProjectTitle
-                        newProjectCard.binding.tvEntryText.text = project.ProjectCompanyName //project company name instead of uppcoming project header
-                        newProjectCard.binding.tvEntryDate.text = project.ProjectDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
-                        newProjectCard.binding.ivEntryIcon.setImageBitmap(databaseManager.getProjectDefaultImage(requireActivity()))
+                        newEventCard.binding.tvEntryTitle.text = event.EventTitle
+                        newEventCard.binding.tvEntryText.text = event.EventLink
+                        newEventCard.binding.tvEntryDate.text = event.EventDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
+                        newEventCard.binding.ivEntryIcon.setImageBitmap(databaseManager.getEventDefaultImage(requireActivity()))
 
-                        newProjectCard.setOnClickListener()
+                        newEventCard.setOnClickListener()
                         {
-                            //open project full view
+                            //open event full view
                         }
 
                         //add the new view
-                        activityLayout.addView(newProjectCard)
+                        activityLayout.addView(newEventCard)
 
                         //add space between custom cards
                         scrollViewUtils.generateSpacer(activityLayout, requireActivity(), 14)
@@ -172,4 +169,6 @@ class all_projects : Fragment() {
             }
         }
     }
+
+
 }

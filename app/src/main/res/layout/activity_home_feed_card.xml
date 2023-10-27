@@ -50,6 +50,8 @@
                 android:layout_height="wrap_content"
                 android:text="TextView"
                 android:textSize="12dp"
+                android:singleLine="true"
+                android:ellipsize="marquee"
                 android:textColor="@color/white"/>
 
             <TextView
