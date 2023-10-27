@@ -181,34 +181,59 @@
 
 
 
-
-        <EditText
-            android:id="@+id/etSearch"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/palette_10"
-            android:backgroundTint="@color/white"
-            android:ems="10"
-            android:inputType="text"
-            android:textColor="@color/black"
-            android:text=""
-            android:padding="4dp"
-            android:visibility="gone"
+            android:id="@+id/llExpansionContent"
+            android:layout_below="@id/llExpansionMenu"
             android:layout_marginTop="6dp"
             android:layout_marginBottom="10dp"
             android:layout_marginHorizontal="10dp"
-            android:layout_weight="1.2"
-            android:layout_marginRight="8dp"
-            android:drawableLeft="@drawable/search_icon"
-            android:layout_below="@id/llExpansionMenu"
-            android:hint=" Search"
-            android:drawableTint="@color/main_grey"/>
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/palette_10"
+                android:backgroundTint="@color/white"
+                android:ems="10"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:text=""
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:layout_marginRight="8dp"
+                android:drawableLeft="@drawable/search_icon"
+                android:hint=" Search"
+                android:drawableTint="@color/main_grey"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/palette_10"
+                android:backgroundTint="@color/white"
+                android:layout_weight="1.5"
+                android:padding="4dp">
+                <Spinner
+                    android:id="@+id/spnMemberTypes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown"
+                    android:backgroundTint="@color/black"
+                    android:textColor="@color/black"
+                    />
+            </RelativeLayout>
+
+
+        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/svContacts"
-            android:layout_below="@id/etSearch"
+            android:layout_below="@id/llExpansionContent"
             android:layout_marginTop="6dp"
             android:layout_marginBottom="10dp"
             android:requiresFadingEdge="vertical"
