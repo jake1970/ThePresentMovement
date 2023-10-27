@@ -61,7 +61,7 @@ class all_events : Fragment() {
             GlobalClass.RefreshFragment(this)
         }
 
-        binding.ivBackArrow.setOnClickListener()
+        binding.llHeader.setOnClickListener()
         {
             //create local fragment controller
             val fragmentControl = FragmentManager()
