@@ -1,19 +1,18 @@
 package com.cjras.thepresentmovement
 
-import android.os.Build
+import android.R.attr.animationDuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.RotateAnimation
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import android.widget.Space
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.cjras.thepresentmovement.databinding.FragmentContactsBinding
-import com.google.api.Distribution.BucketOptions.Linear
 import kotlinx.coroutines.*
 
 
@@ -68,6 +67,15 @@ class contacts : Fragment() {
         binding.ivRefresh.setOnClickListener()
         {
             GlobalClass.RefreshFragment(this)
+        }
+
+        binding.llExpansionMenu.setOnClickListener()
+        {
+
+            val animationManager = AnimationHandler()
+
+            animationManager.rotatingArrowMenu(binding.etSearch, binding.ivExpandArrow)
+
         }
 
         // Inflate the layout for this fragment

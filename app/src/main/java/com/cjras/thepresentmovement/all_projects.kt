@@ -64,6 +64,15 @@ class all_projects : Fragment() {
 
         }
 
+        binding.llExpansionMenu.setOnClickListener()
+        {
+
+            val animationManager = AnimationHandler()
+
+            animationManager.rotatingArrowMenu(binding.llExpansionContent, binding.ivExpandArrow)
+
+        }
+
 
         // Inflate the layout for this fragment
         return view

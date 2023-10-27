@@ -167,7 +167,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/todayText"
+            android:text="@string/myFeedText"
             android:id="@+id/tvTodaysNotices"
             android:textColor="@color/white"
             android:textSize="22dp"
