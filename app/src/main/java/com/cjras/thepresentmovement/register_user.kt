@@ -67,7 +67,7 @@ class register_user : Fragment() {
     }
 
     fun RegisterNewUser(Name: String, Surname:String, Email:String, Password:String, ConfirmPassword:String){
-        //if(isValidPassword(Password)){
+        if(isValidPassword(Password)){
             if(Password == ConfirmPassword)
             {
                 firebaseAuth.createUserWithEmailAndPassword(Email, Password).addOnCompleteListener{
@@ -99,14 +99,14 @@ class register_user : Fragment() {
             }else{
                 Toast.makeText(requireActivity(), "Passwords do not match", Toast.LENGTH_SHORT).show()
             }
-        /*}else{
+        }else{
             Toast.makeText(requireActivity(), "Password too weak", Toast.LENGTH_SHORT).show()
             Toast.makeText(
                 requireActivity(),
                 "Password requires 8 characters or more, at least 1 number, and at least 1 capital letter",
                 Toast.LENGTH_SHORT
             ).show()
-        }*/
+        }
     }
     fun isValidPassword(password: String): Boolean {
         if(password.length <= 8){
