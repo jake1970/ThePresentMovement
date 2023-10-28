@@ -98,17 +98,17 @@ class all_projects : Fragment() {
         }
 
         binding.tvStartDate.doAfterTextChanged { char ->
-            filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+            filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity(), false)
         }
 
         binding.tvEndDate.doAfterTextChanged { char ->
-            filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+            filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity(), false)
         }
 
 
         binding.etSearch.addTextChangedListener { charSequence ->
 
-            filterManager.LoadProjects(charSequence.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+            filterManager.LoadProjects(charSequence.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity(), false)
         }
 
         // Inflate the layout for this fragment
@@ -117,7 +117,7 @@ class all_projects : Fragment() {
 
     private fun UpdateUI()
     {
-        filterManager.LoadProjects("", binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+        filterManager.LoadProjects("", binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity(), false)
 
         requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
     }

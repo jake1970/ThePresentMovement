@@ -38,10 +38,6 @@ import java.util.*
 
 
 
-  //  lateinit var currentActivity: FragmentActivity
-    //lateinit var imageContainer: ImageView
-
-
     //----------------------------------------------------------------------------------------------------
     companion object {
         private const val CAMERA_PERMISSION_CODE = 100
