@@ -45,7 +45,7 @@ class register_user : Fragment() {
                 if (component is EditText && component.text.isNullOrEmpty())
                 {
                     //set the components error text
-                    component.error = "Missing"
+                    component.error = getString(R.string.missingText)
 
                     //set the filled status to false
                     allFilled = false
