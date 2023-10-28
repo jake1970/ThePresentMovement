@@ -128,8 +128,13 @@ class expanded_contact : Fragment() {
                     CompanyName = binding.tfCompanyName.text.toString(),
                     LinkedIn = binding.tfLinkedIn.text.toString(),
                     Website = binding.tfWebsite.text.toString(),
-                    HasImage = true
+                    HasImage = GlobalClass.currentUser.HasImage
                 )
+
+                if (GlobalClass.currentUser.HasImage == false && cameraManager.getModifiedImageStatus() == true)
+                {
+                    givenUserData.HasImage = true
+                }
 
                 if (!givenUserData.equals(GlobalClass.currentUser) || cameraManager.getModifiedImageStatus() == true) {
 
