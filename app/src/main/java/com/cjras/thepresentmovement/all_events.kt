@@ -24,6 +24,7 @@ class all_events : Fragment() {
     private var _binding: FragmentAllEventsBinding? = null
     private val binding get() = _binding!!
     private val scrollViewUtils = ScrollViewTools()
+    private val filterManager = FilterListFunctions()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,17 +92,17 @@ class all_events : Fragment() {
         }
 
         binding.tvStartDate.doAfterTextChanged { char ->
-            LoadEvents(binding.etSearch.text.toString(), binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+            filterManager.LoadEvents(binding.etSearch.text.toString(), binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
         }
 
         binding.tvEndDate.doAfterTextChanged { char ->
-            LoadEvents(binding.etSearch.text.toString(), binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+            filterManager.LoadEvents(binding.etSearch.text.toString(), binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
         }
 
 
         binding.etSearch.addTextChangedListener { charSequence ->
 
-            LoadEvents(charSequence.toString(), binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+            filterManager.LoadEvents(charSequence.toString(), binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
         }
 
 
@@ -112,12 +113,13 @@ class all_events : Fragment() {
     private fun UpdateUI()
     {
 
-        LoadEvents("", binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+        filterManager.LoadEvents("", binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
 
         requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
     }
 
+    /*
     private fun LoadEvents(searchTerm: String, displayLayout: LinearLayout, startDate: String, endDate: String)
     {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
@@ -169,6 +171,6 @@ class all_events : Fragment() {
             }
         }
     }
-
+     */
 
 }

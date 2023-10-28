@@ -1,9 +1,19 @@
 package com.cjras.thepresentmovement
 
+import android.app.Activity
 import android.content.Context
+import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -11,7 +21,83 @@ class FilterListFunctions {
 
     private val scrollViewUtils = ScrollViewTools()
 
+     fun populateMemberTypes(spinner: Spinner, context: Context) {
+        val memberTypeOptions: ArrayList<String> =
+            GlobalClass.MemberTypes.distinct().map { it.MemberType }.toCollection(ArrayList())
+        memberTypeOptions.add(0, "All")
 
+        val adapter =
+            ArrayAdapter(context, android.R.layout.simple_spinner_item, memberTypeOptions)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+
+    }
+    fun invokeExpandedContactsView(userID : String, context: Fragment)
+    {
+        //create local fragment controller
+        val fragmentControl = FragmentManager()
+
+        val expandedContactView = expanded_contact()
+        val args = Bundle()
+
+        args.putString("selectedUserID", userID)
+
+        expandedContactView.arguments = args
+
+        fragmentControl.replaceFragment(
+            expandedContactView,
+            R.id.flContent,
+            context.parentFragmentManager
+        )
+    }
+    fun loadContacts(searchTerm: String, memberTypeFilter: String, displayLayout: LinearLayout, context: Fragment)
+    {
+        displayLayout.removeAllViews()
+        val scrollViewUtils = ScrollViewTools()
+
+
+        for (user in GlobalClass.Users) {
+
+            if (user != GlobalClass.currentUser) {
+
+                if (user.getFullName().lowercase().contains(searchTerm.lowercase()) || searchTerm == "") {
+
+
+                    val currentMemberTypeString = MemberTypeDataClass().getSingleMemberType(user.MemberTypeID)
+
+                    // Toast.makeText(requireContext(), currentMemberTypeString, Toast.LENGTH_SHORT).show() //88888888888888888888888888888888888888888888888888888
+
+                    if ( currentMemberTypeString == memberTypeFilter || memberTypeFilter == "All") {
+
+                        //  Toast.makeText(requireContext(), currentMemberTypeString+ "1", Toast.LENGTH_SHORT).show() //88888888888888888888888888888888888888888888888888888
+
+                        var newContact = contact_card(context.requireActivity())
+
+                        newContact.binding.tvContactName.text =
+                            user.getFullName()
+
+
+                        var memberType =
+                            MemberTypeDataClass().getSingleMemberType(user.MemberTypeID)
+                        newContact.binding.tvContactRole.text = memberType
+
+
+                        newContact.setOnClickListener()
+                        {
+
+                            invokeExpandedContactsView(user.UserID, context)
+                        }
+                        //add the new view
+                        displayLayout.addView(newContact)
+
+                        //add space between custom cards
+                        scrollViewUtils.generateSpacer(displayLayout, context.requireActivity(), 14)
+
+                    }
+                }
+            }
+        }
+    }
 
     fun LoadAnnouncements(searchTerm: String, displayLayout: LinearLayout, startDate: String, endDate: String, context: FragmentActivity)
     {
@@ -58,6 +144,7 @@ class FilterListFunctions {
                                     .setIcon((R.drawable.notification_bell))
                                     .setNeutralButton(context.getString(R.string.okText)) { dialog, which ->
                                         // Respond to neutral button press
+
                                     }
 
                             fullNotice.show()
@@ -65,6 +152,111 @@ class FilterListFunctions {
 
                         //add the new view
                         displayLayout.addView(newAnnouncement)
+
+                        //add space between custom cards
+                        scrollViewUtils.generateSpacer(displayLayout, context, 14)
+
+                    }
+                }
+            }
+        }
+    }
+
+    fun LoadProjects(searchTerm: String, displayLayout: LinearLayout, startDate: String, endDate: String, context: FragmentActivity)
+    {
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
+        var databaseManager = DatabaseManager()
+        // val scrollViewUtils = ScrollViewTools()
+
+
+        displayLayout.removeAllViews()
+
+
+        for (project in GlobalClass.Projects) {
+            if (project.ProjectTitle.lowercase().contains(searchTerm.lowercase()) || project.ProjectCompanyName.lowercase().contains(searchTerm.lowercase()) || searchTerm == "") {
+
+                var startDateFormatted : LocalDate? = null
+                var endDateFormatted : LocalDate? = null
+
+                if (startDate != context.getString(R.string.blankDate)) {
+                    startDateFormatted = LocalDate.parse(startDate, formatter)
+                }
+
+                if (endDate != context.getString(R.string.blankDate)) {
+                    endDateFormatted = LocalDate.parse(endDate, formatter)
+                }
+
+                if (startDate == context.getString(R.string.blankDate) || (startDateFormatted != null && (project.ProjectDate.isAfter(startDateFormatted!!)  || project.ProjectDate.isEqual(startDateFormatted!!)))) {
+
+                    if (endDate == context.getString(R.string.blankDate) || (endDateFormatted != null && (project.ProjectDate.isBefore(endDateFormatted!!) || project.ProjectDate.isEqual(endDateFormatted!!)))) {
+
+
+                        val newProjectCard = home_feed_card(context)
+
+                        newProjectCard.binding.tvEntryTitle.text = project.ProjectTitle
+                        newProjectCard.binding.tvEntryText.text = project.ProjectCompanyName //project company name instead of uppcoming project header
+                        newProjectCard.binding.tvEntryDate.text = project.ProjectDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
+                        newProjectCard.binding.ivEntryIcon.setImageBitmap(databaseManager.getProjectDefaultImage(context))
+
+                        newProjectCard.setOnClickListener()
+                        {
+                            //open project full view
+                        }
+
+                        //add the new view
+                        displayLayout.addView(newProjectCard)
+
+                        //add space between custom cards
+                        scrollViewUtils.generateSpacer(displayLayout, context, 14)
+
+                    }
+                }
+            }
+        }
+    }
+
+
+    fun LoadEvents(searchTerm: String, displayLayout: LinearLayout, startDate: String, endDate: String, context: FragmentActivity)
+    {
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
+        var databaseManager = DatabaseManager()
+
+        displayLayout.removeAllViews()
+
+
+        for (event in GlobalClass.Events) {
+            if (event.EventTitle.lowercase().contains(searchTerm.lowercase()) || event.EventLink.lowercase().contains(searchTerm.lowercase()) || searchTerm == "") {
+
+                var startDateFormatted : LocalDate? = null
+                var endDateFormatted : LocalDate? = null
+
+                if (startDate != context.getString(R.string.blankDate)) {
+                    startDateFormatted = LocalDate.parse(startDate, formatter)
+                }
+
+                if (endDate != context.getString(R.string.blankDate)) {
+                    endDateFormatted = LocalDate.parse(endDate, formatter)
+                }
+
+                if (startDate == context.getString(R.string.blankDate) || (startDateFormatted != null && (event.EventDate.isAfter(startDateFormatted!!)  || event.EventDate.isEqual(startDateFormatted!!)))) {
+
+                    if (endDate == context.getString(R.string.blankDate) || (endDateFormatted != null && (event.EventDate.isBefore(endDateFormatted!!) || event.EventDate.isEqual(endDateFormatted!!)))) {
+
+
+                        val newEventCard = home_feed_card(context)
+
+                        newEventCard.binding.tvEntryTitle.text = event.EventTitle
+                        newEventCard.binding.tvEntryText.text = event.EventLink
+                        newEventCard.binding.tvEntryDate.text = event.EventDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
+                        newEventCard.binding.ivEntryIcon.setImageBitmap(databaseManager.getEventDefaultImage(context))
+
+                        newEventCard.setOnClickListener()
+                        {
+                            //open event full view
+                        }
+
+                        //add the new view
+                        displayLayout.addView(newEventCard)
 
                         //add space between custom cards
                         scrollViewUtils.generateSpacer(displayLayout, context, 14)

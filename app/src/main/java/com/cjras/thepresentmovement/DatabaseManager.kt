@@ -319,6 +319,11 @@ class DatabaseManager {
         ).await()
     }
 
+    //remove an announcement
+    suspend fun deleteAnnouncementFromFirestore(ID: String) {
+        val announcementRef = db.collection("Announcements").document(ID)
+        announcementRef.delete().await()
+    }
 
     suspend fun getUserImage(context: Context, userID : String, userHasImage: Boolean) : Bitmap?
     {

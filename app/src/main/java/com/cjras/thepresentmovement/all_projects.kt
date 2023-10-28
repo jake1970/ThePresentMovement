@@ -28,6 +28,7 @@ class all_projects : Fragment() {
     private var _binding: FragmentAllProjectsBinding? = null
     private val binding get() = _binding!!
     private val scrollViewUtils = ScrollViewTools()
+    private val filterManager = FilterListFunctions()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -93,17 +94,17 @@ class all_projects : Fragment() {
         }
 
         binding.tvStartDate.doAfterTextChanged { char ->
-            LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+            filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
         }
 
         binding.tvEndDate.doAfterTextChanged { char ->
-            LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+            filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
         }
 
 
         binding.etSearch.addTextChangedListener { charSequence ->
 
-            LoadProjects(charSequence.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+            filterManager.LoadProjects(charSequence.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
         }
 
         // Inflate the layout for this fragment
@@ -112,14 +113,14 @@ class all_projects : Fragment() {
 
     private fun UpdateUI()
     {
-        LoadProjects("", binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString())
+        filterManager.LoadProjects("", binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
 
         requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
     }
 
 
 
-
+/*
     private fun LoadProjects(searchTerm: String, displayLayout: LinearLayout, startDate: String, endDate: String)
     {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
@@ -172,4 +173,6 @@ class all_projects : Fragment() {
             }
         }
     }
+
+ */
 }

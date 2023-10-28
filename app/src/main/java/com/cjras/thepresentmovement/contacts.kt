@@ -18,6 +18,8 @@ class contacts : Fragment() {
     private var _binding: FragmentContactsBinding? = null
     private val binding get() = _binding!!
 
+    private val filterManager = FilterListFunctions()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,7 +63,7 @@ class contacts : Fragment() {
 
         binding.etSearch.addTextChangedListener { charSequence ->
 
-            loadContacts(charSequence.toString(), binding.spnMemberTypes.selectedItem.toString(), binding.llContactsList)
+            filterManager.loadContacts(charSequence.toString(), binding.spnMemberTypes.selectedItem.toString(), binding.llContactsList, this)
         }
 
         binding.ivRefresh.setOnClickListener()
@@ -85,7 +87,7 @@ class contacts : Fragment() {
         return view
     }
 
-
+/*
     private fun populateMemberTypes() {
         val memberTypeOptions: ArrayList<String> =
             GlobalClass.MemberTypes.distinct().map { it.MemberType }.toCollection(ArrayList())
@@ -101,9 +103,11 @@ class contacts : Fragment() {
 
     }
 
+ */
 
 
 
+/*
     private fun invokeExpandedContactsView(userID : String)
     {
         //create local fragment controller
@@ -172,13 +176,14 @@ class contacts : Fragment() {
             }
         }
     }
+ */
 
 
     fun UpdateUI() {
 
         try {
 
-            populateMemberTypes()
+            filterManager.populateMemberTypes(binding.spnMemberTypes, requireActivity())
 
 //fix for spinner not showing text in correct color
             binding.spnMemberTypes.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
@@ -194,12 +199,12 @@ class contacts : Fragment() {
                     val selectedText = binding.spnMemberTypes.selectedItem.toString()
                     if (selectedText == "All")
                     {
-                        loadContacts(binding.etSearch.text.toString(), "All", binding.llContactsList)
+                        filterManager.loadContacts(binding.etSearch.text.toString(), "All", binding.llContactsList, this@contacts)
                     }
                     else
                     {
                         //call method to filter list
-                        loadContacts(binding.etSearch.text.toString(), selectedText, binding.llContactsList)
+                        filterManager.loadContacts(binding.etSearch.text.toString(), selectedText, binding.llContactsList, this@contacts)
                     }
 
                 }
@@ -210,7 +215,7 @@ class contacts : Fragment() {
 
             binding.llMyProfileCard.setOnClickListener()
             {
-                invokeExpandedContactsView(GlobalClass.currentUser.UserID)
+                filterManager.invokeExpandedContactsView(GlobalClass.currentUser.UserID, this)
             }
 
 
@@ -223,7 +228,7 @@ class contacts : Fragment() {
                 binding.ivMyProfileImage.setImageBitmap(GlobalClass.currentUserImage)
             }
 
-            loadContacts("",  "All", binding.llContactsList)
+            filterManager.loadContacts("",  "All", binding.llContactsList, this)
             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
         }
