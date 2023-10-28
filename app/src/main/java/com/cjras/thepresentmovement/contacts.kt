@@ -101,6 +101,7 @@ class contacts : Fragment() {
 
             filterManager.populateMemberTypes(binding.spnMemberTypes, requireActivity())
 
+
             // Set an OnItemSelectedListener to handle item selection
             binding.spnMemberTypes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -122,6 +123,7 @@ class contacts : Fragment() {
                     // Handle the case where nothing is selected
                 }
             }
+
 
 
             binding.etSearch.addTextChangedListener { charSequence ->

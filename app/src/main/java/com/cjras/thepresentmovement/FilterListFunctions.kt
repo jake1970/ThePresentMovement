@@ -52,40 +52,6 @@ class FilterListFunctions {
         )
     }
 
-    private fun showAdminOptionMenu(viewFunc: () -> Unit, editFunc: () -> Unit, deleteFunc: () -> Unit, context: Context)
-    {
-        //new dialog
-        val builder = AlertDialog.Builder(context)
-
-        //set the dialog title
-        builder.setTitle(R.string.adminMenuTitleText)
-
-        //set the source options for the dialog
-        builder.setItems(R.array.adminItemFunctions) { dialog, selectedItem ->
-
-            when (selectedItem)
-            {
-                0 -> {
-                    //view
-                    viewFunc()
-                }
-                1 -> {
-                    //edit
-                    editFunc()
-                }
-                2 -> {
-                    //delete
-                    deleteFunc()
-                }
-
-            }
-
-        }
-
-        //show the dialog
-        builder.show()
-    }
-
 
 
     fun loadContacts(searchTerm: String, memberTypeFilter: String, displayLayout: LinearLayout, context: Fragment, adminView: Boolean)
@@ -153,8 +119,9 @@ class FilterListFunctions {
                                             val currentUserDocumentIndex = GlobalClass.documents.allUserIDs[currentUserIndex]
 
                                             var databaseExtension = DatabaseExtensionFunctions()
-                                            databaseExtension.deleteUserConfirmation(currentUserDocumentIndex, context.requireActivity())
-                                            displayLayout.removeView(newContact)
+
+                                            databaseExtension.deleteUserConfirmation(currentUserDocumentIndex, context)
+
                                         }
 
                                     }
@@ -246,7 +213,40 @@ class FilterListFunctions {
         }
     }
 
-    fun LoadProjects(searchTerm: String, displayLayout: LinearLayout, startDate: String, endDate: String, context: FragmentActivity)
+    private fun showAdminOptionMenu(viewFunc: () -> Unit, editFunc: () -> Unit, deleteFunc: () -> Unit, context: Context)
+    {
+        //new dialog
+        val builder = AlertDialog.Builder(context)
+
+        //set the dialog title
+        builder.setTitle(R.string.adminMenuTitleText)
+
+        //set the source options for the dialog
+        builder.setItems(R.array.adminItemFunctions) { dialog, selectedItem ->
+
+            when (selectedItem)
+            {
+                0 -> {
+                    //view
+                    viewFunc()
+                }
+                1 -> {
+                    //edit
+                    editFunc()
+                }
+                2 -> {
+                    //delete
+                    deleteFunc()
+                }
+
+            }
+
+        }
+
+        //show the dialog
+        builder.show()
+    }
+    fun LoadProjects(searchTerm: String, displayLayout: LinearLayout, startDate: String, endDate: String, context: FragmentActivity, adminView: Boolean)
     {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
         var databaseManager = DatabaseManager()
@@ -284,7 +284,17 @@ class FilterListFunctions {
 
                         newProjectCard.setOnClickListener()
                         {
-                            //open project full view
+
+
+                            if (adminView == false)
+                            {
+                                //open project full view
+                            }
+                            else
+                            {
+
+                            }
+
                         }
 
                         //add the new view

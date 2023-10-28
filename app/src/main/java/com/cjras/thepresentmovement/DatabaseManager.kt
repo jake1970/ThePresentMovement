@@ -322,9 +322,16 @@ class DatabaseManager {
 
     //remove a user
     suspend fun deleteUserFromFirestore(ID: String) {
-        val announcementRef = db.collection("Users").document(ID)
-        announcementRef.delete().await()
+        val userRef = db.collection("Users").document(ID)
+        userRef.delete().await()
     }
+
+    //remove a project
+    suspend fun deleteProjectFromFirestore(ID: String) {
+        val projectRef = db.collection("Projects").document(ID)
+        projectRef.delete().await()
+    }
+
 
     //remove an announcement
     suspend fun deleteAnnouncementFromFirestore(ID: String) {

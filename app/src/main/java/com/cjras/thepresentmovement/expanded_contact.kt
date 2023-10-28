@@ -206,11 +206,14 @@ class expanded_contact : Fragment() {
 
         binding.ivBackArrow.setOnClickListener()
         {
+            fragmentManager?.popBackStackImmediate()
+            /*
             //create local fragment controller
             val fragmentControl = FragmentManager()
 
             //go back the the general contacts page
             fragmentControl.replaceFragment(contacts(), R.id.flContent, parentFragmentManager)
+             */
 
         }
 

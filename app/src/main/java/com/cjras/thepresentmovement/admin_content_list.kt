@@ -63,13 +63,16 @@ class admin_content_list : Fragment() {
             )
         }
 
-        binding.ivBackArrow.setOnClickListener()
+        binding.llHeader.setOnClickListener()
         {
+            fragmentManager?.popBackStackImmediate()
+            /*
             //create local fragment controller
             val fragmentControl = FragmentManager()
 
             //go back the the general contacts page
             fragmentControl.replaceFragment(admin(), R.id.flContent, parentFragmentManager)
+             */
 
         }
 
@@ -126,15 +129,13 @@ class admin_content_list : Fragment() {
                 }
                 getString(R.string.projectsText) -> {
                     //load projects text
-                    filterManager.LoadProjects(charSequence.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+                    filterManager.LoadProjects(charSequence.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity(), true)
                 }
             }
         }
 
 
-        binding.etSearchContacts.addTextChangedListener { charSequence ->
-            filterManager.loadContacts(charSequence.toString(), binding.spnMemberTypes.selectedItem.toString(), binding.llListContent, this, true)
-        }
+
 
 
 
@@ -199,6 +200,7 @@ class admin_content_list : Fragment() {
 
                     filterManager.populateMemberTypes(binding.spnMemberTypes, requireActivity())
 
+
                     // Set an OnItemSelectedListener to handle item selection
                     binding.spnMemberTypes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -220,6 +222,11 @@ class admin_content_list : Fragment() {
                             // Handle the case where nothing is selected
                         }
                     }
+
+                    binding.etSearchContacts.addTextChangedListener { charSequence ->
+                        filterManager.loadContacts(charSequence.toString(), binding.spnMemberTypes.selectedItem.toString(), binding.llListContent, this, true)
+                    }
+
                 }
                 getString(R.string.eventsText) -> {
                     //load events/text
@@ -227,7 +234,7 @@ class admin_content_list : Fragment() {
                 }
                 getString(R.string.projectsText) -> {
                     //load projects text
-                    filterManager.LoadProjects("", binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+                    filterManager.LoadProjects("", binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity(), true)
                 }
             }
 
@@ -253,7 +260,7 @@ class admin_content_list : Fragment() {
             }
             getString(R.string.projectsText) -> {
                 //load projects text
-                filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+                filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity(), true)
             }
         }
     }
