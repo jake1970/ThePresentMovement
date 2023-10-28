@@ -66,11 +66,15 @@ class all_projects : Fragment() {
 
         binding.llHeader.setOnClickListener()
         {
+            fragmentManager?.popBackStackImmediate()
+            /*
             //create local fragment controller
             val fragmentControl = FragmentManager()
 
             //go back the the general contacts page
             fragmentControl.replaceFragment(home(), R.id.flContent, parentFragmentManager)
+
+             */
 
         }
 

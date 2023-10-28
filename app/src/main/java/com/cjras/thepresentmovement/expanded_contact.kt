@@ -47,18 +47,9 @@ class expanded_contact : Fragment() {
 
     private var selectedUserID: String? = ""
 
-
     private lateinit var cameraManager: CameraHandler
 
-/*
-    //----------------------------------------------------------------------------------------------------
-    companion object {
-        private const val CAMERA_PERMISSION_CODE = 100
-        private const val CAMERA_REQUEST_CODE = 200
-        private const val PICK_FROM_GALLERY = 1
-    }
-    //----------------------------------------------------------------------------------------------------
- */
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -215,11 +206,14 @@ class expanded_contact : Fragment() {
 
         binding.ivBackArrow.setOnClickListener()
         {
+            fragmentManager?.popBackStackImmediate()
+            /*
             //create local fragment controller
             val fragmentControl = FragmentManager()
 
             //go back the the general contacts page
             fragmentControl.replaceFragment(contacts(), R.id.flContent, parentFragmentManager)
+             */
 
         }
 
@@ -231,6 +225,7 @@ class expanded_contact : Fragment() {
     suspend fun UpdateUI() {
 
         try {
+
 
 
             if (!selectedUserID.isNullOrEmpty()) {

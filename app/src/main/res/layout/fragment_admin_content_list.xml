@@ -76,13 +76,13 @@
     </RelativeLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/llExpansionMenu"
             android:layout_below="@id/rlHeader"
             android:layout_marginTop="26dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="12dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -104,6 +104,24 @@
                 app:tint="@color/white" />
 
         </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/addText"
+            android:background="@drawable/palette_12"
+            android:backgroundTint="@color/sub_grey"
+            android:paddingVertical="3dp"
+            android:paddingHorizontal="10dp"
+            android:id="@+id/tvAddContent"
+            android:textColor="@color/white"
+            android:layout_below="@id/rlHeader"
+            android:layout_marginTop="26dp"
+            android:textSize="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            />
 
 
         <LinearLayout
