@@ -91,7 +91,7 @@ class register_user : Fragment() {
                     }else{
                         Toast.makeText(
                             requireActivity(),
-                            it.exception.toString(),
+                            it.exception?.localizedMessage.toString(),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -127,8 +127,7 @@ class register_user : Fragment() {
             }
 
         }
-
-        return true
+        return hasLower && hasUpper && hasNumber
     }
 
 
