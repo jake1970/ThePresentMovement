@@ -38,8 +38,7 @@ class contacts : Fragment() {
             MainScope().launch {
                 if (GlobalClass.UpdateDataBase == true) {
 
-                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
-                        View.VISIBLE
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
 
                     withContext(Dispatchers.Default) {
 
@@ -55,7 +54,7 @@ class contacts : Fragment() {
         } catch (e: Error) {
             GlobalClass.InformUser(
                 getString(R.string.errorText),
-                "${e.toString()}",
+                "${e}",
                 requireContext()
             )
         }
@@ -63,12 +62,35 @@ class contacts : Fragment() {
 
         binding.etSearch.addTextChangedListener { charSequence ->
 
-            filterManager.loadContacts(charSequence.toString(), binding.spnMemberTypes.selectedItem.toString(), binding.llContactsList, this)
+            var currentText = ""
+
+            try
+            {
+                charSequence.toString()
+            }
+            catch (e: Error)
+            {
+                currentText = ""
+            }
+
+
+            //filterManager.loadContacts(currentText, binding.spnMemberTypes.selectedItem.toString(), binding.llContactsList, this)
+            filterManager.loadContacts(currentText, "All", binding.llContactsList, this)
+
         }
 
         binding.ivRefresh.setOnClickListener()
         {
-            GlobalClass.RefreshFragment(this)
+            try {
+                GlobalClass.RefreshFragment(this@contacts)
+                }
+                catch (e: Error) {
+                    GlobalClass.InformUser(
+                        getString(R.string.errorText),
+                        "${e}",
+                        requireContext()
+                    )
+                }
         }
 
         binding.llExpansionMenu.setOnClickListener()

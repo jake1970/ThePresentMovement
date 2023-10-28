@@ -77,7 +77,7 @@ class home : Fragment() {
                     UpdateUI()
 
                     //hide admin menu
-                    if (GlobalClass.currentUser.MemberTypeID != 2)
+                    if (GlobalClass.currentUser.MemberTypeID != 2 && GlobalClass.currentUser.MemberTypeID != 3)
                     {
                         requireActivity().findViewById<BottomNavigationView>(R.id.bnvHomeNavigation).menu.removeItem(R.id.iAdmin)
                     }
