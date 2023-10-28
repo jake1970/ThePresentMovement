@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -50,6 +51,9 @@ class DatabaseExtensionFunctions {
                     withContext(Dispatchers.Default) {
                         var databaseManager = DatabaseManager()
                         databaseManager.deleteProjectFromFirestore(projectDocumentIndex)
+
+                        //val firebaseAuth = FirebaseAuth.getInstance()
+                       // firebaseAuth
                     }
 
                     GlobalClass.RefreshFragment(context)
