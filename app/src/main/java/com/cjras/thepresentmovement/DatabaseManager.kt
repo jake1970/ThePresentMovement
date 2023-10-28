@@ -236,7 +236,7 @@ class DatabaseManager {
 
 
             val tempUserProject = UserProjectDataClass(
-                UserProjectID = newProjectID,
+                UserProjectID = newUserProjectID,
                 UserID = newUserID,
                 ProjectID  = newProjectID,
             )

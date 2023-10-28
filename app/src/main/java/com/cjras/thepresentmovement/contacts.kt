@@ -60,24 +60,6 @@ class contacts : Fragment() {
         }
 
 
-        binding.etSearch.addTextChangedListener { charSequence ->
-
-            var currentText = ""
-
-            try
-            {
-                charSequence.toString()
-            }
-            catch (e: Error)
-            {
-                currentText = ""
-            }
-
-
-            //filterManager.loadContacts(currentText, binding.spnMemberTypes.selectedItem.toString(), binding.llContactsList, this)
-            filterManager.loadContacts(currentText, "All", binding.llContactsList, this)
-
-        }
 
         binding.ivRefresh.setOnClickListener()
         {
@@ -102,12 +84,29 @@ class contacts : Fragment() {
 
         }
 
+/*
+        // Set an OnItemSelectedListener to handle item selection
+        binding.spnMemberTypes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
+                (view as TextView).setTextColor(Color.BLACK) //Change selected text color
+
+               // val selectedText = binding.spnMemberTypes.selectedItem.toString()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Handle the case where nothing is selected
+            }
+        }
+
+ */
 
 
         // Inflate the layout for this fragment
         return view
     }
+
+
 
 /*
     private fun populateMemberTypes() {
@@ -205,9 +204,10 @@ class contacts : Fragment() {
 
         try {
 
+            /*
             filterManager.populateMemberTypes(binding.spnMemberTypes, requireActivity())
 
-//fix for spinner not showing text in correct color
+            //fix for spinner not showing text in correct color
             binding.spnMemberTypes.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
@@ -215,10 +215,11 @@ class contacts : Fragment() {
                     position: Int,
                     id: Long
                 ) {
-                    (view as TextView).setTextColor(Color.BLACK) //Change selected text color
+                    //(view as TextView).setTextColor(Color.BLACK) //Change selected text color
 
-
+/*
                     val selectedText = binding.spnMemberTypes.selectedItem.toString()
+
                     if (selectedText == "All")
                     {
                         filterManager.loadContacts(binding.etSearch.text.toString(), "All", binding.llContactsList, this@contacts)
@@ -229,10 +230,46 @@ class contacts : Fragment() {
                         filterManager.loadContacts(binding.etSearch.text.toString(), selectedText, binding.llContactsList, this@contacts)
                     }
 
+ */
+
+
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             })
+
+             */
+
+            // Sample list of options
+            val options = listOf("Option 1", "Option 2", "Option 3", "Option 4")
+
+            // Create an ArrayAdapter and set it to the Spinner
+            val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, options)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spnMemberTypes.adapter = adapter
+
+            // Set an OnItemSelectedListener to handle item selection
+            binding.spnMemberTypes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    //(view as TextView).setTextColor(Color.BLACK) //Change selected text color
+                    // Do something with the selected item, e.g., show a toast
+
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // Handle the case where nothing is selected
+                }
+            }
+
+
+
+
+
+            binding.etSearch.addTextChangedListener { charSequence ->
+
+                //filterManager.loadContacts(charSequence.toString(), binding.spnMemberTypes.selectedItem.toString(), binding.llContactsList, this)
+                filterManager.loadContacts(charSequence.toString(), "All", binding.llContactsList, this)
+            }
 
 
             binding.llMyProfileCard.setOnClickListener()
