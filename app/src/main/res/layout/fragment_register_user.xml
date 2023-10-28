@@ -6,6 +6,69 @@
     tools:context=".register_user">
 
     <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:id="@+id/rlContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal">
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Name" />
+
+        <EditText
+            android:id="@+id/etSurname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Surname"
+            android:layout_below="@id/etName"
+            android:layout_marginTop="15dp"/>
+
+        <EditText
+            android:id="@+id/etRegEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:layout_below="@id/etSurname"
+            android:layout_marginTop="15dp"
+            android:hint="Email"/>
+
+        <EditText
+            android:id="@+id/pwPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:layout_below="@id/etRegEmail"
+            android:layout_marginTop="15dp"
+            android:hint="Password"/>
+
+        <EditText
+            android:id="@+id/pwConfirmPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:layout_below="@id/pwPassword"
+            android:layout_marginTop="15dp"
+            android:hint="Confirm Password"/>
+
+        <Button
+            android:id="@+id/btnRegUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:layout_below="@id/pwConfirmPassword"
+            android:layout_marginTop="15dp"/>
+
+    </RelativeLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
