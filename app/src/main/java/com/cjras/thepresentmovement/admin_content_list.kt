@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import com.cjras.thepresentmovement.databinding.FragmentAdminBinding
 import com.cjras.thepresentmovement.databinding.FragmentAdminContentListBinding
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +26,7 @@ class admin_content_list : Fragment() {
 
     private var selectedFunction: String? = ""
     private val filterManager = FilterListFunctions()
+    private val scrollViewUtils = ScrollViewTools()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,10 +92,49 @@ class admin_content_list : Fragment() {
                 animationManager.rotatingArrowMenu(binding.llExpansionContent, binding.ivExpandArrow)
             }
 
+        }
 
+
+        binding.tvStartDate.setOnClickListener(){
+            scrollViewUtils.datePicker(this, true, binding.tvStartDate)
+        }
+
+        binding.tvEndDate.setOnClickListener(){
+            scrollViewUtils.datePicker(this, false, binding.tvEndDate)
 
         }
 
+        binding.tvStartDate.doAfterTextChanged { char ->
+           DateChanged()
+        }
+
+        binding.tvEndDate.doAfterTextChanged { char ->
+           DateChanged()
+        }
+
+
+        binding.etSearch.addTextChangedListener { charSequence ->
+            when(selectedFunction)
+            {
+                getString(R.string.announcementsText) -> {
+                    //load announcement list
+                    filterManager.LoadAnnouncements(charSequence.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(),  requireActivity())
+                }
+                getString(R.string.eventsText) -> {
+                    //load events/text
+                    filterManager.LoadEvents(charSequence.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+                }
+                getString(R.string.projectsText) -> {
+                    //load projects text
+                    filterManager.LoadProjects(charSequence.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+                }
+            }
+        }
+
+
+        binding.etSearchContacts.addTextChangedListener { charSequence ->
+            filterManager.loadContacts(charSequence.toString(), binding.spnMemberTypes.selectedItem.toString(), binding.llListContent, this)
+        }
 
         //-----------------------------------------------------------------------------------------------------------------------------------
         //test nav code for adam create user
@@ -129,6 +171,9 @@ class admin_content_list : Fragment() {
                 }
                 getString(R.string.accountsText) -> {
                    //load accounts/contacts list
+
+                    filterManager.populateMemberTypes(binding.spnMemberTypes, requireActivity())
+
                     filterManager.loadContacts("",  "All", binding.llListContent, this)
 
                     binding.spnMemberTypes.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
@@ -175,22 +220,41 @@ class admin_content_list : Fragment() {
         }
     }
 
+    private fun DateChanged()
+    {
+        when(selectedFunction)
+        {
+            getString(R.string.announcementsText) -> {
+                //load announcement list
+                filterManager.LoadAnnouncements(binding.etSearch.text.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(),  requireActivity())
+            }
+            getString(R.string.eventsText) -> {
+                //load events/text
+                filterManager.LoadEvents(binding.etSearch.text.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+            }
+            getString(R.string.projectsText) -> {
+                //load projects text
+                filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+            }
+        }
+    }
+
 /*
 code to delete an annoucement
- //8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-                                        val currentAnnouncementIndex =
-                                            GlobalClass.Announcements.indexOf(announcement)
-                                        val currentAnnouncementDocumentIndex =
-                                            GlobalClass.documents.allAnnouncmentIds[currentAnnouncementIndex]
+      //8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+            val currentAnnouncementIndex =
+                GlobalClass.Announcements.indexOf(announcement)
+            val currentAnnouncementDocumentIndex =
+                GlobalClass.documents.allAnnouncmentIds[currentAnnouncementIndex]
 
-                                        MainScope().launch() {
-                                            withContext(Dispatchers.Default) {
-                                                var databaseManager = DatabaseManager()
-                                                databaseManager.deleteAnnouncementFromFirestore(currentAnnouncementDocumentIndex)
-                                            }
-                                            Toast.makeText(context, "Deleted ${announcement.AnnouncementTitle}", Toast.LENGTH_SHORT).show()
-                                        }
-                                        //8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+            MainScope().launch() {
+                withContext(Dispatchers.Default) {
+                    var databaseManager = DatabaseManager()
+                    databaseManager.deleteAnnouncementFromFirestore(currentAnnouncementDocumentIndex)
+                }
+                Toast.makeText(context, "Deleted ${announcement.AnnouncementTitle}", Toast.LENGTH_SHORT).show()
+            }
+       //8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
  */
 
 }
