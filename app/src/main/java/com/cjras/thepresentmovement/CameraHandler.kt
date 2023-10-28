@@ -64,16 +64,7 @@ import java.util.*
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
     //Camera Functions
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
-/*
-     selectedImageUri = Uri.parse(
-     ContentResolver.SCHEME_ANDROID_RESOURCE +
-     "://" + resources.getResourcePackageName(R.drawable.person_icon)
-     + '/' + resources.getResourceTypeName(R.drawable.person_icon) + '/' + resources.getResourceEntryName(
-     R.drawable.person_icon
-     )
-     )
 
- */
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
     //Method to handle selecting and starting an image source for the contact photo

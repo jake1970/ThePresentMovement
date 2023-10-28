@@ -320,6 +320,12 @@ class DatabaseManager {
         ).await()
     }
 
+    //remove a user
+    suspend fun deleteUserFromFirestore(ID: String) {
+        val announcementRef = db.collection("Users").document(ID)
+        announcementRef.delete().await()
+    }
+
     //remove an announcement
     suspend fun deleteAnnouncementFromFirestore(ID: String) {
         val announcementRef = db.collection("Announcements").document(ID)

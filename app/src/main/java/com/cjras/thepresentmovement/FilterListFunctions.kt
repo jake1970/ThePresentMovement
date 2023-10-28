@@ -1,6 +1,7 @@
 package com.cjras.thepresentmovement
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -26,8 +27,8 @@ class FilterListFunctions {
             GlobalClass.MemberTypes.distinct().map { it.MemberType }.toCollection(ArrayList())
         memberTypeOptions.add(0, "All")
 
-        val adapter =
-            ArrayAdapter(context, android.R.layout.simple_spinner_item, memberTypeOptions)
+        //val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, memberTypeOptions)
+         val adapter = ArrayAdapter(context, R.layout.spinner_layout, memberTypeOptions)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
@@ -50,7 +51,44 @@ class FilterListFunctions {
             context.parentFragmentManager
         )
     }
-    fun loadContacts(searchTerm: String, memberTypeFilter: String, displayLayout: LinearLayout, context: Fragment)
+
+    private fun showAdminOptionMenu(viewFunc: () -> Unit, editFunc: () -> Unit, deleteFunc: () -> Unit, context: Context)
+    {
+        //new dialog
+        val builder = AlertDialog.Builder(context)
+
+        //set the dialog title
+        builder.setTitle(R.string.adminMenuTitleText)
+
+        //set the source options for the dialog
+        builder.setItems(R.array.adminItemFunctions) { dialog, selectedItem ->
+
+            when (selectedItem)
+            {
+                0 -> {
+                    //view
+                    viewFunc()
+                }
+                1 -> {
+                    //edit
+                    editFunc()
+                }
+                2 -> {
+                    //delete
+                    deleteFunc()
+                }
+
+            }
+
+        }
+
+        //show the dialog
+        builder.show()
+    }
+
+
+
+    fun loadContacts(searchTerm: String, memberTypeFilter: String, displayLayout: LinearLayout, context: Fragment, adminView: Boolean)
     {
         displayLayout.removeAllViews()
         val scrollViewUtils = ScrollViewTools()
@@ -65,11 +103,10 @@ class FilterListFunctions {
 
                     val currentMemberTypeString = MemberTypeDataClass().getSingleMemberType(user.MemberTypeID)
 
-                    // Toast.makeText(requireContext(), currentMemberTypeString, Toast.LENGTH_SHORT).show() //88888888888888888888888888888888888888888888888888888
+
 
                     if ( currentMemberTypeString == memberTypeFilter || memberTypeFilter == "All") {
 
-                        //  Toast.makeText(requireContext(), currentMemberTypeString+ "1", Toast.LENGTH_SHORT).show() //88888888888888888888888888888888888888888888888888888
 
                         var newContact = contact_card(context.requireActivity())
 
@@ -85,7 +122,51 @@ class FilterListFunctions {
                         newContact.setOnClickListener()
                         {
 
-                            invokeExpandedContactsView(user.UserID, context)
+                            if (adminView == false)
+                            {
+                                invokeExpandedContactsView(user.UserID, context)
+                            }
+                            else {
+
+                                //new dialog
+                                val builder = AlertDialog.Builder(context.requireActivity())
+
+                                //set the dialog title
+                                builder.setTitle(R.string.adminMenuTitleText)
+
+                                var menuArray = context.resources.getStringArray(R.array.adminItemFunctions)
+                                menuArray = menuArray.filter { it != menuArray[1].toString() }.toTypedArray()
+
+                                //set the source options for the dialog
+                                builder.setItems(menuArray) { dialog, selectedItem ->
+
+                                    when (selectedItem)
+                                    {
+                                        0 -> {
+                                            //view
+                                            invokeExpandedContactsView(user.UserID, context)
+                                        }
+                                        1 -> {
+                                            //delete
+
+                                            val currentUserIndex = GlobalClass.Users.indexOf(user)
+                                            val currentUserDocumentIndex = GlobalClass.documents.allUserIDs[currentUserIndex]
+
+                                            var databaseExtension = DatabaseExtensionFunctions()
+                                            databaseExtension.deleteUserConfirmation(currentUserDocumentIndex, context.requireActivity())
+                                            displayLayout.removeView(newContact)
+                                        }
+
+                                    }
+
+                                }
+
+                                //show the dialog
+                                builder.show()
+
+                            }
+
+
                         }
                         //add the new view
                         displayLayout.addView(newContact)
@@ -98,6 +179,9 @@ class FilterListFunctions {
             }
         }
     }
+
+
+
 
     fun LoadAnnouncements(searchTerm: String, displayLayout: LinearLayout, startDate: String, endDate: String, context: FragmentActivity)
     {
