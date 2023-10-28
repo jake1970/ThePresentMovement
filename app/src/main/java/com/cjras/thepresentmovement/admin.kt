@@ -5,55 +5,117 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
+import com.cjras.thepresentmovement.databinding.FragmentAdminBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [admin.newInstance] factory method to
- * create an instance of this fragment.
- */
 class admin : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentAdminBinding? = null
+    private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        _binding = FragmentAdminBinding.inflate(inflater, container, false)
+        val view = binding.root
+
+
+        try {
+
+            //Read Data
+            MainScope().launch{
+
+                if (GlobalClass.UpdateDataBase == true) {
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+                    withContext(Dispatchers.Default) {
+
+                        var databaseManager = DatabaseManager()
+                        databaseManager.updateFromDatabase()
+                    }
+                }
+                requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+            }
+        }
+        catch (e: Error)
+        {
+            GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
+        }
+
+
+        binding.tvManageAccounts.setOnClickListener()
+        {
+            LaunchAdminContentList(getString(R.string.accountsText))
+        }
+
+        binding.tvManageEvents.setOnClickListener()
+        {
+            LaunchAdminContentList(getString(R.string.eventsText))
+        }
+
+        binding.tvManageProjects.setOnClickListener()
+        {
+            LaunchAdminContentList(getString(R.string.projectsText))
+        }
+
+        binding.tvManageAnnouncements.setOnClickListener()
+        {
+            LaunchAdminContentList(getString(R.string.announcementsText))
+        }
+
+        binding.ivRefresh.setOnClickListener()
+        {
+            GlobalClass.RefreshFragment(this)
+        }
+
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin, container, false)
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment admin.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            admin().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun LaunchAdminContentList(screenTitle: String)
+    {
+
+        when(screenTitle)
+        {
+            getString(R.string.announcementsText) -> {
+                val screenTitle = screenTitle
             }
+            getString(R.string.accountsText) -> {
+                val screenTitle = screenTitle
+            }
+            getString(R.string.eventsText) -> {
+                val screenTitle = screenTitle
+            }
+            getString(R.string.projectsText) -> {
+                val screenTitle = screenTitle
+            }
+            else -> {
+                val screenTitle = ""
+            }
+        }
+
+        //create local fragment controller
+        val fragmentControl = FragmentManager()
+
+        val adminContentList = admin_content_list()
+        val args = Bundle()
+
+        args.putString("selectedFunction", screenTitle)
+
+        adminContentList.arguments = args
+
+        fragmentControl.replaceFragment(adminContentList, R.id.flContent, parentFragmentManager)
+
     }
+
+
 }

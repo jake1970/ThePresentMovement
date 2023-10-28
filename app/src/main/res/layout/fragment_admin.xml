@@ -85,13 +85,15 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+
             <!-- First Pair -->
             <TextView
-                android:id="@+id/tvManageAnnounce"
+                android:id="@+id/tvManageAnnouncements"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="100dp"
-                android:background="@drawable/custom_rounded_edges"
+                android:background="@drawable/palette_12"
+                android:backgroundTint="@color/sub_grey"
                 android:gravity="bottom|left"
                 android:text="Manage Announcements"
                 android:textSize="18sp"
@@ -99,6 +101,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="10dp">
             </TextView>
+
 
             <TextView
                 android:id="@+id/tvManageAccounts"
@@ -116,6 +119,7 @@
             </TextView>
 
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

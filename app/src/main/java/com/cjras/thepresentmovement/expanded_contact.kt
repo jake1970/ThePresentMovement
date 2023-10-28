@@ -283,7 +283,7 @@ class expanded_contact : Fragment() {
 
             }
 
-            //loadingCover.visibility = View.GONE
+
             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
         } catch (e: Exception) {

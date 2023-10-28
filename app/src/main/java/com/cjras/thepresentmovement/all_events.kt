@@ -10,7 +10,6 @@ import android.widget.RelativeLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import com.cjras.thepresentmovement.databinding.FragmentAllEventsBinding
-import com.cjras.thepresentmovement.databinding.FragmentAllProjectsBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -31,6 +30,7 @@ class all_events : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
 
+        //view binding
         _binding = FragmentAllEventsBinding.inflate(inflater, container, false)
         val view = binding.root
 
