@@ -209,7 +209,7 @@ class expanded_contact : Fragment() {
         //----------------------------------------------------------------------------------------------------
 
 
-        binding.ivBackArrow.setOnClickListener()
+        binding.llHeader.setOnClickListener()
         {
             fragmentManager?.popBackStackImmediate()
             /*

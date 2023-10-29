@@ -121,7 +121,7 @@ class admin_content_list : Fragment() {
             {
                 getString(R.string.announcementsText) -> {
                     //load announcement list
-                    filterManager.LoadAnnouncements(charSequence.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(),  requireActivity())
+                    filterManager.LoadAnnouncements(charSequence.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(),  this@admin_content_list, true)
                 }
                 getString(R.string.eventsText) -> {
                     //load events/text
@@ -187,7 +187,7 @@ class admin_content_list : Fragment() {
             {
                 getString(R.string.announcementsText) -> {
                     //load announcement list
-                    filterManager.LoadAnnouncements("", binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(),  requireActivity())
+                    filterManager.LoadAnnouncements("", binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(),  this@admin_content_list, true)
                 }
                 getString(R.string.accountsText) -> {
                    //load accounts/contacts list
@@ -250,7 +250,7 @@ class admin_content_list : Fragment() {
         {
             getString(R.string.announcementsText) -> {
                 //load announcement list
-                filterManager.LoadAnnouncements(binding.etSearch.text.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(),  requireActivity())
+                filterManager.LoadAnnouncements(binding.etSearch.text.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(),  this@admin_content_list, true)
             }
             getString(R.string.eventsText) -> {
                 //load events/text

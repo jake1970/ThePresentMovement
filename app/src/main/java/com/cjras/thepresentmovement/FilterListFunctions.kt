@@ -162,7 +162,8 @@ class FilterListFunctions {
         displayLayout: LinearLayout,
         startDate: String,
         endDate: String,
-        context: FragmentActivity
+        context: Fragment,
+        adminView: Boolean
     ) {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
 
@@ -197,7 +198,7 @@ class FilterListFunctions {
 
 
                         //val activityLayout = binding.llNotices;
-                        var newAnnouncement = announcement_card(context)
+                        var newAnnouncement = announcement_card(context.requireActivity())
 
 
                         newAnnouncement.binding.tvAnnouncementTime.text =
@@ -209,24 +210,39 @@ class FilterListFunctions {
 
                         newAnnouncement.setOnClickListener()
                         {
-                            var fullNotice =
-                                MaterialAlertDialogBuilder(context, R.style.NoticeAlert)
-                                    .setTitle(newAnnouncement.binding.tvAnnouncementTitle.text)
-                                    .setMessage(newAnnouncement.binding.tvAnnouncementText.text)
-                                    .setIcon((R.drawable.notification_bell))
-                                    .setNeutralButton(context.getString(R.string.okText)) { dialog, which ->
-                                        // Respond to neutral button press
 
-                                    }
+                            if (adminView == false) {
+                                var fullNotice =
+                                    MaterialAlertDialogBuilder(context.requireActivity(), R.style.NoticeAlert)
+                                        .setTitle(newAnnouncement.binding.tvAnnouncementTitle.text)
+                                        .setMessage(newAnnouncement.binding.tvAnnouncementText.text)
+                                        .setIcon((R.drawable.notification_bell))
+                                        .setNeutralButton(context.getString(R.string.okText)) { dialog, which ->
+                                            // Respond to neutral button press
+                                        }
 
-                            fullNotice.show()
+                                fullNotice.show()
+                            } else {
+                                val currentAnnouncementIndex =
+                                    GlobalClass.Announcements.indexOf(announcement)
+                                val currentAnnouncementDocumentIndex =
+                                    GlobalClass.documents.allAnnouncmentIds[currentAnnouncementIndex]
+
+                                var databaseExtension = DatabaseExtensionFunctions()
+                                databaseExtension.showAdminOptionMenu(
+                                    currentAnnouncementDocumentIndex,
+                                    currentAnnouncementIndex,
+                                    context,
+                                    "Announcements"
+                                )
+                            }
                         }
 
                         //add the new view
                         displayLayout.addView(newAnnouncement)
 
                         //add space between custom cards
-                        scrollViewUtils.generateSpacer(displayLayout, context, 14)
+                        scrollViewUtils.generateSpacer(displayLayout, context.requireActivity(), 14)
 
                     }
                 }

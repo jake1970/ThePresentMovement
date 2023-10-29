@@ -70,11 +70,11 @@ class notices : Fragment() {
         }
 
         binding.tvStartDate.doAfterTextChanged { char ->
-            filterManager.LoadAnnouncements(binding.etSearch.text.toString(), binding.llNotices, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+            filterManager.LoadAnnouncements(binding.etSearch.text.toString(), binding.llNotices, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@notices, false)
         }
 
         binding.tvEndDate.doAfterTextChanged { char ->
-            filterManager.LoadAnnouncements(binding.etSearch.text.toString(), binding.llNotices, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+            filterManager.LoadAnnouncements(binding.etSearch.text.toString(), binding.llNotices, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(),this@notices, false)
         }
 
 
@@ -86,7 +86,7 @@ class notices : Fragment() {
 
         binding.etSearch.addTextChangedListener { charSequence ->
 
-            filterManager.LoadAnnouncements(charSequence.toString(), binding.llNotices, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(),  requireActivity())
+            filterManager.LoadAnnouncements(charSequence.toString(), binding.llNotices, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(),  this@notices, false)
         }
 
         return view
@@ -100,7 +100,7 @@ class notices : Fragment() {
         try {
 
 
-            filterManager.LoadAnnouncements("", binding.llNotices, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(),  requireActivity())
+            filterManager.LoadAnnouncements("", binding.llNotices, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(),  this@notices, false)
             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
         }

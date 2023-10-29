@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -79,6 +80,59 @@ class DatabaseExtensionFunctions {
             {
                 0 -> {
                     //view
+
+                    //create local fragment controller
+                    val fragmentControl = FragmentManager()
+                    val args = Bundle()
+                    args.putBoolean("editMode", false)
+
+
+                    when(table)
+                    {
+
+                        "Projects" -> {
+                            val viewScreen = add_project()
+                            args.putInt("selectedProjectID", tableEntryIndex)
+                            viewScreen.arguments = args
+
+                            fragmentControl.replaceFragment(
+                                viewScreen,
+                                R.id.flContent,
+                                context.parentFragmentManager
+                            )
+                        }
+                        "Events" -> {
+                            val viewScreen = add_project() //change to events
+                            args.putInt("selectedEventID", tableEntryIndex)
+                            viewScreen.arguments = args
+
+                            fragmentControl.replaceFragment(
+                                viewScreen,
+                                R.id.flContent,
+                                context.parentFragmentManager
+                            )
+                        }
+                        "Announcements" -> {
+
+
+                            //----------------
+
+                            var fullNotice =
+                                MaterialAlertDialogBuilder(context.requireActivity(), R.style.NoticeAlert)
+                                    .setTitle(GlobalClass.Announcements[tableEntryIndex].AnnouncementTitle)
+                                    .setMessage(GlobalClass.Announcements[tableEntryIndex].AnnouncementMessage)
+                                    .setIcon((R.drawable.notification_bell))
+                                    .setNeutralButton(context.getString(R.string.okText)) { dialog, which ->
+                                        // Respond to neutral button press
+                                    }
+
+                            fullNotice.show()
+
+                            //----------------
+
+                        }
+                    }
+
 
                 }
                 1 -> {
