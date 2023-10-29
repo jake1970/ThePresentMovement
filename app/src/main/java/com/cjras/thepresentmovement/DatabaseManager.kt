@@ -300,11 +300,81 @@ class DatabaseManager {
             }
     }
 
-    //add new user to the users table
-    fun addNewProjectToFirestore(newUser: UserDataClass)
+    //add new project to the projects table
+    fun addNewProjectToFirestore(newProject: ProjectDataClass)
     {
         db.collection("Projects")
-            .add(newUser)
+            .add(
+                mapOf(
+                    "projectID" to newProject.ProjectID,
+                    "projectTitle" to newProject.ProjectTitle,
+                    "projectDate" to newProject.ProjectDate.toString(),
+                    "projectOverview" to newProject.ProjectOverview,
+                    "projectCompanyName" to newProject.ProjectCompanyName,
+                    "projectCompanyAbout" to newProject.ProjectCompanyAbout,
+                    "userID" to newProject.UserID,
+                    "hasImage" to newProject.HasImage
+                )
+            )
+            .addOnSuccessListener {
+                Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${it.id}")
+                GlobalClass.UpdateDataBase = true
+            }
+    }
+
+    //add new announcement to the announcements table
+    fun addNewAnnouncementToFirestore(newAnnouncement: AnnouncementDataClass)
+    {
+        db.collection("Announcements")
+            .add(
+                mapOf(
+                    "announcementID" to newAnnouncement.AnnouncementID,
+                    "announcementTitle" to newAnnouncement.AnnouncementTitle,
+                    "announcementMessage" to newAnnouncement.AnnouncementMessage,
+                    "announcementDate" to newAnnouncement.AnnouncementDate.toString(),
+                    "userID" to newAnnouncement.UserID
+                )
+            )
+            .addOnSuccessListener {
+                Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${it.id}")
+                GlobalClass.UpdateDataBase = true
+            }
+    }
+
+
+    //add new event to the events table
+    fun addNewEventToFirestore(newEvent: EventDataClass)
+    {
+        db.collection("Events")
+            .add(
+                mapOf(
+                    "eventID" to newEvent.EventID,
+                    "eventTitle" to newEvent.EventTitle,
+                    "eventDate" to newEvent.EventDate.toString(),
+                    "eventLink" to newEvent.EventLink,
+                    "userID" to newEvent.UserID,
+                    "hasImage" to newEvent.HasImage
+                )
+            )
+            .addOnSuccessListener {
+                Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${it.id}")
+                GlobalClass.UpdateDataBase = true
+            }
+    }
+
+
+
+    //add new userproject to the UserProjects table
+    fun addNewUserProjectToFirestore(newUserProject: UserProjectDataClass)
+    {
+        db.collection("UserProjects")
+            .add(
+                mapOf(
+                    "userProjectID" to newUserProject.UserProjectID,
+                    "userID" to newUserProject.UserID,
+                    "projectID" to newUserProject.ProjectID
+                )
+            )
             .addOnSuccessListener {
                 Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${it.id}")
                 GlobalClass.UpdateDataBase = true
@@ -374,6 +444,8 @@ class DatabaseManager {
         ).await()
     }
 
+
+
     //remove a user
     suspend fun deleteUserFromFirestore(ID: String) {
         val userRef = db.collection("Users").document(ID)
@@ -386,6 +458,11 @@ class DatabaseManager {
         projectRef.delete().await()
     }
 
+    //remove an event
+    suspend fun deleteEventFromFirestore(ID: String) {
+        val projectRef = db.collection("Events").document(ID)
+        projectRef.delete().await()
+    }
 
     //remove an announcement
     suspend fun deleteAnnouncementFromFirestore(ID: String) {

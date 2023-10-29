@@ -95,17 +95,17 @@ class all_events : Fragment() {
         }
 
         binding.tvStartDate.doAfterTextChanged { char ->
-            filterManager.LoadEvents(binding.etSearch.text.toString(), binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+            filterManager.LoadEvents(binding.etSearch.text.toString(), binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@all_events, false)
         }
 
         binding.tvEndDate.doAfterTextChanged { char ->
-            filterManager.LoadEvents(binding.etSearch.text.toString(), binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+            filterManager.LoadEvents(binding.etSearch.text.toString(), binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@all_events, false)
         }
 
 
         binding.etSearch.addTextChangedListener { charSequence ->
 
-            filterManager.LoadEvents(charSequence.toString(), binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+            filterManager.LoadEvents(charSequence.toString(), binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@all_events, false)
         }
 
 
@@ -116,7 +116,7 @@ class all_events : Fragment() {
     private fun UpdateUI()
     {
 
-        filterManager.LoadEvents("", binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity())
+        filterManager.LoadEvents("", binding.llUpcomingEvents, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@all_events, false)
 
         requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
