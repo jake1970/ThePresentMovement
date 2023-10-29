@@ -300,10 +300,9 @@ class DatabaseManager {
             }
     }
 
-    //add new user to the users table
+    //add new project to the projects table
     fun addNewProjectToFirestore(newProject: ProjectDataClass)
     {
-
         db.collection("Projects")
             .add(
                 mapOf(
@@ -321,15 +320,65 @@ class DatabaseManager {
                 Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${it.id}")
                 GlobalClass.UpdateDataBase = true
             }
+    }
 
-        /*
-        db.collection("Projects")
-            .add(newProject)
+    //add new announcement to the announcements table
+    fun addNewAnnouncementToFirestore(newAnnouncement: AnnouncementDataClass)
+    {
+        db.collection("Announcements")
+            .add(
+                mapOf(
+                    "announcementID" to newAnnouncement.AnnouncementID,
+                    "announcementTitle" to newAnnouncement.AnnouncementTitle,
+                    "announcementMessage" to newAnnouncement.AnnouncementMessage,
+                    "announcementDate" to newAnnouncement.AnnouncementDate.toString(),
+                    "userID" to newAnnouncement.UserID
+                )
+            )
             .addOnSuccessListener {
                 Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${it.id}")
                 GlobalClass.UpdateDataBase = true
             }
-         */
+    }
+
+
+    //add new event to the events table
+    fun addNewEventToFirestore(newEvent: EventDataClass)
+    {
+        db.collection("Events")
+            .add(
+                mapOf(
+                    "eventID" to newEvent.EventID,
+                    "eventTitle" to newEvent.EventTitle,
+                    "eventDate" to newEvent.EventDate.toString(),
+                    "eventLink" to newEvent.EventLink,
+                    "userID" to newEvent.UserID,
+                    "hasImage" to newEvent.HasImage
+                )
+            )
+            .addOnSuccessListener {
+                Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${it.id}")
+                GlobalClass.UpdateDataBase = true
+            }
+    }
+
+
+
+    //add new userproject to the UserProjects table
+    fun addNewUserProjectToFirestore(newUserProject: UserProjectDataClass)
+    {
+        db.collection("UserProjects")
+            .add(
+                mapOf(
+                    "userProjectID" to newUserProject.UserProjectID,
+                    "userID" to newUserProject.UserID,
+                    "projectID" to newUserProject.ProjectID
+                )
+            )
+            .addOnSuccessListener {
+                Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${it.id}")
+                GlobalClass.UpdateDataBase = true
+            }
     }
 
 
@@ -394,6 +443,8 @@ class DatabaseManager {
             )
         ).await()
     }
+
+
 
     //remove a user
     suspend fun deleteUserFromFirestore(ID: String) {

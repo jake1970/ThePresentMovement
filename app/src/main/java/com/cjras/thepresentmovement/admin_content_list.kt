@@ -167,7 +167,23 @@ class admin_content_list : Fragment() {
                 }
                 getString(R.string.projectsText) -> {
                     //new project
-                    fragmentControl.replaceFragment(add_project(), R.id.flContent, parentFragmentManager)
+
+                    //create local fragment controller
+                    val fragmentControl = FragmentManager()
+                    val args = Bundle()
+
+
+                    val addProjectView = add_project()
+
+                    //args.putBoolean("editMode", false)
+
+                    addProjectView.arguments = args
+
+                    fragmentControl.replaceFragment(
+                        addProjectView,
+                        R.id.flContent,
+                        parentFragmentManager
+                    )
 
                 }
             }
@@ -263,22 +279,6 @@ class admin_content_list : Fragment() {
         }
     }
 
-/*
-code to delete an annoucement
-      //8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-            val currentAnnouncementIndex =
-                GlobalClass.Announcements.indexOf(announcement)
-            val currentAnnouncementDocumentIndex =
-                GlobalClass.documents.allAnnouncmentIds[currentAnnouncementIndex]
 
-            MainScope().launch() {
-                withContext(Dispatchers.Default) {
-                    var databaseManager = DatabaseManager()
-                    databaseManager.deleteAnnouncementFromFirestore(currentAnnouncementDocumentIndex)
-                }
-                Toast.makeText(context, "Deleted ${announcement.AnnouncementTitle}", Toast.LENGTH_SHORT).show()
-            }
-       //8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
- */
 
 }
