@@ -347,6 +347,33 @@ class DatabaseManager {
         ).await()
     }
 
+    suspend fun updateEventInFirestore(currentEvent: EventDataClass, ID: String) {
+        val eventRef = db.collection("Events").document(ID)
+        eventRef.update(
+            mapOf(
+                "eventID" to currentEvent.EventID,
+                "eventTitle" to currentEvent.EventTitle,
+                "eventDate" to currentEvent.EventDate.toString(),
+                "eventLink" to currentEvent.EventLink,
+                "userID" to currentEvent.UserID,
+                "hasImage" to currentEvent.HasImage
+            )
+        ).await()
+    }
+
+    suspend fun updateAnnouncementInFirestore(currentAnnouncement: AnnouncementDataClass, ID: String) {
+        val announcementRef = db.collection("Announcements").document(ID)
+        announcementRef.update(
+            mapOf(
+                "announcementID" to currentAnnouncement.AnnouncementID,
+                "announcementTitle" to currentAnnouncement.AnnouncementTitle,
+                "announcementMessage" to currentAnnouncement.AnnouncementMessage,
+                "announcementDate" to currentAnnouncement.AnnouncementDate.toString(),
+                "userID" to currentAnnouncement.UserID
+            )
+        ).await()
+    }
+
     //remove a user
     suspend fun deleteUserFromFirestore(ID: String) {
         val userRef = db.collection("Users").document(ID)
