@@ -95,26 +95,36 @@ class settings : Fragment() {
     private fun UpdateUI()
     {
 
-        binding.llMyProfileCard.setOnClickListener()
+        try {
+
+            binding.llMyProfileCard.setOnClickListener()
+            {
+                val filterManager = FilterListFunctions()
+                filterManager.invokeExpandedContactsView(GlobalClass.currentUser.UserID, this)
+            }
+
+            binding.tvLogout.setOnClickListener(){
+                firebaseAuth.signOut()
+
+                var intent = Intent(requireActivity(), login::class.java) //ViewActivity
+                GlobalClass.currentUser = UserDataClass()
+                GlobalClass.UpdateDataBase = true
+                startActivity(intent)
+            }
+
+
+
+            binding.tvContactName.text = GlobalClass.currentUser.getFullName()
+            binding.tvContactRole.text= GlobalClass.currentUserMemberType
+            binding.ivMyProfileImage.setImageBitmap(GlobalClass.currentUserImage)
+
+            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+
+        }
+        catch (e: Exception)
         {
-            val filterManager = FilterListFunctions()
-            filterManager.invokeExpandedContactsView(GlobalClass.currentUser.UserID, this)
+            GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
         }
-
-        binding.tvLogout.setOnClickListener(){
-            firebaseAuth.signOut()
-
-            var intent = Intent(requireActivity(), login::class.java) //ViewActivity
-            GlobalClass.currentUser = UserDataClass()
-            GlobalClass.UpdateDataBase = true
-            startActivity(intent)
-        }
-
-
-
-        binding.tvContactName.text = GlobalClass.currentUser.getFullName()
-        binding.tvContactRole.text= GlobalClass.currentUserMemberType
-        binding.ivMyProfileImage.setImageBitmap(GlobalClass.currentUserImage)
     }
 
 
