@@ -331,6 +331,49 @@ class DatabaseManager {
         ).await()
     }
 
+    suspend fun updateProjectInFirestore(currentProject: ProjectDataClass, ID: String) {
+        val projectRef = db.collection("Projects").document(ID)
+        projectRef.update(
+            mapOf(
+                "projectID" to currentProject.ProjectID,
+                "projectTitle" to currentProject.ProjectTitle,
+                "projectDate" to currentProject.ProjectDate.toString(),
+                "projectOverview" to currentProject.ProjectOverview,
+                "projectCompanyName" to currentProject.ProjectCompanyName,
+                "projectCompanyAbout" to currentProject.ProjectCompanyAbout,
+                "userID" to currentProject.UserID,
+                "hasImage" to currentProject.HasImage
+            )
+        ).await()
+    }
+
+    suspend fun updateEventInFirestore(currentEvent: EventDataClass, ID: String) {
+        val eventRef = db.collection("Events").document(ID)
+        eventRef.update(
+            mapOf(
+                "eventID" to currentEvent.EventID,
+                "eventTitle" to currentEvent.EventTitle,
+                "eventDate" to currentEvent.EventDate.toString(),
+                "eventLink" to currentEvent.EventLink,
+                "userID" to currentEvent.UserID,
+                "hasImage" to currentEvent.HasImage
+            )
+        ).await()
+    }
+
+    suspend fun updateAnnouncementInFirestore(currentAnnouncement: AnnouncementDataClass, ID: String) {
+        val announcementRef = db.collection("Announcements").document(ID)
+        announcementRef.update(
+            mapOf(
+                "announcementID" to currentAnnouncement.AnnouncementID,
+                "announcementTitle" to currentAnnouncement.AnnouncementTitle,
+                "announcementMessage" to currentAnnouncement.AnnouncementMessage,
+                "announcementDate" to currentAnnouncement.AnnouncementDate.toString(),
+                "userID" to currentAnnouncement.UserID
+            )
+        ).await()
+    }
+
     //remove a user
     suspend fun deleteUserFromFirestore(ID: String) {
         val userRef = db.collection("Users").document(ID)
