@@ -362,7 +362,8 @@ class FilterListFunctions {
         displayLayout: LinearLayout,
         startDate: String,
         endDate: String,
-        context: FragmentActivity
+        context: Fragment,
+        adminView: Boolean
     ) {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
         var databaseManager = DatabaseManager()
@@ -398,7 +399,7 @@ class FilterListFunctions {
                     ) {
 
 
-                        val newEventCard = home_feed_card(context)
+                        val newEventCard = home_feed_card(context.requireActivity())
 
                         newEventCard.binding.tvEntryTitle.text = event.EventTitle
                         newEventCard.binding.tvEntryText.text = event.EventLink
@@ -406,20 +407,33 @@ class FilterListFunctions {
                             event.EventDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
                         newEventCard.binding.ivEntryIcon.setImageBitmap(
                             databaseManager.getEventDefaultImage(
-                                context
+                                context.requireActivity()
                             )
                         )
 
                         newEventCard.setOnClickListener()
                         {
-                            //open event full view
+                            var databaseExtension = DatabaseExtensionFunctions()
+
+                            if (adminView == false) {
+                                //open event full view
+
+
+
+
+                            } else {
+
+                                //show admin menu
+
+
+                            }
                         }
 
                         //add the new view
                         displayLayout.addView(newEventCard)
 
                         //add space between custom cards
-                        scrollViewUtils.generateSpacer(displayLayout, context, 14)
+                        scrollViewUtils.generateSpacer(displayLayout, context.requireActivity(), 14)
 
                     }
                 }
