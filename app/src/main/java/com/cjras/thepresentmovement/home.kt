@@ -118,7 +118,23 @@ class home : Fragment() {
                 parentFragmentManager
             )
         }
+        binding.ivLogo.setOnClickListener(){
+            //create local fragment controller
+            val fragmentControl = FragmentManager()
 
+            val editProjectView= add_project()
+            val args = Bundle()
+
+            args.putInt("selectedProjectID", 1)
+
+            editProjectView.arguments = args
+
+            fragmentControl.replaceFragment(
+                editProjectView,
+                R.id.flContent,
+                parentFragmentManager
+            )
+        }
         // Inflate the layout for this fragment
         return view
     }
