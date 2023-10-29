@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".add_anouncment">
+
+    <RelativeLayout
+        android:id="@+id/rlContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal">
+
+        <EditText
+            android:id="@+id/edAnnouncementTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Announcment Title"
+            />
+
+        <EditText
+            android:id="@+id/edAnnouncmentMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edAnnouncementTitle"
+            android:layout_marginTop="15dp"
+            android:ems="10"
+            android:hint="Message"
+            />
+
+
+
+        <Button
+            android:id="@+id/btnCreateAnno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edAnnouncmentMessage"
+            android:layout_marginTop="15dp"
+            android:text="Create Announcement" />
+
+    </RelativeLayout>
+
+</FrameLayout>

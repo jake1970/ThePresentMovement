@@ -311,6 +311,15 @@ class DatabaseManager {
             }
     }
 
+    //add new accouncment to announcement table
+    fun addNewAccouncementToFirestore(newAnnouncement: AnnouncementDataClass)
+    {
+        db.collection("Announcements").add(newAnnouncement)
+            .addOnSuccessListener {Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${it.id}")
+            GlobalClass.UpdateDataBase = true
+            }
+    }
+
 
     suspend fun updateUserInFirestore(currentUser: UserDataClass, ID: String) {
         val userRef = db.collection("Users").document(ID)
