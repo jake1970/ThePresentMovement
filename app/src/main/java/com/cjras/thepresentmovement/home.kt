@@ -218,6 +218,10 @@ class home : Fragment() {
                         newFeedItem.setOnClickListener()
                         {
                             //open project full view
+
+                            var databaseExtension = DatabaseExtensionFunctions()
+
+                            databaseExtension.ExpandEntryData((sortedList[i] as ProjectDataClass).ProjectID, false, "Projects", this@home)
                         }
                     }
 
@@ -234,7 +238,7 @@ class home : Fragment() {
         }
         catch (e: Exception)
         {
-            GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
+            GlobalClass.InformUser(getString(R.string.errorText), "${e}", requireContext())
         }
 
 

@@ -7,10 +7,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.Toast
 import com.cjras.thepresentmovement.databinding.FragmentRegisterUserBinding
 import com.cjras.thepresentmovement.databinding.FragmentSettingsBinding
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private var _binding: FragmentSettingsBinding? = null
 private val binding get() = _binding!!
@@ -24,14 +29,49 @@ class settings : Fragment() {
     ): View? {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val view = binding.root
+
+
+        try {
+            MainScope().launch {
+                if (GlobalClass.UpdateDataBase == true) {
+
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+
+                    withContext(Dispatchers.Default) {
+
+                        var databaseManager = DatabaseManager()
+
+                        databaseManager.updateFromDatabase()
+                    }
+
+
+                }
+                UpdateUI()
+            }
+        } catch (e: Error) {
+            GlobalClass.InformUser(
+                getString(R.string.errorText),
+                "${e}",
+                requireContext()
+            )
+        }
+
+        binding.ivRefresh.setOnClickListener()
+        {
+            try {
+                GlobalClass.RefreshFragment(this@settings)
+            }
+            catch (e: Error) {
+                GlobalClass.InformUser(
+                    getString(R.string.errorText),
+                    "${e}",
+                    requireContext()
+                )
+            }
+        }
+
         firebaseAuth = FirebaseAuth.getInstance()
 
-        val filterManager = FilterListFunctions()
-
-        binding.llMyProfileCard.setOnClickListener()
-        {
-            filterManager.invokeExpandedContactsView(GlobalClass.currentUser.UserID, this)
-        }
         binding.tvResetPassword.setOnClickListener(){
             firebaseAuth.sendPasswordResetEmail(firebaseAuth.currentUser!!.email.toString())
             Toast.makeText(requireActivity(), "Password reset link sent to: " + firebaseAuth.currentUser!!.email.toString(), Toast.LENGTH_SHORT).show()
@@ -48,11 +88,36 @@ class settings : Fragment() {
         binding.tvInitiatives.setOnClickListener(){
             openBrowser("https://www.thepresentmovement.org/about-us")
         }
-        binding.tvLogout.setOnClickListener(){
-            // gl Jake, idk what this should do :-)
-        }
+
+
         return view
     }
+    private fun UpdateUI()
+    {
+
+        binding.llMyProfileCard.setOnClickListener()
+        {
+            val filterManager = FilterListFunctions()
+            filterManager.invokeExpandedContactsView(GlobalClass.currentUser.UserID, this)
+        }
+
+        binding.tvLogout.setOnClickListener(){
+            firebaseAuth.signOut()
+
+            var intent = Intent(requireActivity(), login::class.java) //ViewActivity
+            GlobalClass.currentUser = UserDataClass()
+            GlobalClass.UpdateDataBase = true
+            startActivity(intent)
+        }
+
+
+
+        binding.tvContactName.text = GlobalClass.currentUser.getFullName()
+        binding.tvContactRole.text= GlobalClass.currentUserMemberType
+        binding.ivMyProfileImage.setImageBitmap(GlobalClass.currentUserImage)
+    }
+
+
     private fun openBrowser(url: String) {
         var url = url
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
