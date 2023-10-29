@@ -22,17 +22,27 @@ private val binding get() = _binding!!
 private lateinit var  firebaseAuth: FirebaseAuth
 class settings : Fragment() {
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //view binding
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val view = binding.root
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //data population
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         try {
             MainScope().launch {
+
+                //if new information has been added
                 if (GlobalClass.UpdateDataBase == true) {
 
                     requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
@@ -44,7 +54,6 @@ class settings : Fragment() {
                         databaseManager.updateFromDatabase()
                     }
 
-
                 }
                 UpdateUI()
             }
@@ -55,6 +64,7 @@ class settings : Fragment() {
                 requireContext()
             )
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         binding.ivRefresh.setOnClickListener()
         {

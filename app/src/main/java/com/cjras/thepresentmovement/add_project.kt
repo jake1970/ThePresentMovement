@@ -68,19 +68,34 @@ class add_project : Fragment() {
 
                 //if all components are filled in
                 if (allFilled == true) {
-                    var nextProjectID = GlobalClass.Projects.last().ProjectID + 1
-                    val tempProject = ProjectDataClass(
-                        ProjectID = nextProjectID,
-                        ProjectTitle = binding.etTitle.text.toString(),
-                        ProjectDate = LocalDate.now(),
-                        ProjectOverview = binding.etOverview.text.toString(),
-                        ProjectCompanyName = binding.etCompanyName.text.toString(),
-                        ProjectCompanyAbout = binding.etAboutCompany.text.toString(),
-                        UserID = GlobalClass.currentUser.UserID,
-                        HasImage = false
-                    )
-                    val dbManager = DatabaseManager()
-                    dbManager.addNewProjectToFirestore(tempProject)
+
+                    MainScope().launch() {
+
+                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+
+                        withContext(Dispatchers.Default) {
+                            var databaseManager = DatabaseManager()
+
+                            GlobalClass.Projects = databaseManager.getAllProjectsFromFirestore()
+                        }
+
+                        var nextProjectID = GlobalClass.Projects.last().ProjectID + 1
+                        val tempProject = ProjectDataClass(
+                            ProjectID = nextProjectID,
+                            ProjectTitle = binding.etTitle.text.toString(),
+                            ProjectDate = LocalDate.now(),
+                            ProjectOverview = binding.etOverview.text.toString(),
+                            ProjectCompanyName = binding.etCompanyName.text.toString(),
+                            ProjectCompanyAbout = binding.etAboutCompany.text.toString(),
+                            UserID = GlobalClass.currentUser.UserID,
+                            HasImage = false
+                        )
+                        val dbManager = DatabaseManager()
+                        dbManager.addNewProjectToFirestore(tempProject)
+
+                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+
+                    }
                 }
             }
         //------------
