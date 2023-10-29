@@ -98,17 +98,17 @@ class all_projects : Fragment() {
         }
 
         binding.tvStartDate.doAfterTextChanged { char ->
-            filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity(), false)
+            filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@all_projects, false)
         }
 
         binding.tvEndDate.doAfterTextChanged { char ->
-            filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity(), false)
+            filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@all_projects, false)
         }
 
 
         binding.etSearch.addTextChangedListener { charSequence ->
 
-            filterManager.LoadProjects(charSequence.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity(), false)
+            filterManager.LoadProjects(charSequence.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@all_projects, false)
         }
 
         // Inflate the layout for this fragment
@@ -117,7 +117,7 @@ class all_projects : Fragment() {
 
     private fun UpdateUI()
     {
-        filterManager.LoadProjects("", binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity(), false)
+        filterManager.LoadProjects("", binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@all_projects, false)
 
         requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
     }

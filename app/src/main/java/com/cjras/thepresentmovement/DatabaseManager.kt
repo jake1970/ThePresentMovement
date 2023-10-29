@@ -301,10 +301,10 @@ class DatabaseManager {
     }
 
     //add new user to the users table
-    fun addNewProjectToFirestore(newUser: UserDataClass)
+    fun addNewProjectToFirestore(newProject: ProjectDataClass)
     {
         db.collection("Projects")
-            .add(newUser)
+            .add(newProject)
             .addOnSuccessListener {
                 Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${it.id}")
                 GlobalClass.UpdateDataBase = true
@@ -343,6 +343,11 @@ class DatabaseManager {
         projectRef.delete().await()
     }
 
+    //remove an event
+    suspend fun deleteEventFromFirestore(ID: String) {
+        val projectRef = db.collection("Events").document(ID)
+        projectRef.delete().await()
+    }
 
     //remove an announcement
     suspend fun deleteAnnouncementFromFirestore(ID: String) {

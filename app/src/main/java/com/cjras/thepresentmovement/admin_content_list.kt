@@ -129,7 +129,7 @@ class admin_content_list : Fragment() {
                 }
                 getString(R.string.projectsText) -> {
                     //load projects text
-                    filterManager.LoadProjects(charSequence.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity(), true)
+                    filterManager.LoadProjects(charSequence.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@admin_content_list, true)
                 }
             }
         }
@@ -232,7 +232,7 @@ class admin_content_list : Fragment() {
                 }
                 getString(R.string.projectsText) -> {
                     //load projects text
-                    filterManager.LoadProjects("", binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity(), true)
+                    filterManager.LoadProjects("", binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@admin_content_list, true)
                 }
             }
 
@@ -258,7 +258,7 @@ class admin_content_list : Fragment() {
             }
             getString(R.string.projectsText) -> {
                 //load projects text
-                filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), requireActivity(), true)
+                filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@admin_content_list, true)
             }
         }
     }
