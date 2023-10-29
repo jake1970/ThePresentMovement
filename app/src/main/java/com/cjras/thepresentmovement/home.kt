@@ -22,43 +22,41 @@ import kotlinx.coroutines.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-/**
- * A simple [Fragment] subclass.
- * Use the [home.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class home : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-   //private lateinit var loadingCover : ViewGroup
+    //private lateinit var loadingCover : ViewGroup
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
 
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //View Binding
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-        //---------------------------------------------------------------------------------------------------------------------------------------------------------
-        //initial data population
-        //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //Data population
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         try {
 
-
-
             //Read Data
-            MainScope().launch{
+            MainScope().launch {
 
                 if (GlobalClass.UpdateDataBase == true) {
-                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
-                withContext(Dispatchers.Default) {
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                        View.VISIBLE
+                    withContext(Dispatchers.Default) {
 
                         var databaseManager = DatabaseManager()
 
@@ -73,28 +71,37 @@ class home : Fragment() {
                     }
                 }
 
+                UpdateUI()
 
-                    UpdateUI()
-
-                    //hide admin menu
-                    if (GlobalClass.currentUser.MemberTypeID != 2 && GlobalClass.currentUser.MemberTypeID != 3)
-                    {
-                        requireActivity().findViewById<BottomNavigationView>(R.id.bnvHomeNavigation).menu.removeItem(R.id.iAdmin)
-                    }
-
+                //hide admin menu
+                if (GlobalClass.currentUser.MemberTypeID != 2 && GlobalClass.currentUser.MemberTypeID != 3) {
+                    requireActivity().findViewById<BottomNavigationView>(R.id.bnvHomeNavigation).menu.removeItem(
+                        R.id.iAdmin
+                    )
+                }
             }
+        } catch (e: Error) {
+            GlobalClass.InformUser(
+                getString(R.string.errorText),
+                "${e.toString()}",
+                requireContext()
+            )
         }
-        catch (e: Error)
-        {
-            GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
-        }
-        //---------------------------------------------------------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.ivRefresh.setOnClickListener()
         {
             GlobalClass.RefreshFragment(this)
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.tvEvents.setOnClickListener()
         {
             //create local fragment controller
@@ -106,7 +113,12 @@ class home : Fragment() {
                 parentFragmentManager
             )
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.tvProjects.setOnClickListener()
         {
             //create local fragment controller
@@ -118,13 +130,18 @@ class home : Fragment() {
                 parentFragmentManager
             )
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-        //-------------------------------------------------------------
-        binding.ivLogo.setOnClickListener(){
+
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        binding.ivLogo.setOnClickListener() {
             //create local fragment controller
             val fragmentControl = FragmentManager()
 
-            val editProjectView= add_project()
+            val editProjectView = add_project()
             val args = Bundle()
 
             args.putInt("selectedProjectID", 1)
@@ -137,17 +154,18 @@ class home : Fragment() {
                 parentFragmentManager
             )
         }
-        //-------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         // Inflate the layout for this fragment
         return view
     }
 
-    fun UpdateUI ()
-    {
+
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    fun UpdateUI() {
 
         try {
-
 
 
             val eventCount = GlobalClass.Events.count()
@@ -156,20 +174,21 @@ class home : Fragment() {
             var eventText = getString(R.string.eventsText)
             var projectText = getString(R.string.projectsText)
 
-            if (eventCount == 1)
-            {
+            if (eventCount == 1) {
                 eventText = getString(R.string.eventsTextSingle)
             }
 
-            if (projectCount == 1)
-            {
+            if (projectCount == 1) {
                 projectText = getString(R.string.projectsTextSingle)
             }
 
-            binding.tvEvents.text = Html.fromHtml(eventCount.toString() + "<small>" + "<small>" + "<small>" + " " + getString(R.string.upcomingText) + "</small>" + "</small>" + "</small>" + "<br />" + eventText)
-            binding.tvProjects.text = Html.fromHtml(projectCount.toString() + "<small>" + "<small>" + "<small>" + " " + getString(R.string.upcomingText) + "</small>" + "</small>" + "</small>" + "<br />" + projectText)
 
-
+            binding.tvEvents.text = Html.fromHtml(
+                eventCount.toString() + "<small>" + "<small>" + "<small>" + " " + getString(R.string.upcomingText) + "</small>" + "</small>" + "</small>" + "<br />" + eventText
+            )
+            binding.tvProjects.text = Html.fromHtml(
+                projectCount.toString() + "<small>" + "<small>" + "<small>" + " " + getString(R.string.upcomingText) + "</small>" + "</small>" + "</small>" + "<br />" + projectText
+            )
 
 
 
@@ -178,71 +197,87 @@ class home : Fragment() {
             val activityLayout = binding.llFeed;
 
 
-                val feedSize = 10
-                var recentEvents = GlobalClass.Events.take(feedSize).sortedBy { it.EventDate }
-                var recentProjects = GlobalClass.Projects.take(feedSize).sortedBy { it.ProjectDate }
+            val feedSize = 10
+            var recentEvents = GlobalClass.Events.take(feedSize).sortedBy { it.EventDate }
+            var recentProjects = GlobalClass.Projects.take(feedSize).sortedBy { it.ProjectDate }
 
-                var combinedFeed = recentEvents + recentProjects
+            var combinedFeed = recentEvents + recentProjects
 
-                val sortedList = combinedFeed.sortedBy {
-                    when(it) {
-                        is EventDataClass -> it.EventDate
-                        is ProjectDataClass -> it.ProjectDate
-                        else -> throw IllegalArgumentException("Unknown type for sorting!")
+            val sortedList = combinedFeed.sortedBy {
+                when (it) {
+                    is EventDataClass -> it.EventDate
+                    is ProjectDataClass -> it.ProjectDate
+                    else -> throw IllegalArgumentException("Unknown type for sorting!")
+                }
+            }
+
+            for (i in sortedList.indices) {
+                val newFeedItem = home_feed_card(activity)
+
+                if (sortedList[i] is EventDataClass) {
+                    newFeedItem.binding.tvEntryTitle.text =
+                        (sortedList[i] as EventDataClass).EventTitle
+                    newFeedItem.binding.tvEntryText.text = getString(R.string.newEventAddedText)
+                    newFeedItem.binding.tvEntryDate.text =
+                        (sortedList[i] as EventDataClass).EventDate.format(
+                            DateTimeFormatter.ofPattern("dd/MM/yy")
+                        );
+                    newFeedItem.binding.ivEntryIcon.setImageBitmap(
+                        databaseManager.getEventDefaultImage(
+                            requireActivity()
+                        )
+                    )
+
+                    newFeedItem.setOnClickListener()
+                    {
+                        //open event full view
+                    }
+                } else {
+                    newFeedItem.binding.tvEntryTitle.text =
+                        (sortedList[i] as ProjectDataClass).ProjectTitle
+                    newFeedItem.binding.tvEntryText.text = getString(R.string.newProjectAddedText)
+                    newFeedItem.binding.tvEntryDate.text =
+                        (sortedList[i] as ProjectDataClass).ProjectDate.format(
+                            DateTimeFormatter.ofPattern("dd/MM/yy")
+                        );
+                    newFeedItem.binding.ivEntryIcon.setImageBitmap(
+                        databaseManager.getProjectDefaultImage(
+                            requireActivity()
+                        )
+                    )
+
+                    newFeedItem.setOnClickListener()
+                    {
+                        //open project full view
+
+                        var databaseExtension = DatabaseExtensionFunctions()
+
+                        databaseExtension.ExpandEntryData(
+                            (sortedList[i] as ProjectDataClass).ProjectID,
+                            false,
+                            "Projects",
+                            this@home
+                        )
                     }
                 }
 
-                for (i in sortedList.indices)
-                {
-                    val newFeedItem = home_feed_card(activity)
+                //add the new view
+                activityLayout.addView(newFeedItem)
 
-                    if (sortedList[i] is EventDataClass)
-                    {
-                        newFeedItem.binding.tvEntryTitle.text = (sortedList[i] as EventDataClass).EventTitle
-                        newFeedItem.binding.tvEntryText.text = getString(R.string.newEventAddedText)
-                        newFeedItem.binding.tvEntryDate.text = (sortedList[i] as EventDataClass).EventDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
-                        newFeedItem.binding.ivEntryIcon.setImageBitmap(databaseManager.getEventDefaultImage(requireActivity()))
-
-                        newFeedItem.setOnClickListener()
-                        {
-                            //open event full view
-                        }
-                    }
-                    else
-                    {
-                        newFeedItem.binding.tvEntryTitle.text = (sortedList[i] as ProjectDataClass).ProjectTitle
-                        newFeedItem.binding.tvEntryText.text = getString(R.string.newProjectAddedText)
-                        newFeedItem.binding.tvEntryDate.text = (sortedList[i] as ProjectDataClass).ProjectDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
-                        newFeedItem.binding.ivEntryIcon.setImageBitmap(databaseManager.getProjectDefaultImage(requireActivity()))
-
-                        newFeedItem.setOnClickListener()
-                        {
-                            //open project full view
-
-                            var databaseExtension = DatabaseExtensionFunctions()
-
-                            databaseExtension.ExpandEntryData((sortedList[i] as ProjectDataClass).ProjectID, false, "Projects", this@home)
-                        }
-                    }
-
-                    //add the new view
-                    activityLayout.addView(newFeedItem)
-
-                    //add space between custom cards
-                    scrollViewUtils.generateSpacer(activityLayout, requireActivity(), 14)
-                }
+                //add space between custom cards
+                scrollViewUtils.generateSpacer(activityLayout, requireActivity(), 14)
+            }
 
 
-            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                View.GONE
 
-        }
-        catch (e: Exception)
-        {
+        } catch (e: Exception) {
             GlobalClass.InformUser(getString(R.string.errorText), "${e}", requireContext())
         }
 
-
     }
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
     override fun onDestroyView() {

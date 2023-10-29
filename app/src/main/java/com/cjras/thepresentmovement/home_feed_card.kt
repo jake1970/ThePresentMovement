@@ -9,16 +9,20 @@ import com.cjras.thepresentmovement.databinding.ActivityHomeFeedCardBinding
 import com.cjras.thepresentmovement.databinding.AnnouncementCardBinding
 
 class home_feed_card (
-    context: Context? //FragmentActivity? was Context
+    context: Context?
 ) : RelativeLayout(context){
 
+    //custom card view binding
     var binding: ActivityHomeFeedCardBinding
 
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //Set View Binding
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     init
     {
-
         binding = ActivityHomeFeedCardBinding.inflate(LayoutInflater.from(context))
         addView(binding.root)
-
     }
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 }
