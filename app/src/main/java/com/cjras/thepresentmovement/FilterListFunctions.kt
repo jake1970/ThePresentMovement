@@ -312,16 +312,20 @@ class FilterListFunctions {
                         newProjectCard.setOnClickListener()
                         {
 
+                            var databaseExtension = DatabaseExtensionFunctions()
 
                             if (adminView == false) {
                                 //open project full view
+
+                                databaseExtension.ExpandEntryData(project.ProjectID, false, "Projects", context)
+
+
                             } else {
 
                                 val currentProjectIndex = GlobalClass.Projects.indexOf(project)
                                 val currentProjectDocumentIndex =
                                     GlobalClass.documents.allProjectIds[currentProjectIndex]
 
-                                var databaseExtension = DatabaseExtensionFunctions()
                                 databaseExtension.showAdminOptionMenu(
                                     currentProjectDocumentIndex,
                                     project.ProjectID,

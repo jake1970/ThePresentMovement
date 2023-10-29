@@ -303,12 +303,33 @@ class DatabaseManager {
     //add new user to the users table
     fun addNewProjectToFirestore(newProject: ProjectDataClass)
     {
+
+        db.collection("Projects")
+            .add(
+                mapOf(
+                    "projectID" to newProject.ProjectID,
+                    "projectTitle" to newProject.ProjectTitle,
+                    "projectDate" to newProject.ProjectDate.toString(),
+                    "projectOverview" to newProject.ProjectOverview,
+                    "projectCompanyName" to newProject.ProjectCompanyName,
+                    "projectCompanyAbout" to newProject.ProjectCompanyAbout,
+                    "userID" to newProject.UserID,
+                    "hasImage" to newProject.HasImage
+                )
+            )
+            .addOnSuccessListener {
+                Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${it.id}")
+                GlobalClass.UpdateDataBase = true
+            }
+
+        /*
         db.collection("Projects")
             .add(newProject)
             .addOnSuccessListener {
                 Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${it.id}")
                 GlobalClass.UpdateDataBase = true
             }
+         */
     }
 
 

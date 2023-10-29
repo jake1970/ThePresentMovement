@@ -33,6 +33,7 @@ class add_project : Fragment() {
         val view = binding.root
 
         var projectID = arguments?.getInt("selectedProjectID", 0)
+        var editMode = arguments?.getBoolean("editMode", false)
 
         var currentProject = ProjectDataClass()
 
@@ -51,47 +52,60 @@ class add_project : Fragment() {
                     break
                 }
             }
-            binding.btnCreateProj.setOnClickListener() {
-                val tempProject = ProjectDataClass(
-                    ProjectID = currentProject.ProjectID,
-                    ProjectTitle = binding.etTitle.text.toString(),
-                    ProjectDate = LocalDate.now(),
-                    ProjectOverview = binding.etOverview.text.toString(),
-                    ProjectCompanyName = binding.etCompanyName.text.toString(),
-                    ProjectCompanyAbout = binding.etAboutCompany.text.toString(),
-                    UserID = currentProject.UserID,
-                    HasImage = currentProject.HasImage
-                )
 
-                if (!currentProject.equals(tempProject)) {
-                    val currentProjectIndex = GlobalClass.Projects.indexOf(currentProject)
-                    val currentProjectDocumentIndex =
-                        GlobalClass.documents.allProjectIds[currentProjectIndex]
+            if (editMode == true)
+            {
+                binding.btnCreateProj.setOnClickListener() {
+                    val tempProject = ProjectDataClass(
+                        ProjectID = currentProject.ProjectID,
+                        ProjectTitle = binding.etTitle.text.toString(),
+                        ProjectDate = LocalDate.now(),
+                        ProjectOverview = binding.etOverview.text.toString(),
+                        ProjectCompanyName = binding.etCompanyName.text.toString(),
+                        ProjectCompanyAbout = binding.etAboutCompany.text.toString(),
+                        UserID = currentProject.UserID,
+                        HasImage = currentProject.HasImage
+                    )
 
-                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
-                        View.VISIBLE
+                    if (!currentProject.equals(tempProject)) {
+                        val currentProjectIndex = GlobalClass.Projects.indexOf(currentProject)
+                        val currentProjectDocumentIndex =
+                            GlobalClass.documents.allProjectIds[currentProjectIndex]
 
-
-                    MainScope().launch() {
-                        withContext(Dispatchers.Default) {
-                            var databaseManager = DatabaseManager()
+                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                            View.VISIBLE
 
 
-                            databaseManager.updateProjectInFirestore(
-                                tempProject,
-                                currentProjectDocumentIndex
-                            )
+                        MainScope().launch() {
+                            withContext(Dispatchers.Default) {
+                                var databaseManager = DatabaseManager()
+
+
+                                databaseManager.updateProjectInFirestore(
+                                    tempProject,
+                                    currentProjectDocumentIndex
+                                )
+
+                            }
+
+
+                            GlobalClass.UpdateDataBase = true
+                            Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
+                            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                                View.GONE
 
                         }
-
-
-                        GlobalClass.UpdateDataBase = true
-                        Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
-                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
-                            View.GONE
-
                     }
                 }
+            }
+            else
+            {
+                binding.etTitle.isEnabled = false
+                binding.etAboutCompany.isEnabled = false
+                binding.etOverview.isEnabled = false
+                binding.etCompanyName.isEnabled = false
+
+                binding.btnCreateProj.visibility = View.GONE
             }
         }
 

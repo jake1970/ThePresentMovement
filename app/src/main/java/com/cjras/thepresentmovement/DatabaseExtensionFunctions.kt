@@ -65,6 +65,38 @@ class DatabaseExtensionFunctions {
     }
 
 
+    fun ExpandEntryData(tableEntryIndex: Int, editMode: Boolean, table: String, context: Fragment,)
+    {
+        //create local fragment controller
+        val fragmentControl = FragmentManager()
+        val args = Bundle()
+
+        when(table)
+        {
+            "Projects" -> {
+                val expandedProjectView = add_project()
+
+                args.putInt("selectedProjectID", tableEntryIndex)
+                args.putBoolean("editMode", editMode)
+
+                expandedProjectView.arguments = args
+
+                fragmentControl.replaceFragment(
+                    expandedProjectView,
+                    R.id.flContent,
+                    context.parentFragmentManager
+                )
+            }
+            "Events" -> {
+
+            }
+            "Announcements" -> {
+
+            }
+        }
+    }
+
+
     fun showAdminOptionMenu(tableEntry: String, tableEntryIndex: Int, context: Fragment, table: String)
     {
         //new dialog
@@ -91,15 +123,7 @@ class DatabaseExtensionFunctions {
                     {
 
                         "Projects" -> {
-                            val viewScreen = add_project()
-                            args.putInt("selectedProjectID", tableEntryIndex)
-                            viewScreen.arguments = args
-
-                            fragmentControl.replaceFragment(
-                                viewScreen,
-                                R.id.flContent,
-                                context.parentFragmentManager
-                            )
+                            ExpandEntryData(tableEntryIndex, false, "Projects", context)
                         }
                         "Events" -> {
                             val viewScreen = add_project() //change to events
@@ -145,17 +169,8 @@ class DatabaseExtensionFunctions {
 
                     when(table)
                     {
-
                         "Projects" -> {
-                            val viewScreen = add_project()
-                            args.putInt("selectedProjectID", tableEntryIndex)
-                            viewScreen.arguments = args
-
-                            fragmentControl.replaceFragment(
-                                viewScreen,
-                                R.id.flContent,
-                                context.parentFragmentManager
-                            )
+                            ExpandEntryData(tableEntryIndex, true, "Projects", context)
                         }
                         "Events" -> {
                             val viewScreen = add_project() //change to events

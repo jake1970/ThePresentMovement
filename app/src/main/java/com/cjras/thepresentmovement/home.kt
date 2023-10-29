@@ -118,6 +118,8 @@ class home : Fragment() {
                 parentFragmentManager
             )
         }
+
+        //-------------------------------------------------------------
         binding.ivLogo.setOnClickListener(){
             //create local fragment controller
             val fragmentControl = FragmentManager()
@@ -135,6 +137,8 @@ class home : Fragment() {
                 parentFragmentManager
             )
         }
+        //-------------------------------------------------------------
+
         // Inflate the layout for this fragment
         return view
     }
