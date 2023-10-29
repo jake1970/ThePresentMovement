@@ -130,7 +130,7 @@
             android:textColorHint="@color/accent_grey"
             android:textColor="@android:color/white" />
 
-        <!-- Last Name Field-->
+        <!-- Email Field-->
         <TextView
             android:id="@+id/lblEmail"
             android:layout_width="wrap_content"
@@ -215,7 +215,7 @@
             android:textColor="@android:color/white" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSignUp"
+            android:id="@+id/btnCreateAccount"
             android:layout_centerHorizontal="true"
             android:layout_width="230dp"
             android:layout_height="80dp"

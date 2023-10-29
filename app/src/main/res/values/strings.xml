@@ -28,6 +28,10 @@
     <string name="dateStartPrompt">Select a start date</string>
     <string name="dateEndPrompt">Select an end date</string>
     <string name="okText">ok</string>
+    <string name="announcementBodyText">E.g. Hello Members
+The think for good event has been postponed until the 26th, I have updated the card in the present movements app.
+Take care
+{Person}</string>
     <string name="myFeedText">My Feed</string>
     <string name="myProfileText">My Profile</string>
     <string name="associatesText">Associates</string>
