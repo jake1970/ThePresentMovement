@@ -331,6 +331,22 @@ class DatabaseManager {
         ).await()
     }
 
+    suspend fun updateProjectInFirestore(currentProject: ProjectDataClass, ID: String) {
+        val projectRef = db.collection("Projects").document(ID)
+        projectRef.update(
+            mapOf(
+                "projectID" to currentProject.ProjectID,
+                "projectTitle" to currentProject.ProjectTitle,
+                "projectDate" to currentProject.ProjectDate.toString(),
+                "projectOverview" to currentProject.ProjectOverview,
+                "projectCompanyName" to currentProject.ProjectCompanyName,
+                "projectCompanyAbout" to currentProject.ProjectCompanyAbout,
+                "userID" to currentProject.UserID,
+                "hasImage" to currentProject.HasImage
+            )
+        ).await()
+    }
+
     //remove a user
     suspend fun deleteUserFromFirestore(ID: String) {
         val userRef = db.collection("Users").document(ID)
