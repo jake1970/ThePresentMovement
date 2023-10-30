@@ -51,7 +51,7 @@ class contacts : Fragment() {
                 }
                 UpdateUI()
             }
-        } catch (e: Error) {
+        } catch (e: Exception) {
             GlobalClass.InformUser(
                 getString(R.string.errorText),
                 "${e}",
@@ -66,7 +66,7 @@ class contacts : Fragment() {
             try {
                 GlobalClass.RefreshFragment(this@contacts)
                 }
-                catch (e: Error) {
+                catch (e: Exception) {
                     GlobalClass.InformUser(
                         getString(R.string.errorText),
                         "${e}",
@@ -151,7 +151,7 @@ class contacts : Fragment() {
             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
         }
-        catch (e: Error)
+        catch (e: Exception)
         {
             GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
         }

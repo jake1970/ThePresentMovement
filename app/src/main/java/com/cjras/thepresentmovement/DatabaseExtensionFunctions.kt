@@ -46,6 +46,15 @@ class DatabaseExtensionFunctions {
                             "Users" -> {
                                 databaseManager.deleteUserFromFirestore(tableEntryDocumentIndex)
                                 deletionType = context.getString(R.string.userText)
+
+
+                                //88888888888888888888888888888888888888888888888888888888888
+                                //find all projects that the user is currently in
+
+                                //ask if users actually need to be able to join projects in app or if they should be redirected
+
+                                //88888888888888888888888888888888888888888888888888888888888
+
                             }
                         }
                         databaseManager.deleteUserFromFirestore(tableEntryDocumentIndex)

@@ -24,11 +24,3 @@ class announcement_card (
     }
 }
 
-//
-/*
-        val activityLayout = binding.llff;
-        var newAnnouncement = announcement_card(this)
-        //add the new view
-        activityLayout.addView(newAnnouncement)
- */
-//

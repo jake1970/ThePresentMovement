@@ -44,7 +44,7 @@ class admin : Fragment() {
                 requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
             }
         }
-        catch (e: Error)
+        catch (e: Exception)
         {
             GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
         }
