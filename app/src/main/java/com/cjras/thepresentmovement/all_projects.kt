@@ -27,6 +27,7 @@ class all_projects : Fragment() {
 
     private var _binding: FragmentAllProjectsBinding? = null
     private val binding get() = _binding!!
+
     private val scrollViewUtils = ScrollViewTools()
     private val filterManager = FilterListFunctions()
 
