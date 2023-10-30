@@ -184,15 +184,8 @@ class DatabaseExtensionFunctions {
                             )
                         }
                         "Announcements" -> {
-                            val viewScreen = add_project() // change to announcements
-                            args.putInt("selectedProjectID", tableEntryIndex)
-                            viewScreen.arguments = args
-
-                            fragmentControl.replaceFragment(
-                                viewScreen,
-                                R.id.flContent,
-                                context.parentFragmentManager
-                            )
+                            
+                            ExpandEntryData(tableEntryIndex, true, "Announcements", context)
                         }
                     }
                 }
