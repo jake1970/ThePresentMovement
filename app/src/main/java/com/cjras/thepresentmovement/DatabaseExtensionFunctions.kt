@@ -91,7 +91,18 @@ class DatabaseExtensionFunctions {
 
             }
             "Announcements" -> {
+                val expandedAnnouncementView = create_announcement()
 
+                args.putInt("selectedAnnouncementID", tableEntryIndex)
+                args.putBoolean("editMode", editMode)
+
+                expandedAnnouncementView.arguments = args
+
+                fragmentControl.replaceFragment(
+                    expandedAnnouncementView,
+                    R.id.flContent,
+                    context.parentFragmentManager
+                )
             }
         }
     }
@@ -141,10 +152,13 @@ class DatabaseExtensionFunctions {
 
                             //----------------
 
+                            var selectedAnnouncementIndex = GlobalClass.Announcements.indexOfLast{it.AnnouncementID == tableEntryIndex}
+
+
                             var fullNotice =
                                 MaterialAlertDialogBuilder(context.requireActivity(), R.style.NoticeAlert)
-                                    .setTitle(GlobalClass.Announcements[tableEntryIndex].AnnouncementTitle)
-                                    .setMessage(GlobalClass.Announcements[tableEntryIndex].AnnouncementMessage)
+                                    .setTitle(GlobalClass.Announcements[selectedAnnouncementIndex].AnnouncementTitle)   //needs to be the index od the id
+                                    .setMessage(GlobalClass.Announcements[selectedAnnouncementIndex].AnnouncementMessage)
                                     .setIcon((R.drawable.notification_bell))
                                     .setNeutralButton(context.getString(R.string.okText)) { dialog, which ->
                                         // Respond to neutral button press

@@ -113,7 +113,7 @@ class create_account : Fragment() {
                                         FirstName = Name,
                                         LastName = Surname,
                                         EmailAddress = Email,
-                                        MemberTypeID = 1,
+                                        MemberTypeID = 1, //change to spinner input
                                         Quote = "",
                                         ContactNumber = "",
                                         CompanyName = "",

@@ -223,18 +223,29 @@ class FilterListFunctions {
 
                                 fullNotice.show()
                             } else {
-                                val currentAnnouncementIndex =
-                                    GlobalClass.Announcements.indexOf(announcement)
-                                val currentAnnouncementDocumentIndex =
-                                    GlobalClass.documents.allAnnouncmentIds[currentAnnouncementIndex]
+
+                                val currentAnnouncementIndex = GlobalClass.Announcements.indexOf(announcement)
+                                val currentAnnouncementDocumentIndex = GlobalClass.documents.allAnnouncmentIds[currentAnnouncementIndex]
 
                                 var databaseExtension = DatabaseExtensionFunctions()
                                 databaseExtension.showAdminOptionMenu(
                                     currentAnnouncementDocumentIndex,
-                                    currentAnnouncementIndex,
+                                    announcement.AnnouncementID,
                                     context,
                                     "Announcements"
                                 )
+
+                                /*
+                                 val currentProjectIndex = GlobalClass.Projects.indexOf(project)
+                                val currentProjectDocumentIndex = GlobalClass.documents.allProjectIds[currentProjectIndex]
+
+                                databaseExtension.showAdminOptionMenu(
+                                    currentProjectDocumentIndex,
+                                    project.ProjectID,
+                                    context,
+                                    "Projects"
+                                )
+                                 */
                             }
                         }
 
@@ -323,8 +334,7 @@ class FilterListFunctions {
                             } else {
 
                                 val currentProjectIndex = GlobalClass.Projects.indexOf(project)
-                                val currentProjectDocumentIndex =
-                                    GlobalClass.documents.allProjectIds[currentProjectIndex]
+                                val currentProjectDocumentIndex = GlobalClass.documents.allProjectIds[currentProjectIndex]
 
                                 databaseExtension.showAdminOptionMenu(
                                     currentProjectDocumentIndex,

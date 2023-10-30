@@ -11,6 +11,7 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.cjras.thepresentmovement.databinding.FragmentAdminBinding
 import com.cjras.thepresentmovement.databinding.FragmentCreateAnnouncementBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -32,6 +33,55 @@ class create_announcement : Fragment() {
 
         _binding = FragmentCreateAnnouncementBinding.inflate(inflater, container, false)
         val view = binding.root
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //Data population
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        try {
+
+            //Read Data
+            MainScope().launch {
+
+                if (GlobalClass.UpdateDataBase == true) {
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                        View.VISIBLE
+                    withContext(Dispatchers.Default) {
+
+                        var databaseManager = DatabaseManager()
+                        databaseManager.updateFromDatabase()
+                    }
+                }
+
+                UpdateUI()
+            }
+        } catch (e: Error) {
+            GlobalClass.InformUser(
+                getString(R.string.errorText),
+                "${e.toString()}",
+                requireContext()
+            )
+        }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+        binding.llHeader.setOnClickListener()
+        {
+            fragmentManager?.popBackStackImmediate()
+        }
+
+        binding.ivRefresh.setOnClickListener()
+        {
+            GlobalClass.RefreshFragment(this)
+        }
+
+        return view;
+    }
+
+
+
+    private fun UpdateUI()
+    {
 
         // edit announcement
         var announcementID = arguments?.getInt("selectedAnnouncementID", 0)
@@ -81,7 +131,12 @@ class create_announcement : Fragment() {
                             GlobalClass.Announcements = databaseManager.getAllAnnouncementsFromFirestore()
                         }
 
-                        var nextAnnouncementID = GlobalClass.Announcements.last().AnnouncementID + 1
+
+                        var nextAnnouncementID = 1
+                        if (GlobalClass.Announcements.count() > 0) {
+                            nextAnnouncementID = GlobalClass.Announcements.last().AnnouncementID + 1
+                        }
+
                         val tempAnnouncement = AnnouncementDataClass(
                             AnnouncementID = nextAnnouncementID,
                             AnnouncementTitle = binding.etAnnounceTitle.text.toString(),
@@ -93,7 +148,10 @@ class create_announcement : Fragment() {
                         val dbManager = DatabaseManager()
                         dbManager.addNewAnnouncementToFirestore(tempAnnouncement)
 
+                        Toast.makeText(requireActivity(), "Announcement Added", Toast.LENGTH_SHORT).show()
+                        GlobalClass.UpdateDataBase = true
                         requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+                        binding.llHeader.callOnClick()
 
                     }
                 }
@@ -115,6 +173,7 @@ class create_announcement : Fragment() {
             {
                 binding.btnCreateAnnounce.setOnClickListener() {
                     val tempAnnouncement = AnnouncementDataClass(
+                        AnnouncementID = currentAnnouncement.AnnouncementID,
                         AnnouncementTitle = binding.etAnnounceTitle.text.toString(),
                         AnnouncementDate = LocalDate.now(),
                         AnnouncementMessage = binding.etAnnounceBody.text.toString(),
@@ -147,6 +206,7 @@ class create_announcement : Fragment() {
                             Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
                             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
                                 View.GONE
+                            binding.llHeader.callOnClick()
 
                         }
                     }
@@ -160,6 +220,7 @@ class create_announcement : Fragment() {
                 binding.btnCreateAnnounce.visibility = View.GONE
             }
         }
-        return view;
+
+        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
     }
 }
