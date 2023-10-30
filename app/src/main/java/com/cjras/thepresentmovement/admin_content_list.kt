@@ -149,14 +149,12 @@ class admin_content_list : Fragment() {
                 getString(R.string.announcementsText) -> {
                     //new announcement
 
-                    //uncomment this line and replace "register_user()" with the new announcement fragment
-                    //fragmentControl.replaceFragment(register_user(), R.id.flContent, parentFragmentManager)
-
+                    fragmentControl.replaceFragment(create_announcement(), R.id.flContent, parentFragmentManager)
                 }
                 getString(R.string.accountsText) -> {
                     //new account
 
-                    fragmentControl.replaceFragment(register_user(), R.id.flContent, parentFragmentManager)
+                    fragmentControl.replaceFragment(create_account(), R.id.flContent, parentFragmentManager)
                 }
                 getString(R.string.eventsText) -> {
                     //new event
