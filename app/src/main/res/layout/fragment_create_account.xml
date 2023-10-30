@@ -101,7 +101,8 @@
             android:hint="Enter a first name . . ."
             android:textColorHint="@color/accent_grey"
             android:textColor="@android:color/white"
-            android:paddingLeft="6dp"/>
+            android:paddingLeft="6dp"
+            android:singleLine="true"/>
 
         <!-- Last Name Field-->
         <TextView
@@ -130,7 +131,8 @@
             android:hint="Enter a last name . . ."
             android:textColorHint="@color/accent_grey"
             android:textColor="@android:color/white"
-            android:paddingLeft="6dp"/>
+            android:paddingLeft="6dp"
+            android:singleLine="true"/>
 
         <!-- Email Field-->
         <TextView
@@ -159,7 +161,8 @@
             android:hint="Enter a valid email . . ."
             android:textColorHint="@color/accent_grey"
             android:textColor="@android:color/white"
-            android:paddingLeft="6dp"/>
+            android:paddingLeft="6dp"
+            android:singleLine="true"/>
 
         <!-- Password field-->
         <TextView
@@ -188,7 +191,9 @@
             android:hint="Password"
             android:textColorHint="@color/accent_grey"
             android:textColor="@android:color/white"
-            android:paddingLeft="6dp"/>
+            android:paddingLeft="6dp"
+            android:singleLine="true"
+            android:inputType="textPassword"/>
 
         <!-- Password Field-->
         <TextView
@@ -217,7 +222,9 @@
             android:hint="Confirm Password"
             android:textColorHint="@color/accent_grey"
             android:textColor="@android:color/white"
-            android:paddingLeft="6dp"/>
+            android:paddingLeft="6dp"
+            android:singleLine="true"
+            android:inputType="textPassword"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCreateAccount"
