@@ -100,7 +100,7 @@ class expanded_contact : Fragment() {
                     UpdateUI()
 
             }
-        } catch (e: Error) {
+        } catch (e: Exception) {
             GlobalClass.InformUser(getString(R.string.errorText), "$e", requireContext())
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------------------

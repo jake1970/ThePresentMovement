@@ -55,7 +55,7 @@ class admin_content_list : Fragment() {
                 }
                 UpdateUI()
             }
-        } catch (e: Error) {
+        } catch (e: Exception) {
             GlobalClass.InformUser(
                 getString(R.string.errorText),
                 "${e.toString()}",

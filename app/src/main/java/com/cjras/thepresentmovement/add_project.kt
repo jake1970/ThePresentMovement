@@ -79,11 +79,16 @@ class add_project : Fragment() {
                             GlobalClass.Projects = databaseManager.getAllProjectsFromFirestore()
                         }
 
-                        var nextProjectID = GlobalClass.Projects.last().ProjectID + 1
+                        var nextProjectID =  1
+                        if (GlobalClass.Projects.count() > 0)
+                        {
+                            nextProjectID = GlobalClass.Projects.last().ProjectID + 1
+                        }
+
                         val tempProject = ProjectDataClass(
                             ProjectID = nextProjectID,
                             ProjectTitle = binding.etTitle.text.toString(),
-                            ProjectDate = LocalDate.now(),
+                            ProjectDate = LocalDate.now(), //change to the date picker selection
                             ProjectOverview = binding.etOverview.text.toString(),
                             ProjectCompanyName = binding.etCompanyName.text.toString(),
                             ProjectCompanyAbout = binding.etAboutCompany.text.toString(),

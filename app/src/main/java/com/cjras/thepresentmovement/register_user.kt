@@ -7,11 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.view.children
 import com.cjras.thepresentmovement.databinding.FragmentContactsBinding
 import com.cjras.thepresentmovement.databinding.FragmentRegisterUserBinding
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private var _binding: FragmentRegisterUserBinding? = null
 private val binding get() = _binding!!
@@ -26,8 +31,47 @@ class register_user : Fragment() {
         _binding = FragmentRegisterUserBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        firebaseAuth = FirebaseAuth.getInstance()
 
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //Data population
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        try {
+
+            //Read Data
+            MainScope().launch {
+
+                if (GlobalClass.UpdateDataBase == true) {
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                        View.VISIBLE
+                    withContext(Dispatchers.Default) {
+
+                        var databaseManager = DatabaseManager()
+                        databaseManager.updateFromDatabase()
+                    }
+                }
+
+                UpdateUI()
+            }
+        } catch (e: Exception) {
+            GlobalClass.InformUser(
+                getString(R.string.errorText),
+                "${e.toString()}",
+                requireContext()
+            )
+        }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+        return view
+    }
+
+
+
+    private fun UpdateUI()
+    {
+
+        firebaseAuth = FirebaseAuth.getInstance()
 
         binding.btnRegUser.setOnClickListener(){
 
@@ -63,10 +107,11 @@ class register_user : Fragment() {
             }
         }
 
-        return view
     }
 
-    fun RegisterNewUser(Name: String, Surname:String, Email:String, Password:String, ConfirmPassword:String){
+
+
+    private fun RegisterNewUser(Name: String, Surname:String, Email:String, Password:String, ConfirmPassword:String){
         if(isValidPassword(Password)){
             if(Password == ConfirmPassword)
             {
@@ -108,7 +153,7 @@ class register_user : Fragment() {
             ).show()
         }
     }
-    fun isValidPassword(password: String): Boolean {
+    private fun isValidPassword(password: String): Boolean {
         if(password.length <= 8){
             return false
         }
