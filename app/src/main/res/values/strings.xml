@@ -6,8 +6,8 @@
     <string name="slogan_text">Meet. Talk. Connect. Love.</string>
     <string name="username_text">Username</string>
     <string name="password_text">Password</string>
-    <string name="username_hint_text">    Enter a valid username . . .</string>
-    <string name="password_hint_text">    Enter a valid username . . .</string>
+    <string name="username_hint_text">Enter a valid username . . .</string>
+    <string name="password_hint_text">Enter a valid username . . .</string>
     <string name="noticesText">Notices</string>
     <string name="homeText">Home</string>
     <string name="contactsText">Contacts</string>
