@@ -99,9 +99,10 @@
             android:layout_marginStart="16dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/custom_rounded_edges"
-            android:hint="     E.g. New Event: {Event Name} !"
+            android:hint="E.g. New Event: {Event Name} !"
             android:textColorHint="@color/accent_grey"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:paddingLeft="6dp"/>
 
         <!-- Announcement Body Field-->
         <TextView
@@ -127,12 +128,12 @@
             android:layout_marginStart="16dp"
             android:layout_centerHorizontal="true"
             android:gravity="top"
-            android:paddingTop="10dp"
-            android:paddingLeft="16dp"
+            android:padding="6dp"
             android:background="@drawable/custom_rounded_edges"
             android:hint="@string/announcementBodyText"
             android:textColorHint="@color/accent_grey"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            />
 
 
 
