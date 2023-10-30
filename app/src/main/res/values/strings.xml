@@ -6,8 +6,34 @@
     <string name="slogan_text">Meet. Talk. Connect. Love.</string>
     <string name="username_text">Username</string>
     <string name="password_text">Password</string>
-    <string name="username_hint_text">Enter a valid username . . .</string>
-    <string name="password_hint_text">Enter a valid username . . .</string>
+    <string name="username_hint_text">    Enter a valid username . . .</string>
+    <string name="password_hint_text">    Enter a valid username . . .</string>
+    <string name="createAccountText">Create Account</string>
+    <string name="createAccountLowerText">create account</string>
+    <string name="fristNameText">First Name</string>
+    <string name="lastNameText">Last Name</string>
+    <string name="firstNameEdittext">     Enter a last name . . .</string>
+    <string name="lastNameEditText">     Enter a first name . . .</string>
+    <string name="emailText">Email</string>
+    <string name="emailEditText">    Enter a valid email . . .</string>
+    <string name="logoutText">Logout</string>
+    <string name="resetPassText">Reset Password</string>
+    <string name="affiliatesText">Affiliates</string>
+    <string name="donateText">Donate</string>
+    <string name="shopText">Shop</string>
+    <string name="campaignsText">Campaigns</string>
+    <string name="createAnnounceText">Create Announcement</string>
+    <string name="announceTitleText">Announcement Title</string>
+    <string name="announceBodyText">Announcement Body</string>
+    <string name="announceTitleHintText">     E.g. New Event: {Event Name} !</string>
+    <string name="createAnnounceLowerText">create announcement</string>
+    <string name="createEventText">Create Event</string>
+    <string name="createEventLowerText">create event</string>
+    <string name="eventDateText">Event Date</string>
+    <string name="eventLinkText">Event Link</string>
+    <string name="uploadImgText">Upload an Image</string>
+    <string name="createProjectText">Create Project</string>
+
     <string name="noticesText">Notices</string>
     <string name="homeText">Home</string>
     <string name="contactsText">Contacts</string>
@@ -73,13 +99,6 @@ Take care
     <string name="deletedText">Deleted</string>
     <string name="announcementText">Announcement</string>
     <string name="userText">User</string>
-    <string name="passwordShort">Password too short, needs to be 8 or more characters</string>
-    <string name="passwordNeedsNumber">Password needs to contain at least 1 digit</string>
-    <string name="passwordNeedsLowerCase">Password needs to contain at least 1 lower case character</string>
-    <string name="passwordNeedsUpperCase">Password needs to contain at least 1 upper case character</string>
-    <string name="passwordNeedsToStartWithUpperCaseLetter">Password needs start with an upper case character</string>
-    <string name="passwordNeedsSpecialCharacter">Password needs to include one of the following special characters: -?!@#£$%+=&amp;</string>
-    <string name="passwordSpecialCharacters">-?!@#£$%+=&amp;</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
