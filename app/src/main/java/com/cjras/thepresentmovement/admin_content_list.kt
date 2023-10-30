@@ -149,7 +149,23 @@ class admin_content_list : Fragment() {
                 getString(R.string.announcementsText) -> {
                     //new announcement
 
-                    fragmentControl.replaceFragment(create_announcement(), R.id.flContent, parentFragmentManager)
+                    val fragmentControl = FragmentManager()
+                    val args = Bundle()
+
+
+                    val addAnnouncementView = create_announcement()
+
+                    //args.putBoolean("editMode", false)
+
+                    addAnnouncementView.arguments = args
+
+                    fragmentControl.replaceFragment(
+                        addAnnouncementView,
+                        R.id.flContent,
+                        parentFragmentManager
+                    )
+
+
                 }
                 getString(R.string.accountsText) -> {
                     //new account

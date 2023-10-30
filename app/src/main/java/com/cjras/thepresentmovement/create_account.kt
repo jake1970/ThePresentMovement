@@ -1,5 +1,6 @@
 package com.cjras.thepresentmovement
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.cjras.thepresentmovement.databinding.FragmentAllProjectsBinding
 import com.cjras.thepresentmovement.databinding.FragmentCreateAccountBinding
 import com.cjras.thepresentmovement.databinding.FragmentRegisterUserBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.auth.User
 
 
 private var _binding: FragmentCreateAccountBinding? = null
@@ -62,13 +64,26 @@ class create_account: Fragment() {
             }
         }
 
+        binding.llHeader.setOnClickListener()
+        {
+            fragmentManager?.popBackStackImmediate()
+        }
+
+        binding.ivRefresh.setOnClickListener()
+        {
+            GlobalClass.RefreshFragment(this)
+        }
+
         return view
     }
 
-    fun RegisterNewUser(Name: String, Surname:String, Email:String, Password:String, ConfirmPassword:String){
-        if(isValidPassword(Password)){
-            if(Password == ConfirmPassword)
-            {
+    private fun RegisterNewUser(Name: String, Surname:String, Email:String, Password:String, ConfirmPassword:String){
+
+        var passwordResult = UserDataClass().validateUserPassword(Password)
+
+        if(Password == ConfirmPassword)
+        {
+        if(passwordResult == ""){
                 firebaseAuth.createUserWithEmailAndPassword(Email, Password).addOnCompleteListener{
                     if(it.isSuccessful){
                         val userInfo = firebaseAuth.currentUser!!.uid
@@ -96,18 +111,16 @@ class create_account: Fragment() {
                     }
                 }
             }else{
-                Toast.makeText(requireActivity(), "Passwords do not match", Toast.LENGTH_SHORT).show()
+               GlobalClass.InformUser("", passwordResult, requireActivity())
             }
         }else{
-            Toast.makeText(requireActivity(), "Password too weak", Toast.LENGTH_SHORT).show()
-            Toast.makeText(
-                requireActivity(),
-                "Password requires 8 characters or more, at least 1 number, and at least 1 capital letter",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(requireActivity(), "Passwords do not match", Toast.LENGTH_SHORT).show()
         }
     }
 
+
+
+/*
     fun isValidPassword(password: String): Boolean {
         if(password.length <= 8){
             return false
@@ -129,4 +142,5 @@ class create_account: Fragment() {
         }
         return hasLower && hasUpper && hasNumber
     }
+ */
 }
