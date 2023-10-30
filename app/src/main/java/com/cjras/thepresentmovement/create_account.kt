@@ -79,7 +79,7 @@ class create_account: Fragment() {
 
     private fun RegisterNewUser(Name: String, Surname:String, Email:String, Password:String, ConfirmPassword:String){
 
-        var passwordResult = UserDataClass().validateUserPassword(Password)
+        var passwordResult = UserDataClass().validateUserPassword(Password, requireActivity())
 
         if(Password == ConfirmPassword)
         {

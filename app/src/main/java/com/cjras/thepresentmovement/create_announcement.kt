@@ -33,9 +33,133 @@ class create_announcement : Fragment() {
         _binding = FragmentCreateAnnouncementBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        // edit announcement
+        var announcementID = arguments?.getInt("selectedAnnouncementID", 0)
 
 
+        var editMode = arguments?.getBoolean("editMode", false)
 
+        var currentAnnouncement = AnnouncementDataClass()
+
+
+        //-------------
+        if (announcementID == 0) {
+            //add code here
+
+            //-------------
+            binding.btnCreateAnnounce.setOnClickListener() {
+                //boolean to determine if all fields are filled in
+                var allFilled = true
+
+                //the container where the input fields are
+                val container = binding.rlContent
+
+
+                //loop through the inputs
+                for (component in container.children) {
+                    //check that the current component is a text edit and that it doesn't contain a value
+                    if (component is EditText && component.text.isNullOrEmpty()) {
+                        //set the components error text
+                        component.error = getString(R.string.missingText)
+
+                        //set the filled status to false
+                        allFilled = false
+                    }
+                }
+
+
+                //if all components are filled in
+                if (allFilled == true) {
+
+                    MainScope().launch() {
+
+                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+
+                        withContext(Dispatchers.Default) {
+                            var databaseManager = DatabaseManager()
+
+                            GlobalClass.Announcements = databaseManager.getAllAnnouncementsFromFirestore()
+                        }
+
+                        var nextAnnouncementID = GlobalClass.Announcements.last().AnnouncementID + 1
+                        val tempAnnouncement = AnnouncementDataClass(
+                            AnnouncementID = nextAnnouncementID,
+                            AnnouncementTitle = binding.etAnnounceTitle.text.toString(),
+                            AnnouncementDate = LocalDate.now(),
+                            AnnouncementMessage = binding.etAnnounceBody.text.toString(),
+                            UserID = GlobalClass.currentUser.UserID
+
+                        )
+                        val dbManager = DatabaseManager()
+                        dbManager.addNewAnnouncementToFirestore(tempAnnouncement)
+
+                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+
+                    }
+                }
+            }
+            //------------
+
+
+        } else {
+            for (announcement in GlobalClass.Announcements) {
+                if (announcement.AnnouncementID == announcementID) {
+                    binding.etAnnounceTitle.setText(announcement.AnnouncementTitle)
+                    binding.etAnnounceBody.setText(announcement.AnnouncementMessage)
+                    currentAnnouncement = announcement
+                    break
+                }
+            }
+
+            if (editMode == true)
+            {
+                binding.btnCreateAnnounce.setOnClickListener() {
+                    val tempAnnouncement = AnnouncementDataClass(
+                        AnnouncementTitle = binding.etAnnounceTitle.text.toString(),
+                        AnnouncementDate = LocalDate.now(),
+                        AnnouncementMessage = binding.etAnnounceBody.text.toString(),
+                        UserID = GlobalClass.currentUser.UserID
+                    )
+
+                    if (!currentAnnouncement.equals(tempAnnouncement)) {
+                        val currentAnnouncementIndex = GlobalClass.Announcements.indexOf(currentAnnouncement)
+                        val currentAnnouncementDocumentIndex =
+                            GlobalClass.documents.allAnnouncmentIds[currentAnnouncementIndex]
+
+                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                            View.VISIBLE
+
+
+                        MainScope().launch() {
+                            withContext(Dispatchers.Default) {
+                                var databaseManager = DatabaseManager()
+
+
+                                databaseManager.updateAnnouncementInFirestore(
+                                    tempAnnouncement,
+                                    currentAnnouncementDocumentIndex
+                                )
+
+                            }
+
+
+                            GlobalClass.UpdateDataBase = true
+                            Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
+                            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                                View.GONE
+
+                        }
+                    }
+                }
+            }
+            else
+            {
+                binding.etAnnounceTitle.isEnabled = false
+                binding.etAnnounceBody.isEnabled = false
+
+                binding.btnCreateAnnounce.visibility = View.GONE
+            }
+        }
         return view;
     }
 }
