@@ -271,7 +271,7 @@ class admin_content_list : Fragment() {
 
                 }
                 getString(R.string.eventsText) -> {
-                    //load events/text
+                    //load events text
                     filterManager.LoadEvents("", binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@admin_content_list, true)
                 }
                 getString(R.string.projectsText) -> {

@@ -428,12 +428,22 @@ class FilterListFunctions {
                             if (adminView == false) {
                                 //open event full view
 
-
+                                databaseExtension.ExpandEntryData(event.EventID, false, "Events", context)
 
 
                             } else {
 
                                 //show admin menu
+
+                                val currentEventIndex = GlobalClass.Events.indexOf(event)
+                                val currentEventDocumentIndex = GlobalClass.documents.allEventIDs[currentEventIndex]
+
+                                databaseExtension.showAdminOptionMenu(
+                                    currentEventDocumentIndex,
+                                    event.EventID,
+                                    context,
+                                    "Events"
+                                )
 
 
                             }

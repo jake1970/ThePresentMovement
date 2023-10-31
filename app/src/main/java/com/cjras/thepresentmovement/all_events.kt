@@ -57,23 +57,20 @@ class all_events : Fragment() {
             GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
         }
 
+
         binding.ivRefresh.setOnClickListener()
         {
             GlobalClass.RefreshFragment(this)
         }
 
+
         binding.llHeader.setOnClickListener()
         {
-            fragmentManager?.popBackStackImmediate()
-            /*
-            //create local fragment controller
-            val fragmentControl = FragmentManager()
 
-            //go back the the general contacts page
-            fragmentControl.replaceFragment(home(), R.id.flContent, parentFragmentManager)
-             */
+            fragmentManager?.popBackStackImmediate()
 
         }
+
 
         binding.llExpansionMenu.setOnClickListener()
         {
@@ -88,6 +85,7 @@ class all_events : Fragment() {
         binding.tvStartDate.setOnClickListener(){
             scrollViewUtils.datePicker(this, true, binding.tvStartDate)
         }
+
 
         binding.tvEndDate.setOnClickListener(){
             scrollViewUtils.datePicker(this, false, binding.tvEndDate)
@@ -113,6 +111,7 @@ class all_events : Fragment() {
         return view
     }
 
+
     private fun UpdateUI()
     {
 
@@ -122,58 +121,5 @@ class all_events : Fragment() {
 
     }
 
-    /*
-    private fun LoadEvents(searchTerm: String, displayLayout: LinearLayout, startDate: String, endDate: String)
-    {
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
-        var databaseManager = DatabaseManager()
-        val activityLayout = binding.llUpcomingEvents;
-
-        displayLayout.removeAllViews()
-
-
-        for (event in GlobalClass.Events) {
-            if (event.EventTitle.lowercase().contains(searchTerm.lowercase()) || event.EventLink.lowercase().contains(searchTerm.lowercase()) || searchTerm == "") {
-
-                var startDateFormatted : LocalDate? = null
-                var endDateFormatted : LocalDate? = null
-
-                if (startDate != getString(R.string.blankDate)) {
-                    startDateFormatted = LocalDate.parse(startDate, formatter)
-                }
-
-                if (endDate != getString(R.string.blankDate)) {
-                    endDateFormatted = LocalDate.parse(endDate, formatter)
-                }
-
-                if (startDate == getString(R.string.blankDate) || (startDateFormatted != null && (event.EventDate.isAfter(startDateFormatted!!)  || event.EventDate.isEqual(startDateFormatted!!)))) {
-
-                    if (endDate == getString(R.string.blankDate) || (endDateFormatted != null && (event.EventDate.isBefore(endDateFormatted!!) || event.EventDate.isEqual(endDateFormatted!!)))) {
-
-
-                        val newEventCard = home_feed_card(activity)
-
-                        newEventCard.binding.tvEntryTitle.text = event.EventTitle
-                        newEventCard.binding.tvEntryText.text = event.EventLink
-                        newEventCard.binding.tvEntryDate.text = event.EventDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
-                        newEventCard.binding.ivEntryIcon.setImageBitmap(databaseManager.getEventDefaultImage(requireActivity()))
-
-                        newEventCard.setOnClickListener()
-                        {
-                            //open event full view
-                        }
-
-                        //add the new view
-                        activityLayout.addView(newEventCard)
-
-                        //add space between custom cards
-                        scrollViewUtils.generateSpacer(activityLayout, requireActivity(), 14)
-
-                    }
-                }
-            }
-        }
-    }
-     */
 
 }

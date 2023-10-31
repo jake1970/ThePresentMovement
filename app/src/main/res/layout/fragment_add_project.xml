@@ -169,7 +169,7 @@
                 android:textColorHint="@color/accent_grey"
                 android:textColor="@android:color/white"
                 android:paddingLeft="10dp"
-                android:singleLine="true"/>
+                />
 
             <!-- Overview field-->
             <TextView
@@ -196,7 +196,7 @@
                 android:textColor="@android:color/white"
                 android:paddingLeft="6dp"
                 android:singleLine="true"
-                android:inputType="textPassword"/>
+                />
 
             <LinearLayout
                 android:id="@+id/llEventDate"
@@ -217,7 +217,8 @@
                     android:text="@string/dateText"
                     android:gravity="center"
                     android:layout_gravity="center"
-                    android:textSize="22sp"
+                    android:textSize="22dp"
+                    android:layout_marginRight="10dp"
                     android:textStyle="bold"
                     android:textColor="@android:color/white" />
 
@@ -231,7 +232,7 @@
                     android:textAlignment="center"
                     android:gravity="center"
                     android:padding="4dp"
-                    android:textSize="12sp"
+                    android:textSize="12dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/palette_10"
                     android:backgroundTint="@color/sub_grey"
@@ -289,6 +290,7 @@
             android:letterSpacing="0"
             android:textAllCaps="false"
             android:textStyle="bold"
+            android:layout_marginBottom="40dp"
             />
 
     </RelativeLayout>
