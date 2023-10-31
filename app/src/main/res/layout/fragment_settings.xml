@@ -125,25 +125,29 @@
             android:backgroundTint="@color/accent_grey"
             android:src="@drawable/arrow_icon"
             app:tint="@color/sub_grey" />
-
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/llMyProfileCard"
+        >
     <TextView
         android:id="@+id/tvLogout"
-        android:layout_width="380dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_weight="1"
         android:text="@string/logoutText"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/white"
-        android:layout_below="@id/llMyProfileCard"
         android:layout_marginTop="200dp"
         android:drawableLeft="@drawable/logout_icon"
         android:drawablePadding="50dp"
         android:gravity="start|center"
-        android:layout_marginLeft="15dp"
-        android:paddingLeft="10dp"
         android:backgroundTint="@color/sub_grey"
         android:background="@drawable/palette_12"
         />
@@ -160,9 +164,7 @@
         android:layout_marginTop="260dp"
         android:gravity="start|center"
         android:drawableLeft="@drawable/reset_password_icon"
-        android:paddingLeft="10dp"
         android:drawablePadding="50dp"
-        android:layout_marginLeft="15dp"
         android:backgroundTint="@color/sub_grey"
         android:background="@drawable/palette_12"
         />
@@ -279,7 +281,7 @@
                 android:layout_marginEnd="10dp" >
             </TextView>
         </LinearLayout>
-
     </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>
