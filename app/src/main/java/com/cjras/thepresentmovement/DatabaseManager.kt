@@ -526,6 +526,30 @@ class DatabaseManager {
     }
 
 
+    suspend fun getProjectImage(context: Context, projectID : Int, eventHasImage: Boolean) : Bitmap?
+    {
+
+        var bitmap = getEventDefaultImage(context)
+
+        if (eventHasImage) {
+            try {
+                val storageReference = FirebaseStorage.getInstance().reference.child("ProjectImages/$projectID.jpg") //until add images from the ui is in, add .jpg extension
+                val imgFile = File.createTempFile("tempImage", "jpg")
+                storageReference.getFile(imgFile).await()
+                bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+            } catch (e: Exception) {
+                GlobalClass.InformUser(
+                    context.getString(R.string.errorText),
+                    "${e.toString()}",
+                    context
+                )
+            }
+        }
+
+        return bitmap
+    }
+
+
     fun getEventDefaultImage(context: Context) : Bitmap?
     {
         var defaultUserImage = context.getDrawable(R.drawable.e_icon)
@@ -569,6 +593,46 @@ class DatabaseManager {
             .addOnSuccessListener {
                 GlobalClass.currentUser.HasImage = true
         }.await()
+
+    }
+
+    suspend fun setProjectImage(context: Context, projectID : Int, selectedImageUri : Uri)
+    {
+
+        val imageLocation = "ContactImages/$projectID"
+        val storageReference = FirebaseStorage.getInstance().getReference(imageLocation)
+
+        // binding.ivMyProfileImage.image
+
+        storageReference.putFile(selectedImageUri)
+            .addOnFailureListener{
+                Toast.makeText(context, "Imaged Failed To Upload", Toast.LENGTH_SHORT).show()
+            }
+            .addOnSuccessListener {
+                //set current project has image to true
+                var selectedProjectIndex = GlobalClass.Projects.indexOfLast{it.ProjectID == projectID}
+                GlobalClass.Projects[selectedProjectIndex].HasImage = true
+            }.await()
+
+    }
+
+    suspend fun setEventImage(context: Context, eventID : Int, selectedImageUri : Uri)
+    {
+
+        val imageLocation = "ContactImages/$eventID"
+        val storageReference = FirebaseStorage.getInstance().getReference(imageLocation)
+
+        // binding.ivMyProfileImage.image
+
+        storageReference.putFile(selectedImageUri)
+            .addOnFailureListener{
+                Toast.makeText(context, "Imaged Failed To Upload", Toast.LENGTH_SHORT).show()
+            }
+            .addOnSuccessListener {
+                //set current event has image to true
+                var selectedEventIndex = GlobalClass.Events.indexOfLast{it.EventDate == eventID}
+                GlobalClass.Events[selectedEventIndex].HasImage = true
+            }.await()
 
     }
 
