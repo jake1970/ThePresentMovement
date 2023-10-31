@@ -16,6 +16,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 class add_project : Fragment() {
@@ -38,6 +39,9 @@ class add_project : Fragment() {
         var editMode = arguments?.getBoolean("editMode", false)
 
         var currentProject = ProjectDataClass()
+
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
+        var formattedDate = LocalDate.parse(binding.tvStartDate.text.toString(), formatter)
 
 
         //-------------
@@ -88,7 +92,7 @@ class add_project : Fragment() {
                         val tempProject = ProjectDataClass(
                             ProjectID = nextProjectID,
                             ProjectTitle = binding.etTitle.text.toString(),
-                            ProjectDate = LocalDate.now(), //change to the date picker selection
+                            ProjectDate = formattedDate, //change to the date picker selection
                             ProjectOverview = binding.etOverview.text.toString(),
                             ProjectCompanyName = binding.etCompanyName.text.toString(),
                             ProjectCompanyAbout = binding.etAboutnCompany.text.toString(),
@@ -125,7 +129,7 @@ class add_project : Fragment() {
                     val tempProject = ProjectDataClass(
                         ProjectID = currentProject.ProjectID,
                         ProjectTitle = binding.etTitle.text.toString(),
-                        ProjectDate = LocalDate.now(),
+                        ProjectDate = formattedDate,
                         ProjectOverview = binding.etOverview.text.toString(),
                         ProjectCompanyName = binding.etCompanyName.text.toString(),
                         ProjectCompanyAbout = binding.etAboutnCompany.text.toString(),

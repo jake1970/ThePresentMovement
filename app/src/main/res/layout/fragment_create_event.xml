@@ -77,11 +77,19 @@
 
 
         <!-- First Name Field-->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rlContent"
+            android:layout_below="@id/rlHeader">
+
+
         <TextView
             android:id="@+id/lblEventTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rlHeader"
+
             android:layout_marginEnd="16dp"
             android:layout_marginStart="54dp"
             android:layout_marginTop="30dp"
@@ -100,7 +108,7 @@
             android:layout_marginStart="16dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/custom_rounded_edges"
-            android:hint="Enter a first name . . ."
+            android:hint="Event Title"
             android:textColorHint="@color/accent_grey"
             android:textColor="@android:color/white"
             android:paddingLeft="6dp"
@@ -173,18 +181,20 @@
         android:layout_marginStart="16dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/custom_rounded_edges"
-        android:hint="Enter a valid email . . ."
+        android:hint="Event Link"
         android:textColorHint="@color/accent_grey"
         android:textColor="@android:color/white"
         android:paddingLeft="6dp"
         android:singleLine="true"/>
+
+    </RelativeLayout>
 
         <!-- Image Field-->
         <TextView
             android:id="@+id/lblEventImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/etEventLink"
+            android:layout_below="@id/rlContent"
             android:layout_centerInParent="true"
             android:layout_marginStart="54dp"
             android:layout_marginTop="30dp"
@@ -209,11 +219,11 @@
             app:srcCompat="@color/accent_grey" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCreateAccount"
+        android:id="@+id/btnCreateEvent"
         android:layout_centerHorizontal="true"
         android:layout_width="230dp"
         android:layout_height="80dp"
-        android:layout_below="@id/etEventLink"
+        android:layout_below="@id/rlContent"
         android:layout_marginTop="220dp"
         app:cornerRadius="30dp"
         android:text="@string/createEventLowerText"
