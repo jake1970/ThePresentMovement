@@ -75,179 +75,204 @@
             />
     </RelativeLayout>
 
-
-        <!-- First Name Field-->
-        <TextView
-            android:id="@+id/lblFirstName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ScrollView
+            android:id="@+id/svBody"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_below="@id/rlHeader"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="54dp"
-            android:layout_marginTop="30dp"
-            android:text="First Name"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white" />
+            android:layout_centerInParent="true">
 
-        <EditText
-            android:id="@+id/etFirstName"
-            android:layout_width="307dp"
-            android:layout_height="48dp"
-            android:layout_below="@id/lblFirstName"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/custom_rounded_edges"
-            android:hint="Enter a first name . . ."
-            android:textColorHint="@color/accent_grey"
-            android:textColor="@android:color/white"
-            android:paddingLeft="6dp"
-            android:singleLine="true"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal">
 
-        <!-- Last Name Field-->
-        <TextView
-            android:id="@+id/lblLastName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/etFirstName"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="54dp"
-            android:text="Last Name"
-            android:textSize="22dp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white" />
+                <!-- First Name Field-->
+                <TextView
+                    android:id="@+id/lblFirstName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="First Name"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/etLastName"
-            android:layout_width="307dp"
-            android:layout_height="48dp"
-            android:layout_below="@id/lblLastName"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/custom_rounded_edges"
-            android:hint="Enter a last name . . ."
-            android:textColorHint="@color/accent_grey"
-            android:textColor="@android:color/white"
-            android:paddingLeft="6dp"
-            android:singleLine="true"/>
+                <EditText
+                    android:id="@+id/etFirstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_below="@id/lblFirstName"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/custom_rounded_edges"
+                    android:hint="Enter a first name . . ."
+                    android:paddingLeft="6dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/accent_grey" />
 
-        <!-- Email Field-->
-        <TextView
-            android:id="@+id/lblEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/etLastName"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="54dp"
-            android:text="Email"
-            android:textSize="22dp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white" />
+                <!-- Last Name Field-->
+                <TextView
+                    android:id="@+id/lblLastName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etFirstName"
+                    android:layout_marginTop="10dp"
+                    android:text="Last Name"
+                    android:textColor="@android:color/white"
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="307dp"
-            android:layout_height="48dp"
-            android:layout_below="@id/lblEmail"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/custom_rounded_edges"
-            android:hint="Enter a valid email . . ."
-            android:textColorHint="@color/accent_grey"
-            android:textColor="@android:color/white"
-            android:paddingLeft="6dp"
-            android:singleLine="true"/>
+                <EditText
+                    android:id="@+id/etLastName"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_below="@id/lblLastName"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/custom_rounded_edges"
+                    android:hint="Enter a last name . . ."
+                    android:paddingLeft="6dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/accent_grey" />
 
+                <!-- Email Field-->
+                <TextView
+                    android:id="@+id/lblEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etLastName"
+                    android:layout_marginTop="10dp"
+                    android:text="Email"
+                    android:textColor="@android:color/white"
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
 
-        <!-- Password field-->
-        <TextView
-            android:id="@+id/lblPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/etEmail"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="54dp"
-            android:layout_marginTop="35dp"
-            android:text="Password"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white" />
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_below="@id/lblEmail"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/custom_rounded_edges"
+                    android:hint="Enter a valid email . . ."
+                    android:paddingLeft="6dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/accent_grey" />
 
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="307dp"
-            android:layout_height="48dp"
-            android:layout_below="@id/lblPassword"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/custom_rounded_edges"
-            android:hint="Password"
-            android:textColorHint="@color/accent_grey"
-            android:textColor="@android:color/white"
-            android:paddingLeft="6dp"
-            android:singleLine="true"
-            android:inputType="textPassword"/>
+                <TextView
+                    android:id="@+id/lblRole"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etEmail"
+                    android:layout_marginTop="10dp"
+                    android:text="Role"
+                    android:textColor="@android:color/white"
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
 
-        <!-- Password Field-->
-        <TextView
-            android:id="@+id/lblConfirmPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/etPassword"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="54dp"
-            android:text="Confirm Password"
-            android:textSize="22dp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white" />
+                <RelativeLayout
+                    android:id="@+id/rlSpinnerMember"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/palette_10"
+                    android:backgroundTint="@color/white"
+                    android:layout_below="@id/lblRole"
+                    android:layout_weight="1.5"
+                    android:paddingHorizontal="5dp"
+                    android:layout_marginTop="20dp">
 
-        <EditText
-            android:id="@+id/etConfirmPassword"
-            android:layout_width="307dp"
-            android:layout_height="48dp"
-            android:layout_below="@id/lblConfirmPassword"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/custom_rounded_edges"
-            android:hint="Confirm Password"
-            android:textColorHint="@color/accent_grey"
-            android:textColor="@android:color/white"
-            android:paddingLeft="6dp"
-            android:singleLine="true"
-            android:inputType="textPassword"/>
+                    <Spinner
+                        android:id="@+id/spnMemberTypes"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:spinnerMode="dropdown"
+                        android:backgroundTint="@color/black"
+                        android:textColor="@color/black"
+                        />
+                </RelativeLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCreateAccount"
-            android:layout_centerHorizontal="true"
-            android:layout_width="230dp"
-            android:layout_height="80dp"
-            android:layout_below="@id/etConfirmPassword"
-            android:layout_marginTop="30dp"
-            app:cornerRadius="30dp"
-            android:text="create account"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/main_grey"
-            android:stateListAnimator="@null"
-            app:strokeColor="@color/white"
-            app:strokeWidth="2dp"
-            android:textSize="24dp"
-            android:letterSpacing="0"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            />
+                <!-- Password field-->
+                <TextView
+                    android:id="@+id/lblPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rlSpinnerMember"
+                    android:layout_marginTop="25dp"
+                    android:text="Password"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_below="@id/lblPassword"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/custom_rounded_edges"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:paddingLeft="6dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/accent_grey" />
+
+                <!-- Password Field-->
+                <TextView
+                    android:id="@+id/lblConfirmPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etPassword"
+                    android:layout_marginTop="10dp"
+                    android:text="Confirm Password"
+                    android:textColor="@android:color/white"
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_below="@id/lblConfirmPassword"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/custom_rounded_edges"
+                    android:hint="Confirm Password"
+                    android:inputType="textPassword"
+                    android:paddingLeft="6dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/accent_grey" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCreateAccount"
+                    android:layout_width="230dp"
+                    android:layout_height="80dp"
+                    android:layout_below="@id/etConfirmPassword"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="30dp"
+                    android:backgroundTint="@color/main_grey"
+                    android:letterSpacing="0"
+                    android:stateListAnimator="@null"
+                    android:text="create account"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="24dp"
+                    android:textStyle="bold"
+                    app:cornerRadius="30dp"
+                    app:strokeColor="@color/white"
+                    app:strokeWidth="2dp" />
+            </RelativeLayout>
+
+        </ScrollView>
     </RelativeLayout>
 
 </FrameLayout>

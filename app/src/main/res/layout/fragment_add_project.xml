@@ -6,6 +6,11 @@
     android:background="@color/main_grey"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".add_project">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -73,14 +78,17 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/svBody">
+        android:id="@+id/svBody"
+        android:layout_below="@id/rlHeader"
+        android:layout_centerInParent="true">
 
     <RelativeLayout
         android:id="@+id/rlContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="40dp">
 
 
             <!-- Project Title Field-->
@@ -88,8 +96,6 @@
                 android:id="@+id/lblProjectTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="54dp"
                 android:layout_marginTop="30dp"
                 android:text="Project Title"
                 android:textSize="22sp"
@@ -98,12 +104,10 @@
 
             <EditText
                 android:id="@+id/etTitle"
-                android:layout_width="307dp"
+                android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_below="@id/lblProjectTitle"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/custom_rounded_edges"
                 android:hint="@string/projectTitleHint"
@@ -119,8 +123,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/etTitle"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="54dp"
                 android:text="@string/companyNameText"
                 android:textSize="22dp"
                 android:textStyle="bold"
@@ -128,12 +130,10 @@
 
             <EditText
                 android:id="@+id/etCompanyName"
-                android:layout_width="307dp"
+                android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_below="@id/lblCompanyName"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/custom_rounded_edges"
                 android:hint="@string/enter_company_name"
@@ -149,8 +149,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/etCompanyName"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="54dp"
                 android:text="@string/about_company"
                 android:textSize="22dp"
                 android:gravity="top"
@@ -159,12 +157,10 @@
 
             <EditText
                 android:id="@+id/etAboutnCompany"
-                android:layout_width="307dp"
+                android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_below="@id/lblAboutCompany"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
                 android:layout_centerHorizontal="true"
                 android:gravity="top"
                 android:paddingTop="10dp"
@@ -181,8 +177,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/etAboutnCompany"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="54dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/overview"
                 android:textSize="22sp"
@@ -191,12 +185,10 @@
 
             <EditText
                 android:id="@+id/etOverview"
-                android:layout_width="307dp"
+                android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_below="@id/lblOverview"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/custom_rounded_edges"
                 android:hint="@string/enter_overview_information"
@@ -213,7 +205,6 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp"
                 android:layout_below="@id/etOverview"
-                android:paddingLeft="50dp"
                 android:contentDescription="linear layout">
 
                 <!-- Overview field-->
@@ -222,8 +213,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/etAboutnCompany"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="4dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/dateText"
                     android:gravity="center"
@@ -305,4 +294,5 @@
     </RelativeLayout>
     </ScrollView>
 
+    </RelativeLayout>
 </FrameLayout>
