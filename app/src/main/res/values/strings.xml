@@ -111,4 +111,10 @@ Take care
     <string name="enter_about_information">Enter about information . . .</string>
     <string name="overview">Overview</string>
     <string name="enter_overview_information">Enter overview information . . .</string>
+    <string name="options">Options</string>
+    <string name="manage_announcements">Manage Announcements</string>
+    <string name="manage_accounts">Manage Accounts</string>
+    <string name="manage_events">Manage Events</string>
+    <string name="manage_projects">Manage Projects</string>
+    <string name="announcement_body">Announcement Body</string>
 </resources>

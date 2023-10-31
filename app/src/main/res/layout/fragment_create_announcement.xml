@@ -84,7 +84,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="54dp"
             android:layout_marginTop="45dp"
-            android:text="Announcement Title"
+            android:text="@string/announceTitleText"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="@android:color/white" />
@@ -99,7 +99,7 @@
             android:layout_marginStart="16dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/custom_rounded_edges"
-            android:hint="E.g. New Event: {Event Name} !"
+            android:hint="@string/announceTitleHintText"
             android:textColorHint="@color/accent_grey"
             android:textColor="@android:color/white"
             android:paddingLeft="6dp"/>
@@ -113,7 +113,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="54dp"
-            android:text="Announcement Body"
+            android:text="@string/announceBodyText"
             android:textSize="22dp"
             android:textStyle="bold"
             android:textColor="@android:color/white" />
@@ -145,7 +145,7 @@
             android:layout_below="@id/etAnnounceBody"
             android:layout_marginTop="190dp"
             app:cornerRadius="30dp"
-            android:text="create announcement"
+            android:text="@string/createAnnounceLowerText"
             android:textColor="@color/white"
             android:backgroundTint="@color/main_grey"
             android:stateListAnimator="@null"

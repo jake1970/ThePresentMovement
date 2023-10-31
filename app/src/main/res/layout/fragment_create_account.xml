@@ -74,6 +74,8 @@
             android:layout_weight="0"
             />
     </RelativeLayout>
+
+
         <!-- First Name Field-->
         <TextView
             android:id="@+id/lblFirstName"
@@ -163,6 +165,7 @@
             android:textColor="@android:color/white"
             android:paddingLeft="6dp"
             android:singleLine="true"/>
+
 
         <!-- Password field-->
         <TextView

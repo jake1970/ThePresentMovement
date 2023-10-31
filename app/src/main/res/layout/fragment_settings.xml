@@ -126,8 +126,6 @@
             android:src="@drawable/arrow_icon"
             app:tint="@color/sub_grey" />
 
-
-
     </LinearLayout>
 
     <TextView
@@ -136,14 +134,16 @@
         android:layout_height="50dp"
         android:layout_weight="1"
         android:text="@string/logoutText"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:layout_below="@id/llMyProfileCard"
         android:layout_marginTop="200dp"
+        android:drawableLeft="@drawable/logout_icon"
+        android:drawablePadding="50dp"
         android:gravity="start|center"
         android:layout_marginLeft="15dp"
-        android:paddingLeft="80dp"
+        android:paddingLeft="10dp"
         android:backgroundTint="@color/sub_grey"
         android:background="@drawable/palette_12"
         />
@@ -154,12 +154,14 @@
         android:layout_height="50dp"
         android:layout_weight="1"
         android:text="@string/resetPassText"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:layout_marginTop="260dp"
         android:gravity="start|center"
-        android:paddingLeft="80dp"
+        android:drawableLeft="@drawable/reset_password_icon"
+        android:paddingLeft="10dp"
+        android:drawablePadding="50dp"
         android:layout_marginLeft="15dp"
         android:backgroundTint="@color/sub_grey"
         android:background="@drawable/palette_12"
@@ -179,6 +181,7 @@
             android:textSize="24sp"
             android:layout_gravity="left"
             android:paddingLeft="16dp"
+            android:textStyle="bold"
             android:textColor="@color/white"
             android:paddingBottom="5dp"
             android:layout_marginTop="100dp"/>
@@ -187,7 +190,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
 
             <!-- First Pair -->
             <TextView
@@ -199,6 +201,8 @@
                 android:backgroundTint="@color/sub_grey"
                 android:gravity="start|center"
                 android:text="@string/donateText"
+                android:drawableLeft="@drawable/donate_icon"
+                android:drawablePadding="16dp"
                 android:textStyle="bold"
                 android:paddingLeft="16dp"
                 android:textSize="18sp"
@@ -217,6 +221,8 @@
                 android:backgroundTint="@color/sub_grey"
                 android:gravity="start|center"
                 android:text="@string/shopText"
+                android:drawableLeft="@drawable/shop_icon"
+                android:drawablePadding="16dp"
                 android:textStyle="bold"
                 android:paddingLeft="16dp"
                 android:textSize="18sp"
@@ -244,6 +250,8 @@
                 android:backgroundTint="@color/sub_grey"
                 android:gravity="start|center"
                 android:text="@string/initiativesText"
+                android:drawableLeft="@drawable/initiatives_icon"
+                android:drawablePadding="16dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:paddingLeft="16dp"
@@ -261,6 +269,8 @@
                 android:backgroundTint="@color/sub_grey"
                 android:gravity="start|center"
                 android:text="@string/campaignsText"
+                android:drawableLeft="@drawable/campaign_icon"
+                android:drawablePadding="16dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:paddingLeft="16dp"

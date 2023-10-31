@@ -72,10 +72,11 @@
             android:id="@+id/tvOptions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Options"
+            android:text="@string/options"
             android:textSize="24sp"
             android:layout_gravity="left"
             android:paddingLeft="16dp"
+            android:textStyle="bold"
             android:textColor="@color/white"
             android:paddingBottom="5dp"
             android:layout_marginTop="100dp"/>
@@ -94,10 +95,12 @@
                 android:layout_height="100dp"
                 android:background="@drawable/palette_12"
                 android:backgroundTint="@color/sub_grey"
-                android:gravity="bottom|left"
-                android:text="Manage Announcements"
+                android:gravity="bottom"
+                android:text="@string/manage_announcements"
                 android:textSize="18sp"
-                android:paddingLeft="16dp"
+                android:padding="10dp"
+                android:includeFontPadding="false"
+                android:drawableRight="@drawable/tpm_semi_circle_modified"
                 android:textColor="@color/white"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="10dp">
@@ -107,17 +110,18 @@
             <TextView
                 android:id="@+id/tvManageAccounts"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="100dp"
-                android:background="@drawable/custom_rounded_edges"
-                android:padding="16dp"
-                android:gravity="bottom|left"
-                android:text="Manage Accounts"
-                android:textSize="18sp"
-                android:textColor="@color/white"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="10dp" >
-            </TextView>
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_rounded_edges"
+                android:drawableRight="@drawable/tpm_heart_modified"
+                android:gravity="bottom"
+                android:layout_marginBottom="10dp"
+                android:padding="16dp"
+                android:text="@string/manage_accounts"
+                android:textColor="@color/white"
+                android:textSize="18sp"></TextView>
 
         </LinearLayout>
 
@@ -137,8 +141,9 @@
                 android:background="@drawable/custom_rounded_edges"
                 android:padding="16dp"
                 android:gravity="bottom|left"
-                android:text="Manage Events"
+                android:text="@string/manage_events"
                 android:textSize="18sp"
+                android:drawableRight="@drawable/tpm_speech_bubble_modified"
                 android:textColor="@color/white"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="10dp" >
@@ -152,8 +157,9 @@
                 android:background="@drawable/custom_rounded_edges"
                 android:padding="16dp"
                 android:gravity="bottom|left"
-                android:text="Manage Projects"
+                android:text="@string/manage_projects"
                 android:textSize="18sp"
+                android:drawableRight="@drawable/tpm_triangle_modified"
                 android:textColor="@color/white"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="10dp" >
