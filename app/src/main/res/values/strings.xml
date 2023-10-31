@@ -33,9 +33,6 @@
     <string name="eventLinkText">Event Link</string>
     <string name="uploadImgText">Upload an Image</string>
     <string name="createProjectText">Create Project</string>
-    <string name="createProjectLowerText">create project</string>
-    <string name="projectTitleTxt">Project Title</string>
-    <string name="projectTitleHint">Enter project name . . .</string>
 
     <string name="noticesText">Notices</string>
     <string name="homeText">Home</string>
@@ -102,19 +99,24 @@ Take care
     <string name="deletedText">Deleted</string>
     <string name="announcementText">Announcement</string>
     <string name="userText">User</string>
-    <string name="enter_company_name">Enter company name . . .</string>
+    <string name="passwordShort">Password too short, needs to be 8 or more characters</string>
+    <string name="passwordNeedsNumber">Password needs to contain at least 1 digit</string>
+    <string name="passwordNeedsLowerCase">Password needs to contain at least 1 lower case character</string>
+    <string name="passwordNeedsUpperCase">Password needs to contain at least 1 upper case character</string>
+    <string name="passwordNeedsToStartWithUpperCaseLetter">Password needs start with an upper case character</string>
+    <string name="passwordNeedsSpecialCharacter">Password needs to include one of the following special characters: -?!@#£$%+=&amp;</string>
+    <string name="passwordSpecialCharacters">-?!@#£$%+=&amp;</string>
 
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="about_company">About Company</string>
     <string name="enter_about_information">Enter about information . . .</string>
     <string name="overview">Overview</string>
     <string name="enter_overview_information">Enter overview information . . .</string>
-    <string name="options">Options</string>
-    <string name="manage_announcements">Manage Announcements</string>
-    <string name="manage_accounts">Manage Accounts</string>
-    <string name="manage_events">Manage Events</string>
-    <string name="manage_projects">Manage Projects</string>
-    <string name="announcement_body">Announcement Body</string>
+    <string name="enter_company_name">Enter company name . . .</string>
+    <string name="createProjectLowerText">create project</string>
+    <string name="projectTitleTxt">Project Title</string>
+    <string name="projectTitleHint">Enter project name . . .</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

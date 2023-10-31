@@ -175,8 +175,22 @@ class admin_content_list : Fragment() {
                 getString(R.string.eventsText) -> {
                     //new event
 
-                    //uncomment this line and replace "register_user()" with the new event fragment
-                    //fragmentControl.replaceFragment(register_user(), R.id.flContent, parentFragmentManager)
+                    //create local fragment controller
+                    val fragmentControl = FragmentManager()
+                    val args = Bundle()
+
+
+                    val addEventView = create_event()
+
+                    //args.putBoolean("editMode", false)
+
+                    addEventView.arguments = args
+
+                    fragmentControl.replaceFragment(
+                        addEventView,
+                        R.id.flContent,
+                        parentFragmentManager
+                    )
 
                 }
                 getString(R.string.projectsText) -> {

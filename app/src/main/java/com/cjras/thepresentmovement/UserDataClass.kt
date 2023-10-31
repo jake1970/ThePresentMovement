@@ -1,6 +1,8 @@
 package com.cjras.thepresentmovement
 
 import android.content.Context
+import android.text.TextUtils
+import android.util.Patterns
 
 //user data class
 data class UserDataClass
@@ -82,4 +84,13 @@ data class UserDataClass
 
     }
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    fun isValidEmail(target: CharSequence?): Boolean {
+        //source - https://stackoverflow.com/a/7882950
+        return if (TextUtils.isEmpty(target)) {
+            false
+        } else {
+            Patterns.EMAIL_ADDRESS.matcher(target).matches()
+        }
+    }
 }

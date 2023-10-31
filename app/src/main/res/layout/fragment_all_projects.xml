@@ -13,19 +13,18 @@
 
 
         <RelativeLayout
+            android:id="@+id/rlHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/sub_grey"
-            android:id="@+id/rlHeader"
-            android:paddingBottom="10dp"
-            >
+            android:paddingBottom="10dp">
 
             <LinearLayout
+                android:id="@+id/llHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:id="@+id/llHeader"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -34,19 +33,18 @@
                     android:layout_height="28dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="4dp"
-                    android:src="@drawable/arrow_icon"
                     android:rotation="180"
+                    android:src="@drawable/arrow_icon"
                     app:tint="@color/white" />
 
                 <TextView
+                    android:id="@+id/tvScreenTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/projectsText"
-                    android:id="@+id/tvScreenTitle"
                     android:textColor="@color/white"
                     android:textSize="26dp"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -54,47 +52,45 @@
                 android:id="@+id/ivRefresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="6dp"
-                app:srcCompat="@drawable/refresh_icon"
                 android:layout_marginRight="0dp"
                 android:layout_toLeftOf="@id/ivLogo"
-                android:layout_centerVertical="true"
                 android:layout_weight="0"
+                app:srcCompat="@drawable/refresh_icon"
                 app:tint="@color/white" />
 
             <ImageView
                 android:id="@+id/ivLogo"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                app:srcCompat="@drawable/tpm_logo"
-                android:layout_marginRight="10dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="0"
-                />
+                app:srcCompat="@drawable/tpm_logo" />
         </RelativeLayout>
 
 
         <LinearLayout
+            android:id="@+id/llExpansionMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/llExpansionMenu"
             android:layout_below="@id/rlHeader"
-            android:layout_marginTop="26dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="26dp"
             android:layout_marginBottom="6dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tvUpcomingProjects"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/upcomingProjectsText"
-                android:id="@+id/tvUpcomingProjects"
                 android:textColor="@color/white"
-                android:textSize="22dp"
-                />
+                android:textSize="22dp" />
 
             <ImageView
                 android:id="@+id/ivExpandArrow"
@@ -108,93 +104,89 @@
 
 
         <LinearLayout
+            android:id="@+id/llExpansionContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_below="@id/llExpansionMenu"
             android:layout_marginHorizontal="10dp"
             android:layout_marginBottom="10dp"
-            android:visibility="gone"
-            android:id="@+id/llExpansionContent">
-
+            android:orientation="horizontal"
+            android:visibility="gone">
 
 
             <EditText
                 android:id="@+id/etSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1.2"
                 android:background="@drawable/palette_10"
                 android:backgroundTint="@color/white"
-                android:ems="10"
-                android:inputType="text"
-                android:textColor="@color/black"
-                android:text=""
-                android:padding="4dp"
-                android:layout_marginTop="4dp"
-                android:layout_weight="1.2"
-                android:layout_marginRight="8dp"
                 android:drawableLeft="@drawable/search_icon"
+                android:drawableTint="@color/main_grey"
+                android:ems="10"
                 android:hint=" Search"
-                android:drawableTint="@color/main_grey"/>
+                android:inputType="text"
+                android:padding="4dp"
+                android:text=""
+                android:textColor="@color/black" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/blankDate"
                 android:id="@+id/tvStartDate"
-                android:textColor="@color/black"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:padding="4dp"
-                android:textSize="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="4dp"
-                android:background="@drawable/palette_10"
-                android:layout_weight="2"
                 android:layout_marginRight="2.5dp"
+                android:layout_weight="2"
+                android:background="@drawable/palette_10"
                 android:drawableLeft="@drawable/calendar_icon_small"
                 android:drawableTint="@color/main_grey"
-                />
-
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="@string/blankDate"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12dp" />
 
 
             <TextView
+                android:id="@+id/tvEndDate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/blankDate"
-                android:id="@+id/tvEndDate"
-                android:textColor="@color/black"
-                android:textAlignment="center"
-                android:padding="4dp"
-                android:textSize="12dp"
-                android:gravity="center"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/palette_10"
-                android:layout_weight="2"
                 android:layout_marginLeft="2.5dp"
+                android:layout_marginTop="4dp"
+                android:layout_weight="2"
+                android:background="@drawable/palette_10"
                 android:drawableLeft="@drawable/calendar_icon_small"
                 android:drawableTint="@color/main_grey"
-                />
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="@string/blankDate"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12dp" />
 
         </LinearLayout>
 
 
         <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/svUpcomingProjects"
-        android:layout_below="@id/llExpansionContent"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="10dp"
-        android:requiresFadingEdge="vertical"
-        android:fadingEdgeLength="1dp">
-
-        <LinearLayout
-            android:id="@+id/llUpcomingProjects"
+            android:id="@+id/svUpcomingProjects"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingHorizontal="10dp"
-            android:orientation="vertical" />
-    </ScrollView>
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llExpansionContent"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="10dp"
+            android:fadingEdgeLength="1dp"
+            android:requiresFadingEdge="vertical">
+
+            <LinearLayout
+                android:id="@+id/llUpcomingProjects"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingHorizontal="10dp" />
+        </ScrollView>
 
     </RelativeLayout>
 </FrameLayout>
