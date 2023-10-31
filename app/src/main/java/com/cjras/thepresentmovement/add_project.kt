@@ -1,5 +1,6 @@
 package com.cjras.thepresentmovement
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -29,6 +30,9 @@ class add_project : Fragment() {
     private var projectID :Int? = 0
     private var editMode :Boolean? = false
 
+    private var modifiedPicture = false
+    private lateinit var cameraManager: CameraHandler
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +43,8 @@ class add_project : Fragment() {
         //view binding
         _binding = FragmentAddProjectBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        cameraManager = CameraHandler(this, binding.ivMyProfileImage, modifiedPicture)
 
         projectID = arguments?.getInt("selectedProjectID", 0)
         editMode = arguments?.getBoolean("editMode", false)
@@ -123,8 +129,10 @@ class add_project : Fragment() {
 
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
 
+
+
         if (projectID == 0) {
-            //add code here
+
 
             //-------------
             binding.btnCreateAccount.setOnClickListener() {
@@ -190,6 +198,9 @@ class add_project : Fragment() {
                             dbManager.addNewProjectToFirestore(tempProject)
 
                             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+                            Toast.makeText(context, "Added Project", Toast.LENGTH_SHORT)
+                                .show()
+                            binding.llHeader.callOnClick()
                         }
 
 
@@ -216,15 +227,59 @@ class add_project : Fragment() {
                 }
             }
 
-            if (editMode == true)
-            {
+            try {
+
+                //Read Data
+                MainScope().launch {
+
+                   var bitmap: Bitmap? = null
+                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+                        withContext(Dispatchers.Default) {
+
+                            var databaseManager = DatabaseManager()
+                             bitmap = databaseManager.getProjectImage(
+                                requireContext(),
+                                currentProject.ProjectID,
+                                currentProject.HasImage
+                            )
+
+
+                        }
+
+                    binding.ivMyProfileImage.setImageBitmap(bitmap)
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+                    }
+
+
+
+            }
+            catch (e: Exception) {
+                GlobalClass.InformUser(
+                    getString(R.string.errorText),
+                    "${e.toString()}",
+                    requireContext()
+                )
+            }
+
+
+
+            if (editMode == true) {
+
+
+                binding.ivMyProfileImageTint.visibility = View.VISIBLE
+                binding.tvMyProfileImageEditText.visibility = View.VISIBLE
+
+                binding.rlImageContainer.setOnClickListener()
+                {
+                    cameraManager.handlePhoto()
+                }
+
                 binding.btnCreateAccount.setOnClickListener() {
 
-                    if (binding.tvStartDate.text.toString() == getString(R.string.blankDate))
-                    {
-                        Toast.makeText(requireActivity(), "Please enter a date", Toast.LENGTH_SHORT).show()
-                    }
-                    else {
+                    if (binding.tvStartDate.text.toString() == getString(R.string.blankDate)) {
+                        Toast.makeText(requireActivity(), "Please enter a date", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
                         var formattedDate =
                             LocalDate.parse(binding.tvStartDate.text.toString(), formatter)
 
@@ -239,7 +294,12 @@ class add_project : Fragment() {
                             HasImage = currentProject.HasImage
                         )
 
-                        if (!currentProject.equals(tempProject)) {
+                        if (currentProject.HasImage == false && cameraManager.getModifiedImageStatus() == true) {
+                            tempProject.HasImage = true
+                        }
+
+
+                        if (!currentProject.equals(tempProject) || cameraManager.getModifiedImageStatus() == true) {
                             val currentProjectIndex = GlobalClass.Projects.indexOf(currentProject)
                             val currentProjectDocumentIndex =
                                 GlobalClass.documents.allProjectIds[currentProjectIndex]
@@ -258,14 +318,23 @@ class add_project : Fragment() {
                                         currentProjectDocumentIndex
                                     )
 
+                                    if (cameraManager.getModifiedImageStatus() == true) {
+                                        databaseManager.setProjectImage(
+                                            requireContext(),
+                                            currentProject.ProjectID,
+                                            cameraManager.getSelectedUri()
+                                        )
+
+                                    }
+
+
                                 }
-
-
                                 GlobalClass.UpdateDataBase = true
-                                Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
                                 requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
                                     View.GONE
-
+                                Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT)
+                                    .show()
+                                binding.llHeader.callOnClick()
                             }
                         }
                     }

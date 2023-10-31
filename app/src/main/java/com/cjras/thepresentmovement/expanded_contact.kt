@@ -49,7 +49,7 @@ class expanded_contact : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
         //initial data population
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
-       // var loadingCover = GlobalClass.addLoadingCover(layoutInflater, view)
+
         requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
 
         try {

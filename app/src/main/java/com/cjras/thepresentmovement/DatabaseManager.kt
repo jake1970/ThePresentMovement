@@ -529,11 +529,11 @@ class DatabaseManager {
     suspend fun getProjectImage(context: Context, projectID : Int, eventHasImage: Boolean) : Bitmap?
     {
 
-        var bitmap = getEventDefaultImage(context)
+        var bitmap = getProjectDefaultImage(context)
 
         if (eventHasImage) {
             try {
-                val storageReference = FirebaseStorage.getInstance().reference.child("ProjectImages/$projectID.jpg") //until add images from the ui is in, add .jpg extension
+                val storageReference = FirebaseStorage.getInstance().reference.child("ProjectImages/$projectID") //until add images from the ui is in, add .jpg extension
                 val imgFile = File.createTempFile("tempImage", "jpg")
                 storageReference.getFile(imgFile).await()
                 bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
@@ -599,7 +599,7 @@ class DatabaseManager {
     suspend fun setProjectImage(context: Context, projectID : Int, selectedImageUri : Uri)
     {
 
-        val imageLocation = "ContactImages/$projectID"
+        val imageLocation = "ProjectImages/$projectID"
         val storageReference = FirebaseStorage.getInstance().getReference(imageLocation)
 
         // binding.ivMyProfileImage.image
@@ -619,7 +619,7 @@ class DatabaseManager {
     suspend fun setEventImage(context: Context, eventID : Int, selectedImageUri : Uri)
     {
 
-        val imageLocation = "ContactImages/$eventID"
+        val imageLocation = "EventImages/$eventID"
         val storageReference = FirebaseStorage.getInstance().getReference(imageLocation)
 
         // binding.ivMyProfileImage.image
@@ -630,7 +630,7 @@ class DatabaseManager {
             }
             .addOnSuccessListener {
                 //set current event has image to true
-                var selectedEventIndex = GlobalClass.Events.indexOfLast{it.EventDate == eventID}
+                var selectedEventIndex = GlobalClass.Events.indexOfLast{it.EventID == eventID}
                 GlobalClass.Events[selectedEventIndex].HasImage = true
             }.await()
 
