@@ -74,6 +74,8 @@
                 android:layout_weight="0"
                 />
         </RelativeLayout>
+
+
         <!-- First Name Field-->
         <TextView
             android:id="@+id/lblEventTitle"

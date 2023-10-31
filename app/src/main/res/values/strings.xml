@@ -33,7 +33,6 @@
     <string name="eventLinkText">Event Link</string>
     <string name="uploadImgText">Upload an Image</string>
     <string name="createProjectText">Create Project</string>
-
     <string name="noticesText">Notices</string>
     <string name="homeText">Home</string>
     <string name="contactsText">Contacts</string>
@@ -106,8 +105,6 @@ Take care
     <string name="passwordNeedsToStartWithUpperCaseLetter">Password needs start with an upper case character</string>
     <string name="passwordNeedsSpecialCharacter">Password needs to include one of the following special characters: -?!@#£$%+=&amp;</string>
     <string name="passwordSpecialCharacters">-?!@#£$%+=&amp;</string>
-
-
     <string name="about_company">About Company</string>
     <string name="enter_about_information">Enter about information . . .</string>
     <string name="overview">Overview</string>
@@ -116,6 +113,12 @@ Take care
     <string name="createProjectLowerText">create project</string>
     <string name="projectTitleTxt">Project Title</string>
     <string name="projectTitleHint">Enter project name . . .</string>
+    <string name="options">Options</string>
+    <string name="manage_announcements">Manage Announcements</string>
+    <string name="manage_accounts">Manage Accounts</string>
+    <string name="manage_events">Manage Events</string>
+    <string name="manage_projects">Manage Projects</string>
+    <string name="announcement_body">Announcement Body</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
