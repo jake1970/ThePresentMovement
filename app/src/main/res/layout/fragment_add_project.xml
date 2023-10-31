@@ -70,6 +70,10 @@
             />
     </RelativeLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/svBody">
 
     <RelativeLayout
         android:id="@+id/rlContent"
@@ -78,199 +82,236 @@
         android:gravity="center_horizontal"
         android:layout_marginTop="50dp">
 
-        <!-- Project Title Field-->
-        <TextView
-            android:id="@+id/lblProjectTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="54dp"
-            android:layout_marginTop="30dp"
-            android:text="Project Title"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white" />
 
-        <EditText
-            android:id="@+id/etTitle"
-            android:layout_width="307dp"
-            android:layout_height="48dp"
-            android:layout_below="@id/lblProjectTitle"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/custom_rounded_edges"
-            android:hint="Enter project name . . ."
-            android:textColorHint="@color/accent_grey"
-            android:textColor="@android:color/white"
-            android:paddingLeft="6dp"
-            android:singleLine="true"/>
-
-        <!-- Company Name Field-->
-        <TextView
-            android:id="@+id/lblCompanyName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/etTitle"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="54dp"
-            android:text="Company Name"
-            android:textSize="22dp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white" />
-
-        <EditText
-            android:id="@+id/etCompanyName"
-            android:layout_width="307dp"
-            android:layout_height="48dp"
-            android:layout_below="@id/lblCompanyName"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/custom_rounded_edges"
-            android:hint="Enter company name . . ."
-            android:textColorHint="@color/accent_grey"
-            android:textColor="@android:color/white"
-            android:paddingLeft="6dp"
-            android:singleLine="true"/>
-
-        <!-- About Company Field-->
-        <TextView
-            android:id="@+id/lblAboutCompany"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/etCompanyName"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="54dp"
-            android:text="About Company"
-            android:textSize="22dp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white" />
-
-        <EditText
-            android:id="@+id/etAboutnCompany"
-            android:layout_width="307dp"
-            android:layout_height="48dp"
-            android:layout_below="@id/lblAboutCompany"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/custom_rounded_edges"
-            android:hint="Enter about information . . ."
-            android:textColorHint="@color/accent_grey"
-            android:textColor="@android:color/white"
-            android:paddingLeft="6dp"
-            android:singleLine="true"/>
-
-        <!-- Overview field-->
-        <TextView
-            android:id="@+id/lblOverview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/etAboutnCompany"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="54dp"
-            android:layout_marginTop="10dp"
-            android:text="Overview"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white" />
-
-        <EditText
-            android:id="@+id/etOverview"
-            android:layout_width="307dp"
-            android:layout_height="48dp"
-            android:layout_below="@id/lblOverview"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/custom_rounded_edges"
-            android:hint="Enter overview information . . ."
-            android:textColorHint="@color/accent_grey"
-            android:textColor="@android:color/white"
-            android:paddingLeft="6dp"
-            android:singleLine="true"
-            android:inputType="textPassword"/>
-
-        <LinearLayout
-            android:id="@+id/llEventDate"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/etOverview"
-            android:paddingLeft="50dp">
-
-            <!-- Overview field-->
+            <!-- Project Title Field-->
             <TextView
-                android:id="@+id/lblProjectDate"
+                android:id="@+id/lblProjectTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/etAboutnCompany"
                 android:layout_marginEnd="16dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="10dp"
-                android:text="Date"
-                android:gravity="center"
-                android:layout_gravity="center"
+                android:layout_marginStart="54dp"
+                android:layout_marginTop="30dp"
+                android:text="Project Title"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/white" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/blankDate"
-                android:id="@+id/tvStartDate"
-                android:textColor="@color/white"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:padding="4dp"
-                android:textSize="12sp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/palette_10"
-                android:backgroundTint="@color/sub_grey"
-                android:layout_weight="2"
-                android:layout_marginRight="2.5dp"
-                android:drawableLeft="@drawable/calendar_icon_small"
-                android:drawableTint="@color/white"
-                />
+            <EditText
+                android:id="@+id/etTitle"
+                android:layout_width="307dp"
+                android:layout_height="48dp"
+                android:layout_below="@id/lblProjectTitle"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custom_rounded_edges"
+                android:hint="@string/projectTitleHint"
+                android:textColorHint="@color/accent_grey"
+                android:textColor="@android:color/white"
+                android:paddingLeft="6dp"
+                android:singleLine="true"/>
 
+            <!-- Company Name Field-->
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/blankDate"
-                android:id="@+id/tvEndDate"
-                android:textColor="@color/white"
-                android:textAlignment="center"
-                android:padding="4dp"
-                android:textSize="12sp"
-                android:gravity="center"
+                android:id="@+id/lblCompanyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etTitle"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="54dp"
+                android:text="@string/companyNameText"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white" />
+
+            <EditText
+                android:id="@+id/etCompanyName"
+                android:layout_width="307dp"
+                android:layout_height="48dp"
+                android:layout_below="@id/lblCompanyName"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custom_rounded_edges"
+                android:hint="@string/enter_company_name"
+                android:textColorHint="@color/accent_grey"
+                android:textColor="@android:color/white"
+                android:paddingLeft="6dp"
+                android:singleLine="true"/>
+
+            <!-- About Company Field-->
+            <TextView
+                android:id="@+id/lblAboutCompany"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etCompanyName"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="54dp"
+                android:text="@string/about_company"
+                android:textSize="22dp"
+                android:gravity="top"
+                android:textStyle="bold"
+                android:textColor="@android:color/white" />
+
+            <EditText
+                android:id="@+id/etAboutnCompany"
+                android:layout_width="307dp"
+                android:layout_height="100dp"
+                android:layout_below="@id/lblAboutCompany"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="top"
+                android:paddingTop="10dp"
+                android:background="@drawable/custom_rounded_edges"
+                android:hint="@string/enter_about_information"
+                android:textColorHint="@color/accent_grey"
+                android:textColor="@android:color/white"
+                android:paddingLeft="10dp"
+                android:singleLine="true"/>
+
+            <!-- Overview field-->
+            <TextView
+                android:id="@+id/lblOverview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etAboutnCompany"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="54dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/overview"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white" />
+
+            <EditText
+                android:id="@+id/etOverview"
+                android:layout_width="307dp"
+                android:layout_height="48dp"
+                android:layout_below="@id/lblOverview"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custom_rounded_edges"
+                android:hint="@string/enter_overview_information"
+                android:textColorHint="@color/accent_grey"
+                android:textColor="@android:color/white"
+                android:paddingLeft="6dp"
+                android:singleLine="true"
+                android:inputType="textPassword"/>
+
+            <LinearLayout
+                android:id="@+id/llEventDate"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/palette_10"
-                android:backgroundTint="@color/sub_grey"
-                android:layout_weight="2"
-                android:layout_marginLeft="2.5dp"
-                android:drawableLeft="@drawable/calendar_icon_small"
-                android:drawableTint="@color/white"
-                />
-        </LinearLayout>
+                android:layout_below="@id/etOverview"
+                android:paddingLeft="50dp"
+                android:contentDescription="linear layout">
+
+                <!-- Overview field-->
+                <TextView
+                    android:id="@+id/lblProjectDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etAboutnCompany"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/dateText"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/blankDate"
+                    android:contentDescription="date picker custom"
+                    android:id="@+id/tvStartDate"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:textSize="12sp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/palette_10"
+                    android:backgroundTint="@color/sub_grey"
+                    android:layout_weight="2"
+                    android:layout_marginRight="2.5dp"
+                    android:drawableLeft="@drawable/calendar_icon_small"
+                    android:drawableTint="@color/white"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/blankDate"
+                    android:contentDescription="date picker custom"
+                    android:id="@+id/tvEndDate"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"
+                    android:padding="4dp"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/palette_10"
+                    android:backgroundTint="@color/sub_grey"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="2.5dp"
+                    android:drawableLeft="@drawable/calendar_icon_small"
+                    android:drawableTint="@color/white"
+                    />
+            </LinearLayout>
+
+
+        <!-- Image Field-->
+        <TextView
+            android:id="@+id/lblEventImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llEventDate"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="54dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/uploadImgText"
+            android:textColor="@android:color/white"
+            android:textSize="22dp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivProjectImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/lblEventImage"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/sub_grey"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/circleImageView"
+            app:srcCompat="@color/accent_grey" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCreateAccount"
             android:layout_centerHorizontal="true"
             android:layout_width="230dp"
             android:layout_height="80dp"
-            android:layout_below="@id/etOverview"
-            android:layout_marginTop="135dp"
+            android:layout_below="@id/ivProjectImage"
+            android:layout_marginTop="25dp"
             app:cornerRadius="30dp"
-            android:text="@string/createEventLowerText"
+            android:text="@string/createProjectLowerText"
             android:textColor="@color/white"
             android:backgroundTint="@color/main_grey"
             android:stateListAnimator="@null"
@@ -283,7 +324,6 @@
             />
 
     </RelativeLayout>
-
-
+    </ScrollView>
 
 </FrameLayout>
