@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.telephony.PhoneNumberUtils
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -352,13 +353,7 @@ class expanded_contact : Fragment() {
 
         binding.ivMyProfileImageTint.visibility = View.GONE
         binding.tvMyProfileImageEditText.visibility = View.GONE
-
-//        binding.tfQuote.isEnabled = false
-//        binding.tfContactNumber.isEnabled = false
-//        binding.tfEmailAddress.isEnabled = false
-//        binding.tfCompanyName.isEnabled = false
-//        binding.tfLinkedIn.isEnabled = false
-//        binding.tfWebsite.isEnabled = false
+        
 
         binding.tfQuote.isFocusable = false
         binding.tfContactNumber.isFocusable = false
@@ -366,6 +361,14 @@ class expanded_contact : Fragment() {
         binding.tfCompanyName.isFocusable = false
         binding.tfLinkedIn.isFocusable = false
         binding.tfWebsite.isFocusable = false
+
+
+        binding.tfQuote.inputType = InputType.TYPE_NULL
+        binding.tfContactNumber.inputType = InputType.TYPE_NULL
+        binding.tfEmailAddress.inputType = InputType.TYPE_NULL
+        binding.tfCompanyName.inputType = InputType.TYPE_NULL
+        binding.tfLinkedIn.inputType = InputType.TYPE_NULL
+        binding.tfWebsite.inputType = InputType.TYPE_NULL
 
     }
 
@@ -381,19 +384,24 @@ class expanded_contact : Fragment() {
             binding.ivMyProfileImageTint.visibility = View.VISIBLE
             binding.tvMyProfileImageEditText.visibility = View.VISIBLE
 
-//            binding.tfQuote.isEnabled = true
-//            binding.tfContactNumber.isEnabled = true
-//            binding.tfEmailAddress.isEnabled = true
-//            binding.tfCompanyName.isEnabled = true
-//            binding.tfLinkedIn.isEnabled = true
-//            binding.tfWebsite.isEnabled = true
 
-            binding.tfQuote.isFocusable = true
-            binding.tfContactNumber.isFocusable = true
-            binding.tfEmailAddress.isFocusable = true
-            binding.tfCompanyName.isFocusable = true
-            binding.tfLinkedIn.isFocusable = true
-            binding.tfWebsite.isFocusable = true
+
+            binding.tfQuote.isFocusableInTouchMode = true
+            binding.tfContactNumber.isFocusableInTouchMode = true
+            binding.tfEmailAddress.isFocusableInTouchMode = true
+            binding.tfCompanyName.isFocusableInTouchMode = true
+            binding.tfLinkedIn.isFocusableInTouchMode = true
+            binding.tfWebsite.isFocusableInTouchMode = true
+
+
+
+
+            binding.tfQuote.inputType = InputType.TYPE_CLASS_TEXT
+            binding.tfContactNumber.inputType = InputType.TYPE_CLASS_PHONE
+            binding.tfEmailAddress.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+            binding.tfCompanyName.inputType = InputType.TYPE_CLASS_TEXT
+            binding.tfLinkedIn.inputType = InputType.TYPE_CLASS_TEXT
+            binding.tfWebsite.inputType = InputType.TYPE_CLASS_TEXT
 
 
         } else {
@@ -406,13 +414,6 @@ class expanded_contact : Fragment() {
             binding.ivMyProfileImageTint.visibility = View.GONE
             binding.tvMyProfileImageEditText.visibility = View.GONE
 
-//            binding.tfQuote.isEnabled = false
-//            binding.tfContactNumber.isEnabled = false
-//            binding.tfEmailAddress.isEnabled = false
-//            binding.tfCompanyName.isEnabled = false
-//            binding.tfLinkedIn.isEnabled = false
-//            binding.tfWebsite.isEnabled = false
-
 
             binding.tfQuote.isFocusable = false
             binding.tfContactNumber.isFocusable = false
@@ -420,6 +421,13 @@ class expanded_contact : Fragment() {
             binding.tfCompanyName.isFocusable = false
             binding.tfLinkedIn.isFocusable = false
             binding.tfWebsite.isFocusable = false
+
+            binding.tfQuote.inputType = InputType.TYPE_NULL
+            binding.tfContactNumber.inputType = InputType.TYPE_NULL
+            binding.tfEmailAddress.inputType = InputType.TYPE_NULL
+            binding.tfCompanyName.inputType = InputType.TYPE_NULL
+            binding.tfLinkedIn.inputType = InputType.TYPE_NULL
+            binding.tfWebsite.inputType = InputType.TYPE_NULL
 
         }
 
