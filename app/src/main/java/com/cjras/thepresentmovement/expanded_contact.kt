@@ -1,37 +1,21 @@
 package com.cjras.thepresentmovement
 
-import android.Manifest
-import android.app.Activity
-import android.app.AlertDialog
-import android.content.ContentResolver
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
+import android.telephony.PhoneNumberUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.RelativeLayout
-import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.cjras.thepresentmovement.databinding.FragmentExpandedContactBinding
-import kotlinx.coroutines.*
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
-
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class expanded_contact : Fragment() {
@@ -104,6 +88,9 @@ class expanded_contact : Fragment() {
             GlobalClass.InformUser(getString(R.string.errorText), "$e", requireContext())
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 
 
@@ -223,6 +210,66 @@ class expanded_contact : Fragment() {
         }
 
 
+//-----------------------------------------------------------------------------------------------------
+        binding.tfWebsite.setOnClickListener()
+        {
+            if (GlobalClass.isValidUrl(binding.tfWebsite.text.toString()) && binding.tfWebsite.isFocusable == false)
+            {
+                GlobalClass.openBrowser(binding.tfWebsite.text.toString(), requireActivity())
+            }
+        }
+
+
+        binding.tfLinkedIn.setOnClickListener()
+        {
+            if (GlobalClass.isValidUrl(binding.tfLinkedIn.text.toString())&& binding.tfLinkedIn.isFocusable == false)
+            {
+                GlobalClass.openBrowser(binding.tfLinkedIn.text.toString(), requireActivity())
+            }
+        }
+
+
+        binding.tfEmailAddress.setOnClickListener()
+        {
+            val isValidEmail = UserDataClass().isValidEmail(binding.tfEmailAddress.text.toString())
+
+            if (isValidEmail == true && binding.tfEmailAddress.isFocusable == false)
+            {
+                val recepientEmail = binding.tfEmailAddress.text.toString()
+
+                val intent = Intent(Intent.ACTION_SENDTO)
+                intent.data = Uri.parse("mailto:$recepientEmail") //source - https://stackoverflow.com/a/6506999
+                startActivity(intent)
+            }
+
+        }
+
+
+        binding.tfContactNumber.setOnClickListener()
+        {
+            if (PhoneNumberUtils.isGlobalPhoneNumber(binding.tfContactNumber.text.toString()) == true && binding.tfContactNumber.isFocusable == false)
+            {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:${binding.tfContactNumber.text}")
+                startActivity(intent)
+            }
+        }
+
+        //------
+//        binding.tfWebsite.isClickable = true
+//        binding.tfLinkedIn.isClickable = true
+//        binding.tfEmailAddress.isClickable = true
+//        binding.tfContactNumber.isClickable = true
+//
+//        binding.tfWebsite.isFocusable = false
+//        binding.tfLinkedIn.isFocusable = false
+//        binding.tfEmailAddress.isFocusable = false
+//        binding.tfContactNumber.isFocusable = false
+        //------
+
+//-----------------------------------------------------------------------------------------------------
+
+
         // Inflate the layout for this fragment
         return view
     }
@@ -283,7 +330,6 @@ class expanded_contact : Fragment() {
 
             }
 
-
             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
         } catch (e: Exception) {
@@ -299,17 +345,28 @@ class expanded_contact : Fragment() {
     }
 
     private fun setGeneralView() {
+
+
+
         binding.ivModifyContact.isVisible = false
 
         binding.ivMyProfileImageTint.visibility = View.GONE
         binding.tvMyProfileImageEditText.visibility = View.GONE
 
-        binding.tfQuote.isEnabled = false
-        binding.tfContactNumber.isEnabled = false
-        binding.tfEmailAddress.isEnabled = false
-        binding.tfCompanyName.isEnabled = false
-        binding.tfLinkedIn.isEnabled = false
-        binding.tfWebsite.isEnabled = false
+//        binding.tfQuote.isEnabled = false
+//        binding.tfContactNumber.isEnabled = false
+//        binding.tfEmailAddress.isEnabled = false
+//        binding.tfCompanyName.isEnabled = false
+//        binding.tfLinkedIn.isEnabled = false
+//        binding.tfWebsite.isEnabled = false
+
+        binding.tfQuote.isFocusable = false
+        binding.tfContactNumber.isFocusable = false
+        binding.tfEmailAddress.isFocusable = false
+        binding.tfCompanyName.isFocusable = false
+        binding.tfLinkedIn.isFocusable = false
+        binding.tfWebsite.isFocusable = false
+
     }
 
     private fun setEditMode(currentlyEditing: Boolean) {
@@ -317,35 +374,57 @@ class expanded_contact : Fragment() {
 
         if (currentlyEditing == true) {
 
+
+
             binding.ivModifyContact.setImageDrawable(activity?.getDrawable(R.drawable.tick_icon))
 
             binding.ivMyProfileImageTint.visibility = View.VISIBLE
             binding.tvMyProfileImageEditText.visibility = View.VISIBLE
 
-            binding.tfQuote.isEnabled = true
-            binding.tfContactNumber.isEnabled = true
-            binding.tfEmailAddress.isEnabled = true
-            binding.tfCompanyName.isEnabled = true
-            binding.tfLinkedIn.isEnabled = true
-            binding.tfWebsite.isEnabled = true
+//            binding.tfQuote.isEnabled = true
+//            binding.tfContactNumber.isEnabled = true
+//            binding.tfEmailAddress.isEnabled = true
+//            binding.tfCompanyName.isEnabled = true
+//            binding.tfLinkedIn.isEnabled = true
+//            binding.tfWebsite.isEnabled = true
+
+            binding.tfQuote.isFocusable = true
+            binding.tfContactNumber.isFocusable = true
+            binding.tfEmailAddress.isFocusable = true
+            binding.tfCompanyName.isFocusable = true
+            binding.tfLinkedIn.isFocusable = true
+            binding.tfWebsite.isFocusable = true
+
 
         } else {
+
+
+
 
             binding.ivModifyContact.setImageDrawable(activity?.getDrawable(R.drawable.edit_icon))
 
             binding.ivMyProfileImageTint.visibility = View.GONE
             binding.tvMyProfileImageEditText.visibility = View.GONE
 
-            binding.tfQuote.isEnabled = false
-            binding.tfContactNumber.isEnabled = false
-            binding.tfEmailAddress.isEnabled = false
-            binding.tfCompanyName.isEnabled = false
-            binding.tfLinkedIn.isEnabled = false
-            binding.tfWebsite.isEnabled = false
+//            binding.tfQuote.isEnabled = false
+//            binding.tfContactNumber.isEnabled = false
+//            binding.tfEmailAddress.isEnabled = false
+//            binding.tfCompanyName.isEnabled = false
+//            binding.tfLinkedIn.isEnabled = false
+//            binding.tfWebsite.isEnabled = false
+
+
+            binding.tfQuote.isFocusable = false
+            binding.tfContactNumber.isFocusable = false
+            binding.tfEmailAddress.isFocusable = false
+            binding.tfCompanyName.isFocusable = false
+            binding.tfLinkedIn.isFocusable = false
+            binding.tfWebsite.isFocusable = false
 
         }
 
     }
+
 
 
 }
