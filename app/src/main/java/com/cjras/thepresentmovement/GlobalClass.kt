@@ -3,12 +3,16 @@ package com.cjras.thepresentmovement
 import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.URLUtil
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -55,6 +59,20 @@ class GlobalClass : Application()
             } else {
                 currentFragment.fragmentManager?.beginTransaction()?.detach(currentFragment)?.attach(currentFragment)?.commit();
             }
+        }
+
+
+        fun openBrowser(url: String, context: Context) {
+            var url = url
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            context.startActivity(intent)
+        }
+
+
+        fun isValidUrl(url: String): Boolean { //source - https://stackoverflow.com/a/62327818
+            val p = Patterns.WEB_URL
+            val m = p.matcher(url)
+            return m.matches()
         }
 
 

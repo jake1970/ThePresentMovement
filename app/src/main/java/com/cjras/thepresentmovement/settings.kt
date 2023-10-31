@@ -100,16 +100,16 @@ class settings : Fragment() {
             Toast.makeText(requireActivity(), "Password reset link sent to: " + firebaseAuth.currentUser!!.email.toString(), Toast.LENGTH_SHORT).show()
         }
         binding.tvCampaignes.setOnClickListener(){
-            openBrowser("https://www.thepresentmovement.org/campaigns")
+            GlobalClass.openBrowser("https://www.thepresentmovement.org/campaigns", requireActivity())
         }
         binding.tvDonate.setOnClickListener(){
-            openBrowser("https://www.thepresentmovement.org/projects")
+            GlobalClass.openBrowser("https://www.thepresentmovement.org/projects", requireActivity())
         }
         binding.tvShop.setOnClickListener(){
-            openBrowser("https://thepresent.shop/")
+            GlobalClass.openBrowser("https://thepresent.shop/", requireActivity())
         }
         binding.tvInitiatives.setOnClickListener(){
-            openBrowser("https://www.thepresentmovement.org/about-us")
+            GlobalClass.openBrowser("https://www.thepresentmovement.org/about-us", requireActivity())
         }
 
 
@@ -179,9 +179,9 @@ class settings : Fragment() {
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-    private fun openBrowser(url: String) {
-        var url = url
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        startActivity(intent)
-    }
+//    private fun openBrowser(url: String) {
+//        var url = url
+//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+//        startActivity(intent)
+//    }
 }

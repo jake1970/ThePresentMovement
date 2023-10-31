@@ -45,7 +45,7 @@ class add_project : Fragment() {
             //add code here
 
             //-------------
-            binding.btnCreateProj.setOnClickListener() {
+            binding.btnCreateAccount.setOnClickListener() {
                 //boolean to determine if all fields are filled in
                 var allFilled = true
 
@@ -91,7 +91,7 @@ class add_project : Fragment() {
                             ProjectDate = LocalDate.now(), //change to the date picker selection
                             ProjectOverview = binding.etOverview.text.toString(),
                             ProjectCompanyName = binding.etCompanyName.text.toString(),
-                            ProjectCompanyAbout = binding.etAboutCompany.text.toString(),
+                            ProjectCompanyAbout = binding.etAboutnCompany.text.toString(),
                             UserID = GlobalClass.currentUser.UserID,
                             HasImage = false
                         )
@@ -110,7 +110,7 @@ class add_project : Fragment() {
             for (project in GlobalClass.Projects) {
                 if (project.ProjectID == projectID) {
                     binding.etTitle.setText(project.ProjectTitle)
-                    binding.etAboutCompany.setText(project.ProjectCompanyAbout)
+                    binding.etAboutnCompany.setText(project.ProjectCompanyAbout)
                     binding.etOverview.setText(project.ProjectOverview)
                     binding.etCompanyName.setText(project.ProjectCompanyName)
 
@@ -121,14 +121,14 @@ class add_project : Fragment() {
 
             if (editMode == true)
             {
-                binding.btnCreateProj.setOnClickListener() {
+                binding.btnCreateAccount.setOnClickListener() {
                     val tempProject = ProjectDataClass(
                         ProjectID = currentProject.ProjectID,
                         ProjectTitle = binding.etTitle.text.toString(),
                         ProjectDate = LocalDate.now(),
                         ProjectOverview = binding.etOverview.text.toString(),
                         ProjectCompanyName = binding.etCompanyName.text.toString(),
-                        ProjectCompanyAbout = binding.etAboutCompany.text.toString(),
+                        ProjectCompanyAbout = binding.etAboutnCompany.text.toString(),
                         UserID = currentProject.UserID,
                         HasImage = currentProject.HasImage
                     )
@@ -167,11 +167,11 @@ class add_project : Fragment() {
             else
             {
                 binding.etTitle.isEnabled = false
-                binding.etAboutCompany.isEnabled = false
+                binding.etAboutnCompany.isEnabled = false
                 binding.etOverview.isEnabled = false
                 binding.etCompanyName.isEnabled = false
 
-                binding.btnCreateProj.visibility = View.GONE
+                binding.btnCreateAccount.visibility = View.GONE
             }
         }
 
