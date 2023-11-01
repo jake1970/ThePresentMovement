@@ -121,6 +121,7 @@ Take care
     <string name="announcement_body">Announcement Body</string>
     <string name="joinProjectText">Join Project</string>
     <string name="viewMembersText">View Members</string>
+    <string name="participantsText">Participants</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

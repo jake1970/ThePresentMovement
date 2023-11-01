@@ -66,14 +66,6 @@ class admin_content_list : Fragment() {
         binding.llHeader.setOnClickListener()
         {
             fragmentManager?.popBackStackImmediate()
-            /*
-            //create local fragment controller
-            val fragmentControl = FragmentManager()
-
-            //go back the the general contacts page
-            fragmentControl.replaceFragment(admin(), R.id.flContent, parentFragmentManager)
-             */
-
         }
 
         binding.ivRefresh.setOnClickListener()
@@ -240,7 +232,7 @@ class admin_content_list : Fragment() {
 
                     filterManager.loadContacts("",  "All", binding.llListContent, this, true)
 
-                    filterManager.populateMemberTypes(binding.spnMemberTypes, requireActivity())
+                    filterManager.populateMemberTypes(binding.spnMemberTypes, requireActivity(), true)
 
 
                     // Set an OnItemSelectedListener to handle item selection
@@ -278,6 +270,7 @@ class admin_content_list : Fragment() {
                     //load projects text
                     filterManager.LoadProjects("", binding.llListContent, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@admin_content_list, true)
                 }
+
             }
 
 

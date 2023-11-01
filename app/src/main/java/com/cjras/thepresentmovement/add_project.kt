@@ -443,6 +443,23 @@ class add_project : Fragment() {
                 }
 
 
+                binding.btnViewMembers.setOnClickListener()
+                {
+                    //create local fragment controller
+                    val fragmentControl = FragmentManager()
+
+                    val projectMembers = project_members()
+                    val args = Bundle()
+
+                    args.putInt("selectedProjectID", currentProject.ProjectID)
+                    args.putString("selectedProjectTitle", currentProject.ProjectTitle)
+
+
+                    projectMembers.arguments = args
+
+                    fragmentControl.replaceFragment(projectMembers, R.id.flContent, parentFragmentManager)
+                }
+
             }
         }
 

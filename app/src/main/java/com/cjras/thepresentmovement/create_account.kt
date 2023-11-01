@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.Toast
@@ -33,6 +34,72 @@ class create_account : Fragment() {
     ): View? {
         _binding = FragmentCreateAccountBinding.inflate(inflater, container, false)
         val view = binding.root
+
+
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------
+        //initial data population
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        try {
+            MainScope().launch {
+                if (GlobalClass.UpdateDataBase == true) {
+
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+
+                    withContext(Dispatchers.Default) {
+
+                        var databaseManager = DatabaseManager()
+
+                        databaseManager.updateFromDatabase()
+                    }
+
+
+                }
+                UpdateUI()
+            }
+        } catch (e: Exception) {
+            GlobalClass.InformUser(
+                getString(R.string.errorText),
+                "${e}",
+                requireContext()
+            )
+        }
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+        binding.llHeader.setOnClickListener()
+        {
+            fragmentManager?.popBackStackImmediate()
+        }
+
+        binding.ivRefresh.setOnClickListener()
+        {
+            GlobalClass.RefreshFragment(this)
+        }
+
+        return view
+    }
+
+
+
+    private fun UpdateUI()
+    {
+
+        if (GlobalClass.currentUser.MemberTypeID == 3)
+        {
+            val filterManager = FilterListFunctions()
+            filterManager.populateMemberTypes(binding.spnMemberTypes, requireActivity(), false)
+        }
+        else
+        {
+            binding.spnMemberTypes.visibility = View.GONE
+            binding.rlSpinnerMember.visibility = View.GONE
+            binding.tvRole.visibility = View.GONE
+        }
+
+
 
         firebaseAuth = FirebaseAuth.getInstance()
 
@@ -68,18 +135,9 @@ class create_account : Fragment() {
             }
         }
 
-        binding.llHeader.setOnClickListener()
-        {
-            fragmentManager?.popBackStackImmediate()
-        }
-
-        binding.ivRefresh.setOnClickListener()
-        {
-            GlobalClass.RefreshFragment(this)
-        }
-
-        return view
     }
+
+
 
     private fun RegisterNewUser(
         Name: String,
@@ -120,6 +178,20 @@ class create_account : Fragment() {
                                         Website = "",
                                         HasImage = false
                                     )
+
+
+                                    if (GlobalClass.currentUser.MemberTypeID == 3) {
+
+                                        var selectedMemberTypeSpinnerIndex = GlobalClass.MemberTypes.indexOfLast { it.MemberType == binding.spnMemberTypes.selectedItem.toString() }
+
+                                        if (selectedMemberTypeSpinnerIndex != -1)
+                                        {
+                                            //if the member type exists
+                                            val selectedMemberTypeID = GlobalClass.MemberTypes[selectedMemberTypeSpinnerIndex].MemberTypeID
+                                            tempUser.MemberTypeID = selectedMemberTypeID
+                                        }
+                                    }
+
                                     dbManager.addNewUserToFirestore(tempUser)
                                     //successStatus = true
 
@@ -140,12 +212,11 @@ class create_account : Fragment() {
                                         Toast.LENGTH_SHORT
                                     ).show()
 
-                                    GlobalClass.UpdateDataBase = true
+                                    //GlobalClass.UpdateDataBase = true
 
-                                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
-                                        View.GONE
+                                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
-                                    binding.llHeader.callOnClick()
+                                    //binding.llHeader.callOnClick()
 
 
                                 }
