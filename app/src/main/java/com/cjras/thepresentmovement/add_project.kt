@@ -133,6 +133,13 @@ class add_project : Fragment() {
 
         if (projectID == 0) {
 
+            binding.ivMyProfileImageTint.visibility = View.VISIBLE
+            binding.tvMyProfileImageEditText.visibility = View.VISIBLE
+
+            binding.rlImageContainer.setOnClickListener()
+            {
+                cameraManager.handlePhoto()
+            }
 
             //-------------
             binding.btnCreateAccount.setOnClickListener() {
@@ -195,12 +202,21 @@ class add_project : Fragment() {
                                 HasImage = false
                             )
                             val dbManager = DatabaseManager()
+
+                            if (cameraManager.getModifiedImageStatus() == true)
+                            {
+                                tempProject.HasImage = true
+                                dbManager.setProjectImage(requireActivity(), nextProjectID, cameraManager.getSelectedUri())
+                            }
+
                             dbManager.addNewProjectToFirestore(tempProject)
 
                             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
                             Toast.makeText(context, "Added Project", Toast.LENGTH_SHORT)
                                 .show()
+                            GlobalClass.UpdateDataBase = true
                             binding.llHeader.callOnClick()
+
                         }
 
 
