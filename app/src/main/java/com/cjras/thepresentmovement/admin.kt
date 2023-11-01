@@ -28,6 +28,12 @@ class admin : Fragment() {
         val view = binding.root
 
 
+        if (GlobalClass.currentUser.MemberTypeID == 3)
+        {
+            binding.tvManageAccounts.visibility = View.VISIBLE
+        }
+
+
         try {
 
             //Read Data

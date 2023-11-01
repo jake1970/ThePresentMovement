@@ -33,7 +33,6 @@ class contacts : Fragment() {
         //initial data population
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
         try {
             MainScope().launch {
                 if (GlobalClass.UpdateDataBase == true) {
@@ -58,6 +57,7 @@ class contacts : Fragment() {
                 requireContext()
             )
         }
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -99,7 +99,7 @@ class contacts : Fragment() {
         try {
 
 
-            filterManager.populateMemberTypes(binding.spnMemberTypes, requireActivity())
+            filterManager.populateMemberTypes(binding.spnMemberTypes, requireActivity(), true)
 
 
             // Set an OnItemSelectedListener to handle item selection

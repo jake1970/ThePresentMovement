@@ -31,7 +31,7 @@
     <string name="createEventLowerText">create event</string>
     <string name="eventDateText">Event Date</string>
     <string name="eventLinkText">Event Link</string>
-    <string name="uploadImgText">Upload an Image</string>
+    <string name="uploadImgText">Entry Image</string>
     <string name="createProjectText">Create Project</string>
     <string name="noticesText">Notices</string>
     <string name="homeText">Home</string>
@@ -114,13 +114,14 @@ Take care
     <string name="projectTitleTxt">Project Title</string>
     <string name="projectTitleHint">Enter project name . . .</string>
     <string name="options">Options</string>
-    <string name="manage_announcements">Manage Announcements</string>
+    <string name="manage_announcements">Manage\nAnnouncements</string>
     <string name="manage_accounts">Manage Accounts</string>
     <string name="manage_events">Manage Events</string>
     <string name="manage_projects">Manage Projects</string>
     <string name="announcement_body">Announcement Body</string>
     <string name="joinProjectText">Join Project</string>
     <string name="viewMembersText">View Members</string>
+    <string name="participantsText">Participants</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

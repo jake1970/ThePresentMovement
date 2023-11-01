@@ -140,8 +140,18 @@ class DatabaseExtensionFunctions {
         //set the dialog title
         builder.setTitle(R.string.adminMenuTitleText)
 
+        //888888888888888888888888888888888888888888888888888888888888888888888
+        var menuArray = context.resources.getStringArray(R.array.adminItemFunctions)
+        if (GlobalClass.currentUser.MemberTypeID != 3)
+        {
+            menuArray = menuArray.filter { it != menuArray[2].toString() }.toTypedArray()
+        }
+        //888888888888888888888888888888888888888888888888888888888888888888888
+
+        // builder.setItems(R.array.adminItemFunctions) { dialog, selectedItem ->
+
         //set the source options for the dialog
-        builder.setItems(R.array.adminItemFunctions) { dialog, selectedItem ->
+        builder.setItems(menuArray) { dialog, selectedItem ->
 
             when (selectedItem)
             {
