@@ -2,6 +2,7 @@ package com.cjras.thepresentmovement
 
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -351,7 +352,19 @@ class create_event: Fragment() {
             else
             {
                 binding.etEventTitle.isEnabled = false
-                binding.etEventLink.isEnabled = false
+
+                binding.etEventLink.isFocusable = false
+
+
+                binding.etEventLink.setOnClickListener()
+                {
+                    if (GlobalClass.isValidUrl(binding.etEventLink.text.toString()) && binding.etEventLink.isFocusable == false)
+                    {
+                        GlobalClass.openBrowser(binding.etEventLink.text.toString(), requireActivity())
+                    }
+                }
+
+
                 binding.tvStartDate.isEnabled = false
                 binding.tvStartDate.isEnabled = false
 
