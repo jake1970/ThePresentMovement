@@ -1,5 +1,6 @@
 package com.cjras.thepresentmovement
 
+import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -132,6 +133,9 @@ class add_project : Fragment() {
 
 
         if (projectID == 0) {
+
+            binding.btnJoinProject.visibility = View.GONE
+            binding.btnViewMembers.visibility = View.GONE
 
             binding.ivMyProfileImageTint.visibility = View.VISIBLE
             binding.tvMyProfileImageEditText.visibility = View.VISIBLE
@@ -290,6 +294,13 @@ class add_project : Fragment() {
                     cameraManager.handlePhoto()
                 }
 
+                binding.btnCreateAccount.text = "Save"
+
+
+                binding.btnJoinProject.visibility = View.GONE
+                binding.btnViewMembers.visibility = View.GONE
+
+
                 binding.btnCreateAccount.setOnClickListener() {
 
                     if (binding.tvStartDate.text.toString() == getString(R.string.blankDate)) {
@@ -358,6 +369,9 @@ class add_project : Fragment() {
             }
             else
             {
+
+                //if in view mode
+
                 binding.etTitle.isEnabled = false
                 binding.etAboutnCompany.isEnabled = false
                 binding.etOverview.isEnabled = false
@@ -365,12 +379,109 @@ class add_project : Fragment() {
                 binding.tvStartDate.isEnabled = false
 
                 binding.btnCreateAccount.visibility = View.GONE
+
+                var selectedUserProjectIndex = GlobalClass.UserProjects.indexOfLast{it.UserID == GlobalClass.currentUser.UserID && it.ProjectID == currentProject.ProjectID}
+
+
+                if (selectedUserProjectIndex != -1)
+                {
+                    //if the user is in the current project
+                    binding.btnJoinProject.text = "Exit Project"
+                }
+
+
+
+                binding.btnJoinProject.setOnClickListener()
+                {
+                    if (selectedUserProjectIndex != -1)
+                    {
+                        //if the user is in the current project
+
+                        val currentUserProjectDocumentIndex = GlobalClass.documents.allUserProjectIds[selectedUserProjectIndex]
+                        exitProject(currentUserProjectDocumentIndex)
+
+
+                    }
+                    else
+                    {
+                        //if the user is not in the current project
+                        //join the project
+
+                        val databaseManager = DatabaseManager()
+
+                        MainScope().launch() {
+
+                            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                                View.VISIBLE
+
+                            withContext(Dispatchers.Default) {
+                                GlobalClass.UserProjects =
+                                    databaseManager.getAllUserProjectsFromFirestore()
+                            }
+
+                            var nextUserProjectID = 1
+                            if (GlobalClass.UserProjects.count() > 0) {
+                                nextUserProjectID = GlobalClass.UserProjects.last().ProjectID + 1
+                            }
+
+
+                            val tempUserProject = UserProjectDataClass(
+                                UserProjectID = nextUserProjectID,
+                                UserID = GlobalClass.currentUser.UserID,
+                                ProjectID = currentProject.ProjectID
+                            )
+
+                            databaseManager.addNewUserProjectToFirestore(tempUserProject)
+
+                            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                                View.GONE
+
+                            Toast.makeText(requireActivity(), "Joined Project", Toast.LENGTH_SHORT).show()
+                            GlobalClass.RefreshFragment(this@add_project)
+                        }
+                    }
+                }
+
+
             }
         }
 
         requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
             View.GONE
         //------------
+
+
+
+
+
+
+    }
+
+    private fun exitProject(userProjectDocumentIndex: String)
+    {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage("Are you sure you want to exit the current project?")
+            .setCancelable(false)
+            .setPositiveButton(getString(R.string.yesText)) { dialog, id ->
+
+                MainScope().launch() {
+                    withContext(Dispatchers.Default) {
+                        var databaseManager = DatabaseManager()
+
+                        databaseManager.deleteUserProjectFromFirestore(userProjectDocumentIndex)
+                    }
+
+                    Toast.makeText(requireActivity(), "Left Project", Toast.LENGTH_SHORT).show()
+                    GlobalClass.RefreshFragment(this@add_project)
+                }
+
+            }
+            .setNegativeButton(getString(R.string.noText)) { dialog, id ->
+                // Dismiss the dialog
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
     }
 
 }

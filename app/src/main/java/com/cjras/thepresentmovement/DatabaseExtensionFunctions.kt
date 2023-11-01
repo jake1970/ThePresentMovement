@@ -74,6 +74,8 @@ class DatabaseExtensionFunctions {
     }
 
 
+
+
     fun ExpandEntryData(tableEntryIndex: Int, editMode: Boolean, table: String, context: Fragment,)
     {
         //create local fragment controller

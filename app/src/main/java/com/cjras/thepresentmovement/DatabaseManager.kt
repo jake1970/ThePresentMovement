@@ -470,6 +470,13 @@ class DatabaseManager {
         announcementRef.delete().await()
     }
 
+
+    //remove a user from a project
+    suspend fun deleteUserProjectFromFirestore(ID: String) {
+        val userProjectRef = db.collection("UserProjects").document(ID)
+        userProjectRef.delete().await()
+    }
+
     suspend fun getUserImage(context: Context, userID : String, userHasImage: Boolean) : Bitmap?
     {
 
@@ -509,7 +516,7 @@ class DatabaseManager {
 
         if (eventHasImage) {
             try {
-                val storageReference = FirebaseStorage.getInstance().reference.child("EventImages/$eventID.jpg") //until add images from the ui is in, add .jpg extension
+                val storageReference = FirebaseStorage.getInstance().reference.child("EventImages/$eventID")
                 val imgFile = File.createTempFile("tempImage", "jpg")
                 storageReference.getFile(imgFile).await()
                 bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
@@ -533,7 +540,7 @@ class DatabaseManager {
 
         if (eventHasImage) {
             try {
-                val storageReference = FirebaseStorage.getInstance().reference.child("ProjectImages/$projectID") //until add images from the ui is in, add .jpg extension
+                val storageReference = FirebaseStorage.getInstance().reference.child("ProjectImages/$projectID")
                 val imgFile = File.createTempFile("tempImage", "jpg")
                 storageReference.getFile(imgFile).await()
                 bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
