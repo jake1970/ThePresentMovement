@@ -98,6 +98,19 @@ class DatabaseExtensionFunctions {
             }
             "Events" -> {
 
+                val expandedEventView = create_event()
+
+                args.putInt("selectedEventID", tableEntryIndex)
+                args.putBoolean("editMode", editMode)
+
+                expandedEventView.arguments = args
+
+                fragmentControl.replaceFragment(
+                    expandedEventView,
+                    R.id.flContent,
+                    context.parentFragmentManager
+                )
+
             }
             "Announcements" -> {
                 val expandedAnnouncementView = create_announcement()
@@ -146,6 +159,10 @@ class DatabaseExtensionFunctions {
                             ExpandEntryData(tableEntryIndex, false, "Projects", context)
                         }
                         "Events" -> {
+
+                            ExpandEntryData(tableEntryIndex, false, "Events", context)
+
+                            /*
                             val viewScreen = add_project() //change to events
                             args.putInt("selectedEventID", tableEntryIndex)
                             viewScreen.arguments = args
@@ -155,6 +172,7 @@ class DatabaseExtensionFunctions {
                                 R.id.flContent,
                                 context.parentFragmentManager
                             )
+                             */
                         }
                         "Announcements" -> {
 
@@ -196,6 +214,7 @@ class DatabaseExtensionFunctions {
                             ExpandEntryData(tableEntryIndex, true, "Projects", context)
                         }
                         "Events" -> {
+                            /*
                             val viewScreen = add_project() //change to events
                             args.putInt("selectedEventID", tableEntryIndex)
                             viewScreen.arguments = args
@@ -205,6 +224,9 @@ class DatabaseExtensionFunctions {
                                 R.id.flContent,
                                 context.parentFragmentManager
                             )
+                             */
+
+                            ExpandEntryData(tableEntryIndex, true, "Events", context)
                         }
                         "Announcements" -> {
                             

@@ -231,6 +231,15 @@ class home : Fragment() {
                     newFeedItem.setOnClickListener()
                     {
                         //open event full view
+
+                        var databaseExtension = DatabaseExtensionFunctions()
+
+                        databaseExtension.ExpandEntryData(
+                            (sortedList[i] as EventDataClass).EventID,
+                            false,
+                            "Events",
+                            this@home
+                        )
                     }
                 } else {
                     newFeedItem.binding.tvEntryTitle.text =

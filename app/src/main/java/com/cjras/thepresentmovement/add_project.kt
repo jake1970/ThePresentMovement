@@ -1,5 +1,6 @@
 package com.cjras.thepresentmovement
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,10 +12,12 @@ import android.widget.Toast
 import androidx.core.view.children
 import com.cjras.thepresentmovement.databinding.FragmentAddProjectBinding
 import com.cjras.thepresentmovement.databinding.FragmentAllEventsBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -23,6 +26,12 @@ class add_project : Fragment() {
 
     private var _binding: FragmentAddProjectBinding? = null
     private val binding get() = _binding!!
+
+    private var projectID :Int? = 0
+    private var editMode :Boolean? = false
+
+    private var modifiedPicture = false
+    private lateinit var cameraManager: CameraHandler
 
 
     override fun onCreateView(
@@ -35,18 +44,102 @@ class add_project : Fragment() {
         _binding = FragmentAddProjectBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        var projectID = arguments?.getInt("selectedProjectID", 0)
-        var editMode = arguments?.getBoolean("editMode", false)
+        cameraManager = CameraHandler(this, binding.ivMyProfileImage, modifiedPicture)
 
+        projectID = arguments?.getInt("selectedProjectID", 0)
+        editMode = arguments?.getBoolean("editMode", false)
+
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //Data population
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        try {
+
+            //Read Data
+            MainScope().launch {
+
+                if (GlobalClass.UpdateDataBase == true) {
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                        View.VISIBLE
+                    withContext(Dispatchers.Default) {
+
+                        var databaseManager = DatabaseManager()
+
+                        databaseManager.updateFromDatabase()
+
+                        //get the users image
+                        GlobalClass.currentUserImage = databaseManager.getUserImage(
+                            requireContext(),
+                            GlobalClass.currentUser.UserID,
+                            GlobalClass.currentUser.HasImage
+                        )
+                    }
+                }
+
+                UpdateUI()
+
+                //hide admin menu
+                if (GlobalClass.currentUser.MemberTypeID != 2 && GlobalClass.currentUser.MemberTypeID != 3) {
+                    requireActivity().findViewById<BottomNavigationView>(R.id.bnvHomeNavigation).menu.removeItem(
+                        R.id.iAdmin
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            GlobalClass.InformUser(
+                getString(R.string.errorText),
+                "${e.toString()}",
+                requireContext()
+            )
+        }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+        binding.tvStartDate.setOnClickListener(){
+            val scrollViewTools = ScrollViewTools()
+            scrollViewTools.datePicker(this, true, binding.tvStartDate)
+        }
+
+        binding.ivRefresh.setOnClickListener()
+        {
+            GlobalClass.RefreshFragment(this)
+        }
+
+
+        binding.llHeader.setOnClickListener()
+        {
+
+            fragmentManager?.popBackStackImmediate()
+
+        }
+
+
+            // Inflate the layout for this fragment
+            return view
+    }
+
+    private fun UpdateUI()
+    {
+        //-------------
         var currentProject = ProjectDataClass()
 
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
-        var formattedDate = LocalDate.parse(binding.tvStartDate.text.toString(), formatter)
 
 
-        //-------------
+
         if (projectID == 0) {
-            //add code here
+
+            binding.ivMyProfileImageTint.visibility = View.VISIBLE
+            binding.tvMyProfileImageEditText.visibility = View.VISIBLE
+
+            binding.rlImageContainer.setOnClickListener()
+            {
+                cameraManager.handlePhoto()
+            }
 
             //-------------
             binding.btnCreateAccount.setOnClickListener() {
@@ -73,41 +166,64 @@ class add_project : Fragment() {
                 //if all components are filled in
                 if (allFilled == true) {
 
-                    MainScope().launch() {
+                    if (binding.tvStartDate.text.toString() == getString(R.string.blankDate))
+                    {
+                        Toast.makeText(requireActivity(), "Please enter a date", Toast.LENGTH_SHORT).show()
+                    }
+                    else
+                    {
+                        MainScope().launch() {
 
-                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+                            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
 
-                        withContext(Dispatchers.Default) {
-                            var databaseManager = DatabaseManager()
+                            withContext(Dispatchers.Default) {
+                                var databaseManager = DatabaseManager()
 
-                            GlobalClass.Projects = databaseManager.getAllProjectsFromFirestore()
+                                GlobalClass.Projects = databaseManager.getAllProjectsFromFirestore()
+                            }
+
+                            var nextProjectID =  1
+                            if (GlobalClass.Projects.count() > 0)
+                            {
+                                nextProjectID = GlobalClass.Projects.last().ProjectID + 1
+                            }
+
+
+                            var formattedDate = LocalDate.parse(binding.tvStartDate.text.toString(), formatter)
+
+                            val tempProject = ProjectDataClass(
+                                ProjectID = nextProjectID,
+                                ProjectTitle = binding.etTitle.text.toString(),
+                                ProjectDate = formattedDate, //change to the date picker selection
+                                ProjectOverview = binding.etOverview.text.toString(),
+                                ProjectCompanyName = binding.etCompanyName.text.toString(),
+                                ProjectCompanyAbout = binding.etAboutnCompany.text.toString(),
+                                UserID = GlobalClass.currentUser.UserID,
+                                HasImage = false
+                            )
+                            val dbManager = DatabaseManager()
+
+                            if (cameraManager.getModifiedImageStatus() == true)
+                            {
+                                tempProject.HasImage = true
+                                dbManager.setProjectImage(requireActivity(), nextProjectID, cameraManager.getSelectedUri())
+                            }
+
+                            dbManager.addNewProjectToFirestore(tempProject)
+
+                            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+                            Toast.makeText(context, "Added Project", Toast.LENGTH_SHORT)
+                                .show()
+                            GlobalClass.UpdateDataBase = true
+                            binding.llHeader.callOnClick()
+
                         }
 
-                        var nextProjectID =  1
-                        if (GlobalClass.Projects.count() > 0)
-                        {
-                            nextProjectID = GlobalClass.Projects.last().ProjectID + 1
-                        }
-
-                        val tempProject = ProjectDataClass(
-                            ProjectID = nextProjectID,
-                            ProjectTitle = binding.etTitle.text.toString(),
-                            ProjectDate = formattedDate, //change to the date picker selection
-                            ProjectOverview = binding.etOverview.text.toString(),
-                            ProjectCompanyName = binding.etCompanyName.text.toString(),
-                            ProjectCompanyAbout = binding.etAboutnCompany.text.toString(),
-                            UserID = GlobalClass.currentUser.UserID,
-                            HasImage = false
-                        )
-                        val dbManager = DatabaseManager()
-                        dbManager.addNewProjectToFirestore(tempProject)
-
-                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
                     }
                 }
             }
-        //------------
+            //------------
 
 
         } else {
@@ -118,52 +234,124 @@ class add_project : Fragment() {
                     binding.etOverview.setText(project.ProjectOverview)
                     binding.etCompanyName.setText(project.ProjectCompanyName)
 
+
+
+                    binding.tvStartDate.text = project.ProjectDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"))
+
                     currentProject = project
                     break
                 }
             }
 
-            if (editMode == true)
-            {
+            try {
+
+                //Read Data
+                MainScope().launch {
+
+                   var bitmap: Bitmap? = null
+                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+                        withContext(Dispatchers.Default) {
+
+                            var databaseManager = DatabaseManager()
+                             bitmap = databaseManager.getProjectImage(
+                                requireContext(),
+                                currentProject.ProjectID,
+                                currentProject.HasImage
+                            )
+
+
+                        }
+
+                    binding.ivMyProfileImage.setImageBitmap(bitmap)
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+                    }
+
+
+
+            }
+            catch (e: Exception) {
+                GlobalClass.InformUser(
+                    getString(R.string.errorText),
+                    "${e.toString()}",
+                    requireContext()
+                )
+            }
+
+
+
+            if (editMode == true) {
+
+
+                binding.ivMyProfileImageTint.visibility = View.VISIBLE
+                binding.tvMyProfileImageEditText.visibility = View.VISIBLE
+
+                binding.rlImageContainer.setOnClickListener()
+                {
+                    cameraManager.handlePhoto()
+                }
+
                 binding.btnCreateAccount.setOnClickListener() {
-                    val tempProject = ProjectDataClass(
-                        ProjectID = currentProject.ProjectID,
-                        ProjectTitle = binding.etTitle.text.toString(),
-                        ProjectDate = formattedDate,
-                        ProjectOverview = binding.etOverview.text.toString(),
-                        ProjectCompanyName = binding.etCompanyName.text.toString(),
-                        ProjectCompanyAbout = binding.etAboutnCompany.text.toString(),
-                        UserID = currentProject.UserID,
-                        HasImage = currentProject.HasImage
-                    )
 
-                    if (!currentProject.equals(tempProject)) {
-                        val currentProjectIndex = GlobalClass.Projects.indexOf(currentProject)
-                        val currentProjectDocumentIndex =
-                            GlobalClass.documents.allProjectIds[currentProjectIndex]
+                    if (binding.tvStartDate.text.toString() == getString(R.string.blankDate)) {
+                        Toast.makeText(requireActivity(), "Please enter a date", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        var formattedDate =
+                            LocalDate.parse(binding.tvStartDate.text.toString(), formatter)
 
-                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
-                            View.VISIBLE
+                        val tempProject = ProjectDataClass(
+                            ProjectID = currentProject.ProjectID,
+                            ProjectTitle = binding.etTitle.text.toString(),
+                            ProjectDate = formattedDate,
+                            ProjectOverview = binding.etOverview.text.toString(),
+                            ProjectCompanyName = binding.etCompanyName.text.toString(),
+                            ProjectCompanyAbout = binding.etAboutnCompany.text.toString(),
+                            UserID = currentProject.UserID,
+                            HasImage = currentProject.HasImage
+                        )
 
-
-                        MainScope().launch() {
-                            withContext(Dispatchers.Default) {
-                                var databaseManager = DatabaseManager()
-
-
-                                databaseManager.updateProjectInFirestore(
-                                    tempProject,
-                                    currentProjectDocumentIndex
-                                )
-
-                            }
+                        if (currentProject.HasImage == false && cameraManager.getModifiedImageStatus() == true) {
+                            tempProject.HasImage = true
+                        }
 
 
-                            GlobalClass.UpdateDataBase = true
-                            Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
+                        if (!currentProject.equals(tempProject) || cameraManager.getModifiedImageStatus() == true) {
+                            val currentProjectIndex = GlobalClass.Projects.indexOf(currentProject)
+                            val currentProjectDocumentIndex =
+                                GlobalClass.documents.allProjectIds[currentProjectIndex]
+
                             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
-                                View.GONE
+                                View.VISIBLE
 
+
+                            MainScope().launch() {
+                                withContext(Dispatchers.Default) {
+                                    var databaseManager = DatabaseManager()
+
+
+                                    databaseManager.updateProjectInFirestore(
+                                        tempProject,
+                                        currentProjectDocumentIndex
+                                    )
+
+                                    if (cameraManager.getModifiedImageStatus() == true) {
+                                        databaseManager.setProjectImage(
+                                            requireContext(),
+                                            currentProject.ProjectID,
+                                            cameraManager.getSelectedUri()
+                                        )
+
+                                    }
+
+
+                                }
+                                GlobalClass.UpdateDataBase = true
+                                requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                                    View.GONE
+                                Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT)
+                                    .show()
+                                binding.llHeader.callOnClick()
+                            }
                         }
                     }
                 }
@@ -174,150 +362,15 @@ class add_project : Fragment() {
                 binding.etAboutnCompany.isEnabled = false
                 binding.etOverview.isEnabled = false
                 binding.etCompanyName.isEnabled = false
+                binding.tvStartDate.isEnabled = false
 
                 binding.btnCreateAccount.visibility = View.GONE
             }
         }
 
-            //------------
-
-            // Inflate the layout for this fragment
-            return view
+        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+            View.GONE
+        //------------
     }
+
 }
-
-
-
-
-
-    /*
-
-    //edit events
-
-            var eventID = arguments?.getInt("selectedEventID", 0)
-
-            var currentEvent = EventDataClass()
-
-            //-------------
-            if(eventID == 0)
-            {
-                //add code here
-            }
-            else {
-                for (event in GlobalClass.Events) {
-                    if (event.EventID == eventID) {
-                        binding.etLink.setText(event.EventLink)
-                        binding.etTitle.setText(event.EventTitle)
-
-                        currentEvent = event
-                        break
-                    }
-                }
-                binding.btnCreateEvent.setOnClickListener() {
-                    val tempEvent = EventDataClass(
-                        EventID = currentEvent.EventID,
-                        EventTitle = binding.etTitle.text.toString(),
-                        EventDate = LocalDate.now(),
-                        EventLink = binding.etLink.text.toString(),
-                        UserID  = currentEvent.UserID,
-                        HasImage = currentEvent.HasImage
-                    )
-
-
-                    if (!currentEvent.equals(tempEvent)) {
-                        val currentEventIndex = GlobalClass.Events.indexOf(currentEvent)
-                        val currentEventDocumentIndex =
-                            GlobalClass.documents.allEventIDs[currentEventIndex]
-
-                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
-                            View.VISIBLE
-
-
-                        MainScope().launch() {
-                            withContext(Dispatchers.Default) {
-                                var databaseManager = DatabaseManager()
-
-
-                                databaseManager.updateEventInFirestore(
-                                    tempEvent,
-                                    currentEventDocumentIndex
-                                )
-
-                            }
-
-
-                            GlobalClass.UpdateDataBase = true
-                            Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
-                            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
-                                View.GONE
-
-                        }
-                    }
-                }
-        }
-     */
-
-    /*
-        // edit announcement
-        var announcementID = arguments?.getInt("selectedAnnouncementID", 0)
-
-        var currentAnnouncement = AnnouncementDataClass()
-
-        //-------------
-        if (announcementID == 0) {
-            //add code here
-        } else {
-            for (announcement in GlobalClass.Announcements) {
-                if (announcement.AnnouncementID == announcementID) {
-                    binding.etMessage.setText(announcement.AnnouncementMessage)
-                    binding.etTitle.setText(announcement.AnnouncementTitle)
-
-                    currentAnnouncement = announcement
-                    break
-                }
-            }
-            binding.btnCreateAnnouncement.setOnClickListener() {
-                val tempAnnouncement = AnnouncementDataClass(
-                    AnnouncementID = currentAnnouncement.AnnouncementID,
-                    AnnouncementTitle = binding.etTitle.text.toString(),
-                    AnnouncementMessage  = binding.etMessage.text.toString(),
-                    AnnouncementDate = LocalDate.now(),
-                    UserID  = currentAnnouncement.UserID
-                )
-
-
-
-                if (!currentAnnouncement.equals(tempAnnouncement)) {
-                    val currentAnnouncementIndex = GlobalClass.Announcements.indexOf(currentAnnouncement)
-                    val currentAnnouncementDocumentIndex =
-                        GlobalClass.documents.allAnnouncmentIds[currentAnnouncementIndex]
-
-                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
-                        View.VISIBLE
-
-
-                    MainScope().launch() {
-                        withContext(Dispatchers.Default) {
-                            var databaseManager = DatabaseManager()
-
-
-                            databaseManager.updateAnnouncementInFirestore(
-                                tempAnnouncement,
-                                currentAnnouncementDocumentIndex
-                            )
-
-                        }
-
-
-                        GlobalClass.UpdateDataBase = true
-                        Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
-                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
-                            View.GONE
-
-                    }
-                }
-            }
-        }
-
-
-    */
