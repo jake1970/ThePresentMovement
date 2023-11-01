@@ -66,7 +66,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginHorizontal="10dp">
 
         <TextView
             android:id="@+id/tvOptions"
@@ -75,7 +76,7 @@
             android:text="@string/options"
             android:textSize="24sp"
             android:layout_gravity="left"
-            android:paddingLeft="16dp"
+
             android:textStyle="bold"
             android:textColor="@color/white"
             android:paddingBottom="5dp"
@@ -83,7 +84,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="106dp"
             android:orientation="horizontal">
 
 
@@ -91,33 +92,29 @@
             <TextView
                 android:id="@+id/tvManageAnnouncements"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="100dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
                 android:background="@drawable/palette_12"
                 android:backgroundTint="@color/sub_grey"
-                android:gravity="bottom"
-                android:text="@string/manage_announcements"
-                android:textSize="18sp"
-                android:padding="10dp"
-                android:includeFontPadding="false"
                 android:drawableRight="@drawable/tpm_semi_circle_modified"
+                android:gravity="bottom"
+                android:includeFontPadding="false"
+                android:padding="16dp"
+                android:text="@string/manage_announcements"
                 android:textColor="@color/white"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="10dp">
-            </TextView>
+                android:textSize="18sp"></TextView>
 
 
             <TextView
                 android:id="@+id/tvManageAccounts"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/custom_rounded_edges"
                 android:drawableRight="@drawable/tpm_heart_modified"
                 android:gravity="bottom"
-                android:layout_marginBottom="10dp"
                 android:padding="16dp"
                 android:text="@string/manage_accounts"
                 android:textColor="@color/white"
@@ -130,7 +127,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+
+            >
 
             <!-- Second Pair -->
             <TextView
@@ -145,8 +143,7 @@
                 android:textSize="18sp"
                 android:drawableRight="@drawable/tpm_speech_bubble_modified"
                 android:textColor="@color/white"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="10dp" >
+                android:layout_marginEnd="6dp" >
             </TextView>
 
             <TextView
@@ -161,8 +158,7 @@
                 android:textSize="18sp"
                 android:drawableRight="@drawable/tpm_triangle_modified"
                 android:textColor="@color/white"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="10dp" >
+                 >
         </TextView>
     </LinearLayout>
 

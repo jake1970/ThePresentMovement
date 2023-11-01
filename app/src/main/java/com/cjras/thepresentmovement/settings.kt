@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.Toast
-import com.cjras.thepresentmovement.databinding.FragmentRegisterUserBinding
 import com.cjras.thepresentmovement.databinding.FragmentSettingsBinding
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers

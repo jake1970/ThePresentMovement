@@ -230,7 +230,7 @@
                 android:textSize="18sp"
                 android:textColor="@color/white"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="10dp" >
+                 >
             </TextView>
 
         </LinearLayout>
@@ -239,47 +239,44 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
 
             <!-- Second Pair -->
             <TextView
                 android:id="@+id/tvInitiatives"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="80dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
                 android:background="@drawable/palette_12"
                 android:backgroundTint="@color/sub_grey"
-                android:gravity="start|center"
-                android:text="@string/initiativesText"
                 android:drawableLeft="@drawable/initiatives_icon"
                 android:drawablePadding="16dp"
-                android:textStyle="bold"
-                android:textSize="18sp"
+                android:gravity="start|center"
                 android:paddingLeft="16dp"
+                android:text="@string/initiativesText"
                 android:textColor="@color/white"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="10dp" >
-            </TextView>
+                android:textSize="18sp"
+                android:textStyle="bold"></TextView>
 
             <TextView
                 android:id="@+id/tvCampaignes"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="80dp"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
                 android:background="@drawable/palette_12"
                 android:backgroundTint="@color/sub_grey"
-                android:gravity="start|center"
-                android:text="@string/campaignsText"
                 android:drawableLeft="@drawable/campaign_icon"
                 android:drawablePadding="16dp"
-                android:textStyle="bold"
-                android:textSize="18sp"
+                android:gravity="start|center"
                 android:paddingLeft="16dp"
+                android:text="@string/campaignsText"
                 android:textColor="@color/white"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="10dp" >
-            </TextView>
+                android:textSize="18sp"
+                android:textStyle="bold"></TextView>
         </LinearLayout>
     </LinearLayout>
     </RelativeLayout>
