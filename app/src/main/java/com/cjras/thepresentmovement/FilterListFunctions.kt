@@ -22,10 +22,13 @@ class FilterListFunctions {
 
     private val scrollViewUtils = ScrollViewTools()
 
-    fun populateMemberTypes(spinner: Spinner, context: Context) {
+    fun populateMemberTypes(spinner: Spinner, context: Context, includeAll: Boolean) {
         val memberTypeOptions: ArrayList<String> =
             GlobalClass.MemberTypes.distinct().map { it.MemberType }.toCollection(ArrayList())
-        memberTypeOptions.add(0, "All")
+
+        if (includeAll == true) {
+            memberTypeOptions.add(0, "All")
+        }
 
         //val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, memberTypeOptions)
         val adapter = ArrayAdapter(context, R.layout.spinner_layout, memberTypeOptions)

@@ -213,6 +213,7 @@ class add_project : Fragment() {
                                 dbManager.setProjectImage(requireActivity(), nextProjectID, cameraManager.getSelectedUri())
                             }
 
+
                             dbManager.addNewProjectToFirestore(tempProject)
 
                             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
@@ -364,6 +365,11 @@ class add_project : Fragment() {
                                 binding.llHeader.callOnClick()
                             }
                         }
+                        else
+                        {
+                            Toast.makeText(context, "No changes were made", Toast.LENGTH_SHORT).show()
+                            binding.llHeader.callOnClick()
+                        }
                     }
                 }
             }
@@ -442,6 +448,23 @@ class add_project : Fragment() {
                     }
                 }
 
+
+                binding.btnViewMembers.setOnClickListener()
+                {
+                    //create local fragment controller
+                    val fragmentControl = FragmentManager()
+
+                    val projectMembers = project_members()
+                    val args = Bundle()
+
+                    args.putInt("selectedProjectID", currentProject.ProjectID)
+                    args.putString("selectedProjectTitle", currentProject.ProjectTitle)
+
+
+                    projectMembers.arguments = args
+
+                    fragmentControl.replaceFragment(projectMembers, R.id.flContent, parentFragmentManager)
+                }
 
             }
         }

@@ -1,5 +1,6 @@
 package com.cjras.thepresentmovement
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,9 @@ private val binding get() = _binding!!
 private var eventID :Int? = 0
 private var editMode :Boolean? = false
 
+private var modifiedPicture = false
+private lateinit var cameraManager: CameraHandler
+
 class create_event: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +40,8 @@ class create_event: Fragment() {
     ): View? {
         _binding = FragmentCreateEventBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        cameraManager = CameraHandler(this, binding.ivMyProfileImage, modifiedPicture)
 
         eventID = arguments?.getInt("selectedEventID", 0)
         editMode = arguments?.getBoolean("editMode", false)
@@ -117,6 +123,13 @@ class create_event: Fragment() {
             //add code here
 
             //-------------
+
+            binding.rlImageContainer.setOnClickListener()
+            {
+                cameraManager.handlePhoto()
+            }
+
+            binding.btnCreateEvent.visibility = View.VISIBLE
             binding.btnCreateEvent.setOnClickListener() {
                 //boolean to determine if all fields are filled in
                 var allFilled = true
@@ -172,10 +185,22 @@ class create_event: Fragment() {
                                 HasImage = false
                             )
                             val dbManager = DatabaseManager()
+
+                            if (cameraManager.getModifiedImageStatus() == true)
+                            {
+                                tempEvent.HasImage = true
+                                dbManager.setProjectImage(requireActivity(), nextEventID, cameraManager.getSelectedUri())
+                            }
+
+
                             dbManager.addNewEventToFirestore(tempEvent)
 
-                            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
-                                View.GONE
+
+                            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+                            Toast.makeText(context, "Added Event", Toast.LENGTH_SHORT)
+                                .show()
+                            GlobalClass.UpdateDataBase = true
+                            binding.llHeader.callOnClick()
 
                         }
                     }
@@ -198,8 +223,57 @@ class create_event: Fragment() {
                 }
             }
 
+
+
+            try {
+                //Read Data
+                MainScope().launch {
+
+                    var bitmap: Bitmap? = null
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+                    withContext(Dispatchers.Default) {
+
+                        var databaseManager = DatabaseManager()
+                        bitmap = databaseManager.getEventImage(
+                            requireContext(),
+                            currentEvent.EventID,
+                            currentEvent.HasImage
+                        )
+
+
+                    }
+
+                    binding.ivMyProfileImage.setImageBitmap(bitmap)
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
+                }
+
+
+
+            }
+            catch (e: Exception) {
+                GlobalClass.InformUser(
+                    getString(R.string.errorText),
+                    "${e.toString()}",
+                    requireContext()
+                )
+            }
+
+
+
             if (editMode == true)
             {
+
+                binding.ivMyProfileImageTint.visibility = View.VISIBLE
+                binding.tvMyProfileImageEditText.visibility = View.VISIBLE
+
+                binding.rlImageContainer.setOnClickListener()
+                {
+                    cameraManager.handlePhoto()
+                }
+
+                binding.btnCreateEvent.visibility = View.VISIBLE
+                binding.btnCreateEvent.text = "Save"
+
                 binding.btnCreateEvent.setOnClickListener() {
 
                     if (binding.tvStartDate.text.toString() == getString(R.string.blankDate))
@@ -221,7 +295,11 @@ class create_event: Fragment() {
                             HasImage = currentEvent.HasImage
                         )
 
-                        if (!currentEvent.equals(tempEvent)) {
+                        if (currentEvent.HasImage == false && cameraManager.getModifiedImageStatus() == true) {
+                            tempEvent.HasImage = true
+                        }
+
+                        if (!currentEvent.equals(tempEvent) || cameraManager.getModifiedImageStatus() == true) {
                             val currentEventIndex = GlobalClass.Events.indexOf(currentEvent)
                             val currentEventDocumentIndex =
                                 GlobalClass.documents.allEventIDs[currentEventIndex]
@@ -240,15 +318,32 @@ class create_event: Fragment() {
                                         currentEventDocumentIndex
                                     )
 
+
+                                    if (cameraManager.getModifiedImageStatus() == true) {
+                                        databaseManager.setEventImage(
+                                            requireContext(),
+                                            currentEvent.EventID,
+                                            cameraManager.getSelectedUri()
+                                        )
+
+                                    }
+
                                 }
 
 
                                 GlobalClass.UpdateDataBase = true
-                                Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
                                 requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
                                     View.GONE
+                                Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT)
+                                    .show()
+                                binding.llHeader.callOnClick()
 
                             }
+                        }
+                        else
+                        {
+                            Toast.makeText(context, "No changes were made", Toast.LENGTH_SHORT).show()
+                            binding.llHeader.callOnClick()
                         }
                     }
                 }
@@ -260,7 +355,7 @@ class create_event: Fragment() {
                 binding.tvStartDate.isEnabled = false
                 binding.tvStartDate.isEnabled = false
 
-                binding.btnCreateEvent.visibility = View.GONE
+
             }
         }
 
