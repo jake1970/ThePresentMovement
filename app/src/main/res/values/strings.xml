@@ -31,7 +31,7 @@
     <string name="createEventLowerText">create event</string>
     <string name="eventDateText">Event Date</string>
     <string name="eventLinkText">Event Link</string>
-    <string name="uploadImgText">Upload an Image</string>
+    <string name="uploadImgText">Entry Image</string>
     <string name="createProjectText">Create Project</string>
     <string name="noticesText">Notices</string>
     <string name="homeText">Home</string>

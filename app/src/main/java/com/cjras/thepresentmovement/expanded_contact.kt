@@ -144,6 +144,7 @@ class expanded_contact : Fragment() {
                         )
 
                         if (cameraManager.getModifiedImageStatus() == true) {
+
                             databaseManager.setUserImage(
                                 requireContext(),
                                 currentUserID,
@@ -155,6 +156,8 @@ class expanded_contact : Fragment() {
                                 GlobalClass.currentUser.UserID,
                                 GlobalClass.currentUser.HasImage
                             )
+
+
                         }
                     }
 

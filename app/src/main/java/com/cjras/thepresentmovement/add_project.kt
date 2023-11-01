@@ -213,6 +213,7 @@ class add_project : Fragment() {
                                 dbManager.setProjectImage(requireActivity(), nextProjectID, cameraManager.getSelectedUri())
                             }
 
+
                             dbManager.addNewProjectToFirestore(tempProject)
 
                             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
@@ -363,6 +364,11 @@ class add_project : Fragment() {
                                     .show()
                                 binding.llHeader.callOnClick()
                             }
+                        }
+                        else
+                        {
+                            Toast.makeText(context, "No changes were made", Toast.LENGTH_SHORT).show()
+                            binding.llHeader.callOnClick()
                         }
                     }
                 }
