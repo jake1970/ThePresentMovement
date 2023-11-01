@@ -12,7 +12,6 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.cjras.thepresentmovement.databinding.FragmentAllProjectsBinding
 import com.cjras.thepresentmovement.databinding.FragmentCreateAccountBinding
-import com.cjras.thepresentmovement.databinding.FragmentRegisterUserBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.auth.User
 import kotlinx.coroutines.Dispatchers
