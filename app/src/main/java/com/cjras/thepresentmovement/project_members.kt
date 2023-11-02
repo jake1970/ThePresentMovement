@@ -41,8 +41,11 @@ class project_members : Fragment() {
 
         try {
             MainScope().launch {
+
+                //if new information has been added pull new data from the database
                 if (GlobalClass.UpdateDataBase == true) {
 
+                    //show loading screen
                     requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
                         View.VISIBLE
 
@@ -50,11 +53,14 @@ class project_members : Fragment() {
 
                         var databaseManager = DatabaseManager()
 
+                        //call method to retrieve all data from the database
                         databaseManager.updateFromDatabase()
                     }
 
 
                 }
+
+                //call method to update the ui when the new database information has been loaded (if required)
                 UpdateUI()
             }
         } catch (e: Exception) {

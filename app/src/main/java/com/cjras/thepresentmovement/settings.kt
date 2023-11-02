@@ -56,6 +56,7 @@ class settings : Fragment() {
                     }
 
                 }
+
                 //call method to update the ui when the new database information has been loaded (if required)
                 UpdateUI()
             }
