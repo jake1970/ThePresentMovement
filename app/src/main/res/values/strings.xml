@@ -6,8 +6,8 @@
     <string name="slogan_text">Meet. Talk. Connect. Love.</string>
     <string name="username_text">Username</string>
     <string name="password_text">Password</string>
-    <string name="username_hint_text">    Enter a valid username . . .</string>
-    <string name="password_hint_text">    Enter a valid username . . .</string>
+    <string name="email_hint_text">your email</string>
+    <string name="password_hint_text">your password</string>
     <string name="createAccountText">Create Account</string>
     <string name="createAccountLowerText">create account</string>
     <string name="fristNameText">First Name</string>

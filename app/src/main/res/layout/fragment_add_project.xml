@@ -75,297 +75,296 @@
             />
     </RelativeLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/svBody"
-        android:layout_below="@id/rlHeader"
-        android:layout_centerInParent="true">
+        <ScrollView
+            android:id="@+id/svBody"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rlHeader"
+            android:layout_centerInParent="true">
 
-    <RelativeLayout
-        android:id="@+id/rlContent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="40dp">
-
-
-            <!-- Project Title Field-->
-            <TextView
-                android:id="@+id/lblProjectTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="Project Title"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/white" />
-
-            <EditText
-                android:id="@+id/etTitle"
+            <RelativeLayout
+                android:id="@+id/rlContent"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_below="@id/lblProjectTitle"
-                android:layout_marginTop="8dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/custom_rounded_edges"
-                android:hint="@string/projectTitleHint"
-                android:textColorHint="@color/accent_grey"
-                android:textColor="@android:color/white"
-                android:paddingLeft="6dp"
-                android:singleLine="true"/>
-
-            <!-- Company Name Field-->
-            <TextView
-                android:id="@+id/lblCompanyName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/etTitle"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/companyNameText"
-                android:textSize="22dp"
-                android:textStyle="bold"
-                android:textColor="@android:color/white" />
+                android:gravity="center_horizontal">
 
-            <EditText
-                android:id="@+id/etCompanyName"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_below="@id/lblCompanyName"
-                android:layout_marginTop="8dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/custom_rounded_edges"
-                android:hint="@string/enter_company_name"
-                android:textColorHint="@color/accent_grey"
-                android:textColor="@android:color/white"
-                android:paddingLeft="6dp"
-                android:singleLine="true"/>
 
-            <!-- About Company Field-->
-            <TextView
-                android:id="@+id/lblAboutCompany"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/etCompanyName"
-                android:layout_marginTop="10dp"
-                android:text="@string/about_company"
-                android:textSize="22dp"
-                android:gravity="top"
-                android:textStyle="bold"
-                android:textColor="@android:color/white" />
+                <!-- Project Title Field-->
+                <TextView
+                    android:id="@+id/lblProjectTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="Project Title"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/etAboutnCompany"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_below="@id/lblAboutCompany"
-                android:layout_marginTop="8dp"
-                android:layout_centerHorizontal="true"
-                android:gravity="top"
-                android:paddingTop="10dp"
-                android:background="@drawable/custom_rounded_edges"
-                android:hint="@string/enter_about_information"
-                android:textColorHint="@color/accent_grey"
-                android:textColor="@android:color/white"
-                android:paddingLeft="10dp"
-                />
+                <EditText
+                    android:id="@+id/etTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:layout_below="@id/lblProjectTitle"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/custom_rounded_edges"
+                    android:hint="@string/projectTitleHint"
+                    android:inputType="textMultiLine"
+                    android:paddingLeft="6dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/accent_grey" />
 
-            <!-- Overview field-->
-            <TextView
-                android:id="@+id/lblOverview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/etAboutnCompany"
-                android:layout_marginTop="10dp"
-                android:text="@string/overview"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/white" />
+                <!-- Company Name Field-->
+                <TextView
+                    android:id="@+id/lblCompanyName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etTitle"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/companyNameText"
+                    android:textColor="@android:color/white"
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/etOverview"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_below="@id/lblOverview"
-                android:layout_marginTop="8dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/custom_rounded_edges"
-                android:hint="@string/enter_overview_information"
-                android:textColorHint="@color/accent_grey"
-                android:textColor="@android:color/white"
-                android:paddingLeft="6dp"
-                android:singleLine="true"
-                />
+                <EditText
+                    android:id="@+id/etCompanyName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:layout_below="@id/lblCompanyName"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/custom_rounded_edges"
+                    android:hint="@string/enter_company_name"
+                    android:inputType="textMultiLine"
+                    android:paddingLeft="6dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/accent_grey" />
 
-            <LinearLayout
-                android:id="@+id/llEventDate"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_below="@id/etOverview"
-                android:contentDescription="linear layout">
+                <!-- About Company Field-->
+                <TextView
+                    android:id="@+id/lblAboutCompany"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etCompanyName"
+                    android:layout_marginTop="10dp"
+                    android:gravity="top"
+                    android:text="@string/about_company"
+                    android:textColor="@android:color/white"
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etAboutnCompany"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:layout_below="@id/lblAboutCompany"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/custom_rounded_edges"
+                    android:gravity="top"
+                    android:hint="@string/enter_about_information"
+                    android:inputType="textMultiLine"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/accent_grey" />
 
                 <!-- Overview field-->
                 <TextView
-                    android:id="@+id/lblProjectDate"
+                    android:id="@+id/lblOverview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/etAboutnCompany"
                     android:layout_marginTop="10dp"
-                    android:text="@string/dateText"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:textSize="22dp"
-                    android:layout_marginRight="10dp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/white" />
+                    android:text="@string/overview"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/etOverview"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/blankDate"
-                    android:contentDescription="date picker custom"
-                    android:id="@+id/tvStartDate"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:layout_below="@id/lblOverview"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/custom_rounded_edges"
+                    android:hint="@string/enter_overview_information"
+                    android:inputType="textMultiLine"
+                    android:paddingLeft="6dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/accent_grey" />
+
+                <LinearLayout
+                    android:id="@+id/llEventDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etOverview"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <!-- Overview field-->
+                    <TextView
+                        android:id="@+id/lblProjectDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/etAboutnCompany"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/dateText"
+                        android:textColor="@android:color/white"
+
+                        android:textSize="22dp" />
+
+                    <TextView
+                        android:id="@+id/tvStartDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginRight="2.5dp"
+                        android:layout_weight="0"
+                        android:background="@drawable/palette_10"
+                        android:backgroundTint="@color/sub_grey"
+                        android:drawableLeft="@drawable/calendar_icon_small"
+                        android:drawableTint="@color/white"
+                        android:gravity="center"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp"
+                        android:text="@string/blankDate"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+
+                <!-- Image Field-->
+                <TextView
+                    android:id="@+id/lblEventImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/llEventDate"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="54dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/uploadImgText"
+                    android:textColor="@android:color/white"
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
+
+
+                <RelativeLayout
+                    android:id="@+id/rlImageContainer"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_below="@id/lblEventImage"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginBottom="45dp"
+                    android:layout_weight="0">
+
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ivMyProfileImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@color/accent_grey"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/circleImageView"
+                        app:srcCompat="@color/accent_grey" />
+
+                    <ImageView
+                        android:id="@+id/ivMyProfileImageTint"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.6"
+                        android:src="@drawable/palette_circle"
+                        android:visibility="gone"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvMyProfileImageEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/editText"
+                        android:textColor="@color/white"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCreateAccount"
+                    android:layout_width="230dp"
+                    android:layout_height="80dp"
+                    android:layout_below="@id/rlImageContainer"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
+                    android:backgroundTint="@color/main_grey"
+                    android:letterSpacing="0"
+                    android:stateListAnimator="@null"
+                    android:text="@string/createProjectLowerText"
+                    android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textAlignment="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:textSize="12dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/palette_10"
-                    android:backgroundTint="@color/sub_grey"
-                    android:layout_weight="2"
-                    android:layout_marginRight="2.5dp"
-                    android:drawableLeft="@drawable/calendar_icon_small"
-                    android:drawableTint="@color/white"
-                    />
-            </LinearLayout>
+                    android:textSize="24dp"
+                    android:textStyle="bold"
+                    app:cornerRadius="30dp"
+                    app:strokeColor="@color/white"
+                    app:strokeWidth="2dp" />
 
-        <!-- Image Field-->
-        <TextView
-            android:id="@+id/lblEventImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/llEventDate"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="54dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/uploadImgText"
-            android:textColor="@android:color/white"
-            android:textSize="22dp"
-            android:textStyle="bold" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnJoinProject"
+                    android:layout_width="230dp"
+                    android:layout_height="80dp"
+                    android:layout_below="@id/btnCreateAccount"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
+                    android:backgroundTint="@color/main_grey"
+                    android:letterSpacing="0"
+                    android:stateListAnimator="@null"
+                    android:text="@string/joinProjectText"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="24dp"
+                    android:textStyle="bold"
+                    app:cornerRadius="30dp"
+                    app:strokeColor="@color/white"
+                    app:strokeWidth="2dp" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnViewMembers"
+                    android:layout_width="230dp"
+                    android:layout_height="80dp"
+                    android:layout_below="@id/btnJoinProject"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="40dp"
+                    android:backgroundTint="@color/main_grey"
+                    android:letterSpacing="0"
+                    android:stateListAnimator="@null"
+                    android:text="@string/viewMembersText"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="24dp"
+                    android:textStyle="bold"
+                    app:cornerRadius="30dp"
+                    app:strokeColor="@color/white"
+                    app:strokeWidth="2dp" />
 
-        <RelativeLayout
-            android:layout_width="100dp"
-            android:id="@+id/rlImageContainer"
-            android:layout_height="100dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="45dp"
-            android:layout_weight="0"
-            android:layout_below="@id/lblEventImage"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="14dp">
-
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_gravity="center"
-                android:id="@+id/ivMyProfileImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:shapeAppearanceOverlay="@style/circleImageView"
-                android:background="@color/accent_grey"
-                app:srcCompat="@color/accent_grey"
-                android:scaleType="centerCrop"
-                />
-
-            <ImageView
-                android:id="@+id/ivMyProfileImageTint"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.6"
-                android:src="@drawable/palette_circle"
-                android:visibility="gone"
-                app:tint="@color/black" />
-
-            <TextView
-                android:id="@+id/tvMyProfileImageEditText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:visibility="gone"
-                android:text="@string/editText" />
-
-        </RelativeLayout>
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCreateAccount"
-            android:layout_centerHorizontal="true"
-            android:layout_width="230dp"
-            android:layout_height="80dp"
-            android:layout_below="@id/rlImageContainer"
-            app:cornerRadius="30dp"
-            android:text="@string/createProjectLowerText"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/main_grey"
-            android:stateListAnimator="@null"
-            app:strokeColor="@color/white"
-            app:strokeWidth="2dp"
-            android:textSize="24dp"
-            android:letterSpacing="0"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:layout_marginBottom="20dp"
-            />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnJoinProject"
-            android:layout_centerHorizontal="true"
-            android:layout_width="230dp"
-            android:layout_height="80dp"
-            android:layout_below="@id/btnCreateAccount"
-            app:cornerRadius="30dp"
-            android:text="@string/joinProjectText"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/main_grey"
-            android:stateListAnimator="@null"
-            app:strokeColor="@color/white"
-            app:strokeWidth="2dp"
-            android:textSize="24dp"
-            android:letterSpacing="0"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:layout_marginBottom="20dp"
-            />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnViewMembers"
-            android:layout_centerHorizontal="true"
-            android:layout_width="230dp"
-            android:layout_height="80dp"
-            android:layout_below="@id/btnJoinProject"
-            app:cornerRadius="30dp"
-            android:text="@string/viewMembersText"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/main_grey"
-            android:stateListAnimator="@null"
-            app:strokeColor="@color/white"
-            app:strokeWidth="2dp"
-            android:textSize="24dp"
-            android:letterSpacing="0"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:layout_marginBottom="40dp"
-            />
-
-    </RelativeLayout>
-    </ScrollView>
+            </RelativeLayout>
+        </ScrollView>
 
     </RelativeLayout>
 </FrameLayout>

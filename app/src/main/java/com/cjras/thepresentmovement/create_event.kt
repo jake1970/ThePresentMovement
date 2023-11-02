@@ -2,6 +2,7 @@ package com.cjras.thepresentmovement
 
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -124,6 +125,10 @@ class create_event: Fragment() {
 
             //-------------
 
+
+            binding.ivMyProfileImageTint.visibility = View.VISIBLE
+            binding.tvMyProfileImageEditText.visibility = View.VISIBLE
+
             binding.rlImageContainer.setOnClickListener()
             {
                 cameraManager.handlePhoto()
@@ -169,10 +174,35 @@ class create_event: Fragment() {
                                 GlobalClass.Events = databaseManager.getAllEventsFromFirestore()
                             }
 
+
+
                             var nextEventID = 1
                             if (GlobalClass.Events.count() > 0) {
-                                nextEventID = GlobalClass.Events.last().EventID + 1
+                                //nextEventID = GlobalClass.Events.last().EventID //+ 1
+
+                                var existingID = true
+
+                                while (existingID == true)
+                                {
+                                    nextEventID = GlobalClass.Events.sortedBy { it.EventID }.last().EventID + 1
+
+                                    var selectedEventIndex = GlobalClass.Events.indexOfLast { it.EventID == nextEventID }
+
+                                    if (selectedEventIndex != -1) {
+                                        //if the event id is in use
+                                        nextEventID = GlobalClass.Events.sortedBy { it.EventID }.last().EventID + 1
+                                    }
+                                    else
+                                    {
+                                        //if the event id is not in use yet
+                                        existingID = false
+                                    }
+                                }
+
+
                             }
+
+
                             val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
                             var formattedDate =
                                 LocalDate.parse(binding.tvStartDate.text.toString(), formatter)
@@ -351,7 +381,19 @@ class create_event: Fragment() {
             else
             {
                 binding.etEventTitle.isEnabled = false
-                binding.etEventLink.isEnabled = false
+
+                binding.etEventLink.isFocusable = false
+
+
+                binding.etEventLink.setOnClickListener()
+                {
+                    if (GlobalClass.isValidUrl(binding.etEventLink.text.toString()) && binding.etEventLink.isFocusable == false)
+                    {
+                        GlobalClass.openBrowser(binding.etEventLink.text.toString(), requireActivity())
+                    }
+                }
+
+
                 binding.tvStartDate.isEnabled = false
                 binding.tvStartDate.isEnabled = false
 
