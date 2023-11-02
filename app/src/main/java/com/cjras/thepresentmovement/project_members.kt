@@ -163,6 +163,8 @@ class project_members : Fragment() {
                 loadProjectMembers(currentProjectMembers, "", "All", binding.llParticipants)
             }
         }
+
+        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
     }
 
 

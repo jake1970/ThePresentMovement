@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 class DatabaseExtensionFunctions {
 
 
-    fun deleteConfirmation(tableEntryDocumentIndex: String, context: Fragment, table: String)
+    fun deleteConfirmation(tableEntryDocumentIndex: String, context: Fragment, table: String, userID: String, projectID: Int)
     {
         val builder = AlertDialog.Builder(context.requireActivity())
         builder.setMessage(context.getString(R.string.confirmDeletionText))
@@ -32,8 +32,13 @@ class DatabaseExtensionFunctions {
                         when(table)
                         {
                             "Projects" -> {
-                                databaseManager.deleteProjectFromFirestore(tableEntryDocumentIndex)
-                                deletionType = context.getString(R.string.projectsTextSingle)
+
+                                if (projectID != 0)
+                                {
+                                    databaseManager.deleteProjectFromFirestore(tableEntryDocumentIndex, projectID)
+                                    deletionType = context.getString(R.string.projectsTextSingle)
+                                }
+
                             }
                             "Events" -> {
                                 databaseManager.deleteEventFromFirestore(tableEntryDocumentIndex)
@@ -44,20 +49,16 @@ class DatabaseExtensionFunctions {
                                 deletionType = context.getString(R.string.announcementText)
                             }
                             "Users" -> {
-                                databaseManager.deleteUserFromFirestore(tableEntryDocumentIndex)
-                                deletionType = context.getString(R.string.userText)
 
-
-                                //88888888888888888888888888888888888888888888888888888888888
-                                //find all projects that the user is currently in
-
-                                //ask if users actually need to be able to join projects in app or if they should be redirected
-
-                                //88888888888888888888888888888888888888888888888888888888888
+                                if (userID != "")
+                                {
+                                    databaseManager.deleteUserFromFirestore(tableEntryDocumentIndex, userID)
+                                    deletionType = context.getString(R.string.userText)
+                                }
 
                             }
                         }
-                        databaseManager.deleteUserFromFirestore(tableEntryDocumentIndex)
+                        //databaseManager.deleteUserFromFirestore(tableEntryDocumentIndex)
                     }
 
                     Toast.makeText(context.requireActivity(), "${context.getString(R.string.deletedText)} $deletionType", Toast.LENGTH_SHORT).show()
@@ -253,13 +254,21 @@ class DatabaseExtensionFunctions {
                     {
 
                         "Projects" -> {
-                            deleteConfirmation(tableEntry, context, "Projects")
+
+                            var selectedProjectIndex = GlobalClass.Projects.indexOfLast { it.ProjectID == tableEntryIndex }
+
+                            if (selectedProjectIndex != -1) {
+                                //if the user is in the current project
+
+                                deleteConfirmation(tableEntry, context, "Projects", "", GlobalClass.Projects[selectedProjectIndex].ProjectID)
+                            }
+
                         }
                         "Events" -> {
-                            deleteConfirmation(tableEntry, context, "Events")
+                            deleteConfirmation(tableEntry, context, "Events", "", 0)
                         }
                         "Announcements" -> {
-                            deleteConfirmation(tableEntry, context, "Announcements")
+                            deleteConfirmation(tableEntry, context, "Announcements", "", 0)
                         }
                     }
                 }

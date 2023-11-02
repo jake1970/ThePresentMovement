@@ -186,10 +186,39 @@ class add_project : Fragment() {
                                 GlobalClass.Projects = databaseManager.getAllProjectsFromFirestore()
                             }
 
+
+                            /*
                             var nextProjectID =  1
                             if (GlobalClass.Projects.count() > 0)
                             {
                                 nextProjectID = GlobalClass.Projects.last().ProjectID + 1
+                            }
+                             */
+
+                            var nextProjectID = 1
+                            if (GlobalClass.Projects.count() > 0) {
+                                //nextProjectID = GlobalClass.Projects.last().ProjectID + 1
+
+                                var existingID = true
+
+                                while (existingID == true)
+                                {
+                                    nextProjectID = GlobalClass.Projects.sortedBy { it.ProjectID }.last().ProjectID + 1
+
+                                    var selectedProjectIndex = GlobalClass.Projects.indexOfLast { it.ProjectID == nextProjectID }
+
+                                    if (selectedProjectIndex != -1) {
+                                        //if the project id is in use
+                                        nextProjectID = GlobalClass.Projects.sortedBy { it.ProjectID }.last().ProjectID + 1
+                                    }
+                                    else
+                                    {
+                                        //if the project id is not in use yet
+                                        existingID = false
+                                    }
+                                }
+
+
                             }
 
 

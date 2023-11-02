@@ -131,7 +131,9 @@ class FilterListFunctions {
                                             databaseExtension.deleteConfirmation(
                                                 currentUserDocumentIndex,
                                                 context,
-                                                "Users"
+                                                "Users",
+                                                user.UserID,
+                                                0
                                             )
 
                                         }

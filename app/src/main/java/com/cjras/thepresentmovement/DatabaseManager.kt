@@ -8,6 +8,7 @@ import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
+import com.google.firebase.firestore.WriteBatch
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -63,15 +64,14 @@ class DatabaseManager {
             )
 
 
-
             //if (GlobalClass.currentUser.EmailAddress == "")
             //{
-                if (newUserID == GlobalClass.currentUser.UserID) {
-                    GlobalClass.currentUser = tempUser
-                    GlobalClass.currentUserMemberType = MemberTypeDataClass().getSingleMemberType(tempUser.MemberTypeID)
-                }
-           // }
-
+            if (newUserID == GlobalClass.currentUser.UserID) {
+                GlobalClass.currentUser = tempUser
+                GlobalClass.currentUserMemberType =
+                    MemberTypeDataClass().getSingleMemberType(tempUser.MemberTypeID)
+            }
+            // }
 
 
             allUsers.add(tempUser)
@@ -112,7 +112,7 @@ class DatabaseManager {
         return allMemberTypes
     }
 
-   //get all announcements
+    //get all announcements
     suspend fun getAllAnnouncementsFromFirestore(): ArrayList<AnnouncementDataClass> {
         val allAnnouncements = arrayListOf<AnnouncementDataClass>()
         GlobalClass.documents.allAnnouncmentIds.clear()
@@ -122,19 +122,21 @@ class DatabaseManager {
         for (document in querySnapshot) {
 
             val newAnnouncementID: Int = document.data.getValue("announcementID").toString().toInt()
-            val newAnnouncementTitle: String = document.data.getValue("announcementTitle").toString()
-            val newAnnouncementMessage: String = document.data.getValue("announcementMessage").toString()
-            val newAnnouncementDate: LocalDate = LocalDate.parse(document.data.getValue("announcementDate").toString())
+            val newAnnouncementTitle: String =
+                document.data.getValue("announcementTitle").toString()
+            val newAnnouncementMessage: String =
+                document.data.getValue("announcementMessage").toString()
+            val newAnnouncementDate: LocalDate =
+                LocalDate.parse(document.data.getValue("announcementDate").toString())
             val newUserID: String = document.data.getValue("userID").toString()
 
 
-
             val tempAnnouncement = AnnouncementDataClass(
-                 AnnouncementID = newAnnouncementID,
-                 AnnouncementTitle = newAnnouncementTitle,
-                 AnnouncementMessage  = newAnnouncementMessage,
-                 AnnouncementDate = newAnnouncementDate,
-                 UserID  = newUserID
+                AnnouncementID = newAnnouncementID,
+                AnnouncementTitle = newAnnouncementTitle,
+                AnnouncementMessage = newAnnouncementMessage,
+                AnnouncementDate = newAnnouncementDate,
+                UserID = newUserID
             )
 
 
@@ -158,9 +160,10 @@ class DatabaseManager {
 
             val newEventID: Int = document.data.getValue("eventID").toString().toInt()
             val newEventTitle: String = document.data.getValue("eventTitle").toString()
-            val newEventDate : LocalDate = LocalDate.parse(document.data.getValue("eventDate").toString())
+            val newEventDate: LocalDate =
+                LocalDate.parse(document.data.getValue("eventDate").toString())
             val newEventLink: String = document.data.getValue("eventLink").toString()
-            val newUserID : String = document.data.getValue("userID").toString()
+            val newUserID: String = document.data.getValue("userID").toString()
             val newHasImage: Boolean = document.data.getValue("hasImage").toString().toBoolean()
 
 
@@ -169,7 +172,7 @@ class DatabaseManager {
                 EventTitle = newEventTitle,
                 EventDate = newEventDate,
                 EventLink = newEventLink,
-                UserID  = newUserID,
+                UserID = newUserID,
                 HasImage = newHasImage
             )
 
@@ -193,21 +196,24 @@ class DatabaseManager {
 
             val newProjectID: Int = document.data.getValue("projectID").toString().toInt()
             val newProjectTitle: String = document.data.getValue("projectTitle").toString()
-            val newProjectDate : LocalDate = LocalDate.parse(document.data.getValue("projectDate").toString())
+            val newProjectDate: LocalDate =
+                LocalDate.parse(document.data.getValue("projectDate").toString())
             val newProjectOverview: String = document.data.getValue("projectOverview").toString()
-            val newProjectCompanyName : String = document.data.getValue("projectCompanyName").toString()
-            val newProjectCompanyAbout: String = document.data.getValue("projectCompanyAbout").toString()
-            val newUserID : String = document.data.getValue("userID").toString()
+            val newProjectCompanyName: String =
+                document.data.getValue("projectCompanyName").toString()
+            val newProjectCompanyAbout: String =
+                document.data.getValue("projectCompanyAbout").toString()
+            val newUserID: String = document.data.getValue("userID").toString()
             val newHasImage: Boolean = document.data.getValue("hasImage").toString().toBoolean()
 
             val tempProject = ProjectDataClass(
                 ProjectID = newProjectID,
                 ProjectTitle = newProjectTitle,
-                ProjectDate  = newProjectDate,
+                ProjectDate = newProjectDate,
                 ProjectOverview = newProjectOverview,
                 ProjectCompanyName = newProjectCompanyName,
                 ProjectCompanyAbout = newProjectCompanyAbout,
-                UserID  = newUserID,
+                UserID = newUserID,
                 HasImage = newHasImage
             )
 
@@ -232,13 +238,13 @@ class DatabaseManager {
 
             val newUserProjectID: Int = document.data.getValue("userProjectID").toString().toInt()
             val newUserID: String = document.data.getValue("userID").toString()
-            val newProjectID : Int = document.data.getValue("projectID").toString().toInt()
+            val newProjectID: Int = document.data.getValue("projectID").toString().toInt()
 
 
             val tempUserProject = UserProjectDataClass(
                 UserProjectID = newUserProjectID,
                 UserID = newUserID,
-                ProjectID  = newProjectID,
+                ProjectID = newProjectID,
             )
 
             allUserProjects.add(tempUserProject)
@@ -250,8 +256,7 @@ class DatabaseManager {
     }
 
 
-    suspend fun updateFromDatabase()
-    {
+    suspend fun updateFromDatabase() {
         GlobalClass.MemberTypes = getAllMemberTypesFromFirestore()
         GlobalClass.Users = getAllUsersFromFirestore()
         GlobalClass.Announcements = getAllAnnouncementsFromFirestore()
@@ -290,8 +295,7 @@ class DatabaseManager {
 //    }
 
     //add new user to the users table
-    fun addNewUserToFirestore(newUser: UserDataClass)
-    {
+    fun addNewUserToFirestore(newUser: UserDataClass) {
         db.collection("Users")
             .add(newUser)
             .addOnSuccessListener {
@@ -301,8 +305,7 @@ class DatabaseManager {
     }
 
     //add new project to the projects table
-    fun addNewProjectToFirestore(newProject: ProjectDataClass)
-    {
+    fun addNewProjectToFirestore(newProject: ProjectDataClass) {
         db.collection("Projects")
             .add(
                 mapOf(
@@ -323,8 +326,7 @@ class DatabaseManager {
     }
 
     //add new announcement to the announcements table
-    fun addNewAnnouncementToFirestore(newAnnouncement: AnnouncementDataClass)
-    {
+    fun addNewAnnouncementToFirestore(newAnnouncement: AnnouncementDataClass) {
         db.collection("Announcements")
             .add(
                 mapOf(
@@ -343,8 +345,7 @@ class DatabaseManager {
 
 
     //add new event to the events table
-    fun addNewEventToFirestore(newEvent: EventDataClass)
-    {
+    fun addNewEventToFirestore(newEvent: EventDataClass) {
         db.collection("Events")
             .add(
                 mapOf(
@@ -363,10 +364,8 @@ class DatabaseManager {
     }
 
 
-
     //add new userproject to the UserProjects table
-    fun addNewUserProjectToFirestore(newUserProject: UserProjectDataClass)
-    {
+    fun addNewUserProjectToFirestore(newUserProject: UserProjectDataClass) {
         db.collection("UserProjects")
             .add(
                 mapOf(
@@ -431,7 +430,10 @@ class DatabaseManager {
         ).await()
     }
 
-    suspend fun updateAnnouncementInFirestore(currentAnnouncement: AnnouncementDataClass, ID: String) {
+    suspend fun updateAnnouncementInFirestore(
+        currentAnnouncement: AnnouncementDataClass,
+        ID: String,
+    ) {
         val announcementRef = db.collection("Announcements").document(ID)
         announcementRef.update(
             mapOf(
@@ -445,15 +447,55 @@ class DatabaseManager {
     }
 
 
-
     //remove a user
-    suspend fun deleteUserFromFirestore(ID: String) {
+    suspend fun deleteUserFromFirestore(ID: String, userID: String) {
+
+        batchDeleteUserProjectFromFirestoreUserID(userID)
+
         val userRef = db.collection("Users").document(ID)
         userRef.delete().await()
     }
 
+    suspend fun batchDeleteUserProjectFromFirestoreUserID(userID: String) {
+
+        db.collection("UserProjects")
+            .whereEqualTo("userId", userID)
+            .get()
+            .addOnSuccessListener { result ->
+                var batch = db.batch();
+
+                for (doc in result) {
+                    batch.delete(doc.reference)
+                }
+
+                batch.commit()
+
+            }.await()
+    }
+
+
+    suspend fun batchDeleteUserProjectFromFirestoreProjectID(projectID: Int) {
+
+        db.collection("UserProjects")
+            .whereEqualTo("projectID", projectID)
+            .get()
+            .addOnSuccessListener { result ->
+                var batch = db.batch();
+
+                for (doc in result) {
+                    batch.delete(doc.reference)
+                }
+
+                batch.commit()
+
+            }.await()
+    }
+
     //remove a project
-    suspend fun deleteProjectFromFirestore(ID: String) {
+    suspend fun deleteProjectFromFirestore(ID: String, projectID: Int) {
+
+        batchDeleteUserProjectFromFirestoreProjectID(projectID)
+
         val projectRef = db.collection("Projects").document(ID)
         projectRef.delete().await()
     }
@@ -477,13 +519,15 @@ class DatabaseManager {
         userProjectRef.delete().await()
     }
 
-    suspend fun getUserImage(context: Context, userID : String, userHasImage: Boolean) : Bitmap?
-    {
+    suspend fun getUserImage(context: Context, userID: String, userHasImage: Boolean): Bitmap? {
 
         var defaultUserImage = context.getDrawable(R.drawable.person_icon)
         if (defaultUserImage != null) {
             defaultUserImage = defaultUserImage.mutate()
-            defaultUserImage.colorFilter = PorterDuffColorFilter(context.resources.getColor(R.color.sub_grey), PorterDuff.Mode.SRC_IN)
+            defaultUserImage.colorFilter = PorterDuffColorFilter(
+                context.resources.getColor(R.color.sub_grey),
+                PorterDuff.Mode.SRC_IN
+            )
         }
 
         var bitmap = defaultUserImage?.toBitmap()
@@ -492,7 +536,8 @@ class DatabaseManager {
 
         if (userHasImage) {
             try {
-                val storageReference = FirebaseStorage.getInstance().reference.child("ContactImages/$userID")
+                val storageReference =
+                    FirebaseStorage.getInstance().reference.child("ContactImages/$userID")
                 val imgFile = File.createTempFile("tempImage", "jpg")
                 storageReference.getFile(imgFile).await()
                 bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
@@ -509,14 +554,14 @@ class DatabaseManager {
     }
 
 
-    suspend fun getEventImage(context: Context, eventID : Int, eventHasImage: Boolean) : Bitmap?
-    {
+    suspend fun getEventImage(context: Context, eventID: Int, eventHasImage: Boolean): Bitmap? {
 
         var bitmap = getEventDefaultImage(context)
 
         if (eventHasImage) {
             try {
-                val storageReference = FirebaseStorage.getInstance().reference.child("EventImages/$eventID")
+                val storageReference =
+                    FirebaseStorage.getInstance().reference.child("EventImages/$eventID")
                 val imgFile = File.createTempFile("tempImage", "jpg")
                 storageReference.getFile(imgFile).await()
                 bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
@@ -533,14 +578,14 @@ class DatabaseManager {
     }
 
 
-    suspend fun getProjectImage(context: Context, projectID : Int, eventHasImage: Boolean) : Bitmap?
-    {
+    suspend fun getProjectImage(context: Context, projectID: Int, eventHasImage: Boolean): Bitmap? {
 
         var bitmap = getProjectDefaultImage(context)
 
         if (eventHasImage) {
             try {
-                val storageReference = FirebaseStorage.getInstance().reference.child("ProjectImages/$projectID")
+                val storageReference =
+                    FirebaseStorage.getInstance().reference.child("ProjectImages/$projectID")
                 val imgFile = File.createTempFile("tempImage", "jpg")
                 storageReference.getFile(imgFile).await()
                 bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
@@ -557,12 +602,14 @@ class DatabaseManager {
     }
 
 
-    fun getEventDefaultImage(context: Context) : Bitmap?
-    {
+    fun getEventDefaultImage(context: Context): Bitmap? {
         var defaultUserImage = context.getDrawable(R.drawable.e_icon)
         if (defaultUserImage != null) {
             defaultUserImage = defaultUserImage.mutate()
-            defaultUserImage.colorFilter = PorterDuffColorFilter(context.resources.getColor(R.color.sub_grey), PorterDuff.Mode.SRC_IN)
+            defaultUserImage.colorFilter = PorterDuffColorFilter(
+                context.resources.getColor(R.color.sub_grey),
+                PorterDuff.Mode.SRC_IN
+            )
         }
 
         var bitmap = defaultUserImage?.toBitmap()
@@ -571,12 +618,14 @@ class DatabaseManager {
         return bitmap
     }
 
-    fun getProjectDefaultImage(context: Context) : Bitmap?
-    {
+    fun getProjectDefaultImage(context: Context): Bitmap? {
         var defaultUserImage = context.getDrawable(R.drawable.p_icon)
         if (defaultUserImage != null) {
             defaultUserImage = defaultUserImage.mutate()
-            defaultUserImage.colorFilter = PorterDuffColorFilter(context.resources.getColor(R.color.sub_grey), PorterDuff.Mode.SRC_IN)
+            defaultUserImage.colorFilter = PorterDuffColorFilter(
+                context.resources.getColor(R.color.sub_grey),
+                PorterDuff.Mode.SRC_IN
+            )
         }
 
         var bitmap = defaultUserImage?.toBitmap()
@@ -585,8 +634,7 @@ class DatabaseManager {
         return bitmap
     }
 
-    suspend fun setUserImage(context: Context, userID : String, selectedImageUri : Uri)
-    {
+    suspend fun setUserImage(context: Context, userID: String, selectedImageUri: Uri) {
 
         val imageLocation = "ContactImages/$userID"
         val storageReference = FirebaseStorage.getInstance().getReference(imageLocation)
@@ -594,17 +642,16 @@ class DatabaseManager {
         // binding.ivMyProfileImage.image
 
         storageReference.putFile(selectedImageUri)
-            .addOnFailureListener{
+            .addOnFailureListener {
                 Toast.makeText(context, "Imaged Failed To Upload", Toast.LENGTH_SHORT).show()
             }
             .addOnSuccessListener {
                 GlobalClass.currentUser.HasImage = true
-        }.await()
+            }.await()
 
     }
 
-    suspend fun setProjectImage(context: Context, projectID : Int, selectedImageUri : Uri)
-    {
+    suspend fun setProjectImage(context: Context, projectID: Int, selectedImageUri: Uri) {
 
         val imageLocation = "ProjectImages/$projectID"
         val storageReference = FirebaseStorage.getInstance().getReference(imageLocation)
@@ -612,19 +659,19 @@ class DatabaseManager {
         // binding.ivMyProfileImage.image
 
         storageReference.putFile(selectedImageUri)
-            .addOnFailureListener{
+            .addOnFailureListener {
                 Toast.makeText(context, "Imaged Failed To Upload", Toast.LENGTH_SHORT).show()
             }
             .addOnSuccessListener {
                 //set current project has image to true
-                var selectedProjectIndex = GlobalClass.Projects.indexOfLast{it.ProjectID == projectID}
+                var selectedProjectIndex =
+                    GlobalClass.Projects.indexOfLast { it.ProjectID == projectID }
                 GlobalClass.Projects[selectedProjectIndex].HasImage = true
             }.await()
 
     }
 
-    suspend fun setEventImage(context: Context, eventID : Int, selectedImageUri : Uri)
-    {
+    suspend fun setEventImage(context: Context, eventID: Int, selectedImageUri: Uri) {
 
         val imageLocation = "EventImages/$eventID"
         val storageReference = FirebaseStorage.getInstance().getReference(imageLocation)
@@ -632,20 +679,16 @@ class DatabaseManager {
         // binding.ivMyProfileImage.image
 
         storageReference.putFile(selectedImageUri)
-            .addOnFailureListener{
+            .addOnFailureListener {
                 Toast.makeText(context, "Imaged Failed To Upload", Toast.LENGTH_SHORT).show()
             }
             .addOnSuccessListener {
                 //set current event has image to true
-                var selectedEventIndex = GlobalClass.Events.indexOfLast{it.EventID == eventID}
+                var selectedEventIndex = GlobalClass.Events.indexOfLast { it.EventID == eventID }
                 GlobalClass.Events[selectedEventIndex].HasImage = true
             }.await()
 
     }
-
-
-
-
 
 
     private fun addPaddingToBitmap(originalBitmap: Bitmap, padding: Int): Bitmap {
@@ -666,13 +709,6 @@ class DatabaseManager {
 
         return paddedBitmap
     }
-
-
-
-
-
-
-
 
 
 }

@@ -125,6 +125,10 @@ class create_event: Fragment() {
 
             //-------------
 
+
+            binding.ivMyProfileImageTint.visibility = View.VISIBLE
+            binding.tvMyProfileImageEditText.visibility = View.VISIBLE
+
             binding.rlImageContainer.setOnClickListener()
             {
                 cameraManager.handlePhoto()
@@ -170,10 +174,35 @@ class create_event: Fragment() {
                                 GlobalClass.Events = databaseManager.getAllEventsFromFirestore()
                             }
 
+
+
                             var nextEventID = 1
                             if (GlobalClass.Events.count() > 0) {
-                                nextEventID = GlobalClass.Events.last().EventID + 1
+                                //nextEventID = GlobalClass.Events.last().EventID //+ 1
+
+                                var existingID = true
+
+                                while (existingID == true)
+                                {
+                                    nextEventID = GlobalClass.Events.sortedBy { it.EventID }.last().EventID + 1
+
+                                    var selectedEventIndex = GlobalClass.Events.indexOfLast { it.EventID == nextEventID }
+
+                                    if (selectedEventIndex != -1) {
+                                        //if the event id is in use
+                                        nextEventID = GlobalClass.Events.sortedBy { it.EventID }.last().EventID + 1
+                                    }
+                                    else
+                                    {
+                                        //if the event id is not in use yet
+                                        existingID = false
+                                    }
+                                }
+
+
                             }
+
+
                             val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
                             var formattedDate =
                                 LocalDate.parse(binding.tvStartDate.text.toString(), formatter)
