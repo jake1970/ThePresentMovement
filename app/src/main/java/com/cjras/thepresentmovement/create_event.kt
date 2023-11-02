@@ -146,13 +146,20 @@ class create_event: Fragment() {
                 //loop through the inputs
                 for (component in container.children) {
                     //check that the current component is a text edit and that it doesn't contain a value
-                    if (component is EditText && component.text.isNullOrEmpty()) {
+                    if (component is EditText && component.text.isNullOrEmpty() && component != binding.etEventLink) {
                         //set the components error text
                         component.error = getString(R.string.missingText)
 
                         //set the filled status to false
                         allFilled = false
                     }
+                }
+
+
+                if (GlobalClass.isValidUrl(binding.etEventLink.text.toString()) == false && binding.etEventLink.text.toString() != "")
+                {
+                    binding.etEventLink.error = getString(R.string.invalidUrlText)
+                    allFilled = false
                 }
 
 

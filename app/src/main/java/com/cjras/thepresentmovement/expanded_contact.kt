@@ -124,15 +124,10 @@ class expanded_contact : Fragment() {
                     validLinkedIn = true
                 }
 
-
                 if (validWebsite == true && validLinkedIn == true)
                 {
                     currentEditMode = !currentEditMode
                     setEditMode(currentEditMode)
-                }
-                else
-                {
-                   // Toast.makeText(requireActivity(), "Invalid Links", Toast.LENGTH_SHORT).show()
                 }
 
             }

@@ -178,9 +178,4 @@ class settings : Fragment() {
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-//    private fun openBrowser(url: String) {
-//        var url = url
-//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-//        startActivity(intent)
-//    }
 }
