@@ -28,8 +28,6 @@ class home : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    //private lateinit var loadingCover : ViewGroup
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -183,12 +181,16 @@ class home : Fragment() {
             }
 
 
+
+
             binding.tvEvents.text = Html.fromHtml(
-                eventCount.toString() + "<small>" + "<small>" + "<small>" + " " + getString(R.string.upcomingText) + "</small>" + "</small>" + "</small>" + "<br />" + eventText
+                eventCount.toString() + "<small>" + "<small>" + "<small>" + " " /*+ getString(R.string.upcomingText)*/ + "</small>" + "</small>" + "</small>" + "<br />" + eventText
             )
+
             binding.tvProjects.text = Html.fromHtml(
-                projectCount.toString() + "<small>" + "<small>" + "<small>" + " " + getString(R.string.upcomingText) + "</small>" + "</small>" + "</small>" + "<br />" + projectText
+                projectCount.toString() + "<small>" + "<small>" + "<small>" + " "  /*+ getString(R.string.upcomingText)*/ + "</small>" + "</small>" + "</small>" + "<br />" + projectText
             )
+
 
 
 
@@ -198,8 +200,18 @@ class home : Fragment() {
 
 
             val feedSize = 10
-            var recentEvents = GlobalClass.Events.take(feedSize).sortedBy { it.EventDate }
-            var recentProjects = GlobalClass.Projects.take(feedSize).sortedBy { it.ProjectDate }
+
+            //var recentEvents = GlobalClass.Events.take(feedSize).sortedBy { it.EventDate }
+            //var recentProjects = GlobalClass.Projects.take(feedSize).sortedBy { it.ProjectDate }
+
+
+           //val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
+           // val today = LocalDate.parse(LocalDate.now().toString(), formatter)
+
+            var recentEvents = GlobalClass.Events.sortedBy { it.EventDate }.filter { it.EventDate.isAfter(LocalDate.now()) || it.EventDate.isEqual(LocalDate.now()) }
+            var recentProjects = GlobalClass.Projects.sortedBy { it.ProjectDate }.filter { it.ProjectDate.isAfter(LocalDate.now()) || it.ProjectDate.isEqual(LocalDate.now()) }
+
+
 
             var combinedFeed = recentEvents + recentProjects
 
@@ -211,71 +223,85 @@ class home : Fragment() {
                 }
             }
 
+
             for (i in sortedList.indices) {
-                val newFeedItem = home_feed_card(activity)
 
-                if (sortedList[i] is EventDataClass) {
-                    newFeedItem.binding.tvEntryTitle.text =
-                        (sortedList[i] as EventDataClass).EventTitle
-                    newFeedItem.binding.tvEntryText.text = getString(R.string.newEventAddedText)
-                    newFeedItem.binding.tvEntryDate.text =
-                        (sortedList[i] as EventDataClass).EventDate.format(
-                            DateTimeFormatter.ofPattern("dd/MM/yy")
-                        );
-                    newFeedItem.binding.ivEntryIcon.setImageBitmap(
-                        databaseManager.getEventDefaultImage(
-                            requireActivity()
+
+                if (i < feedSize) {
+
+
+                    val newFeedItem = home_feed_card(activity)
+
+                    if (sortedList[i] is EventDataClass) {
+                        newFeedItem.binding.tvEntryTitle.text =
+                            (sortedList[i] as EventDataClass).EventTitle
+                        newFeedItem.binding.tvEntryText.text = getString(R.string.newEventAddedText)
+                        newFeedItem.binding.tvEntryDate.text =
+                            (sortedList[i] as EventDataClass).EventDate.format(
+                                DateTimeFormatter.ofPattern("dd/MM/yy")
+                            );
+                        newFeedItem.binding.ivEntryIcon.setImageBitmap(
+                            databaseManager.getEventDefaultImage(
+                                requireActivity()
+                            )
                         )
-                    )
 
-                    newFeedItem.setOnClickListener()
-                    {
-                        //open event full view
+                        newFeedItem.setOnClickListener()
+                        {
+                            //open event full view
 
-                        var databaseExtension = DatabaseExtensionFunctions()
+                            var databaseExtension = DatabaseExtensionFunctions()
 
-                        databaseExtension.ExpandEntryData(
-                            (sortedList[i] as EventDataClass).EventID,
-                            false,
-                            "Events",
-                            this@home
+                            databaseExtension.ExpandEntryData(
+                                (sortedList[i] as EventDataClass).EventID,
+                                false,
+                                "Events",
+                                this@home
+                            )
+                        }
+                    } else {
+                        newFeedItem.binding.tvEntryTitle.text =
+                            (sortedList[i] as ProjectDataClass).ProjectTitle
+                        newFeedItem.binding.tvEntryText.text =
+                            getString(R.string.newProjectAddedText)
+                        newFeedItem.binding.tvEntryDate.text =
+                            (sortedList[i] as ProjectDataClass).ProjectDate.format(
+                                DateTimeFormatter.ofPattern("dd/MM/yy")
+                            );
+                        newFeedItem.binding.ivEntryIcon.setImageBitmap(
+                            databaseManager.getProjectDefaultImage(
+                                requireActivity()
+                            )
                         )
+
+                        newFeedItem.setOnClickListener()
+                        {
+                            //open project full view
+
+                            var databaseExtension = DatabaseExtensionFunctions()
+
+                            databaseExtension.ExpandEntryData(
+                                (sortedList[i] as ProjectDataClass).ProjectID,
+                                false,
+                                "Projects",
+                                this@home
+                            )
+                        }
                     }
-                } else {
-                    newFeedItem.binding.tvEntryTitle.text =
-                        (sortedList[i] as ProjectDataClass).ProjectTitle
-                    newFeedItem.binding.tvEntryText.text = getString(R.string.newProjectAddedText)
-                    newFeedItem.binding.tvEntryDate.text =
-                        (sortedList[i] as ProjectDataClass).ProjectDate.format(
-                            DateTimeFormatter.ofPattern("dd/MM/yy")
-                        );
-                    newFeedItem.binding.ivEntryIcon.setImageBitmap(
-                        databaseManager.getProjectDefaultImage(
-                            requireActivity()
-                        )
-                    )
 
-                    newFeedItem.setOnClickListener()
-                    {
-                        //open project full view
+                    //add the new view
+                    activityLayout.addView(newFeedItem)
 
-                        var databaseExtension = DatabaseExtensionFunctions()
-
-                        databaseExtension.ExpandEntryData(
-                            (sortedList[i] as ProjectDataClass).ProjectID,
-                            false,
-                            "Projects",
-                            this@home
-                        )
-                    }
+                    //add space between custom cards
+                    scrollViewUtils.generateSpacer(activityLayout, requireActivity(), 14)
+                }
+                else
+                {
+                    break
                 }
 
-                //add the new view
-                activityLayout.addView(newFeedItem)
-
-                //add space between custom cards
-                scrollViewUtils.generateSpacer(activityLayout, requireActivity(), 14)
             }
+
 
 
             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
@@ -284,6 +310,7 @@ class home : Fragment() {
         } catch (e: Exception) {
             GlobalClass.InformUser(getString(R.string.errorText), "${e}", requireContext())
         }
+
 
     }
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

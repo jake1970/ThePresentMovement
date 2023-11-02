@@ -1,5 +1,7 @@
 package com.cjras.thepresentmovement
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -79,6 +81,14 @@ class admin : Fragment() {
         binding.ivRefresh.setOnClickListener()
         {
             GlobalClass.RefreshFragment(this)
+        }
+
+
+        binding.tvContactUs.setOnClickListener()
+        {
+            val intent = Intent(Intent.ACTION_SENDTO)
+            intent.data = Uri.parse("mailto:colbyvanstaden@gmail.com") //source - https://stackoverflow.com/a/6506999
+            startActivity(intent)
         }
 
 
