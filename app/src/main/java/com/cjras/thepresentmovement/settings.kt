@@ -56,6 +56,7 @@ class settings : Fragment() {
                     }
 
                 }
+
                 //call method to update the ui when the new database information has been loaded (if required)
                 UpdateUI()
             }
@@ -178,9 +179,4 @@ class settings : Fragment() {
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-//    private fun openBrowser(url: String) {
-//        var url = url
-//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-//        startActivity(intent)
-//    }
 }

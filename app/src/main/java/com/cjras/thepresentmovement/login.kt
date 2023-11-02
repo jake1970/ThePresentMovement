@@ -33,6 +33,8 @@ class login : AppCompatActivity() {
         //Set view binding
         val binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
         firebaseAuth = FirebaseAuth.getInstance()
 
         //Hide the action bar
@@ -41,21 +43,13 @@ class login : AppCompatActivity() {
         //set status bar color
         window.statusBarColor = ContextCompat.getColor(this, com.cjras.thepresentmovement.R.color.main_grey)
 
+
         val etUsername = binding.etUsername
         val etPassword = binding.etPassword
 
 
-
-        //---------------------------------------------------------------------------------------------------------------------------------------------------------
-
         binding.btnSignUp.setOnClickListener()
         {
-
-            //me
-            //GlobalClass.currentUser.UserID = "PMYdocWRj7R2GS4REUQq"
-
-            //robz
-            //GlobalClass.currentUser.UserID = "dgYsVK3ezlrXpwZLmQiq"
 
 
             val email = etUsername.text.toString()
@@ -79,7 +73,11 @@ class login : AppCompatActivity() {
 
     }
 
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //When the native android back button/functionality is invoked
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     override fun onBackPressed() {
         // Do nothing
     }
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 }

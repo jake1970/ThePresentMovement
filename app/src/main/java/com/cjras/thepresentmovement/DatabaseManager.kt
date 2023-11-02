@@ -459,7 +459,7 @@ class DatabaseManager {
     suspend fun batchDeleteUserProjectFromFirestoreUserID(userID: String) {
 
         db.collection("UserProjects")
-            .whereEqualTo("userId", userID)
+            .whereEqualTo("userID", userID)
             .get()
             .addOnSuccessListener { result ->
                 var batch = db.batch();

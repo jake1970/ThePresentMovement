@@ -8,8 +8,10 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.cjras.thepresentmovement.databinding.FragmentExpandedContactBinding
@@ -98,75 +100,114 @@ class expanded_contact : Fragment() {
         binding.ivModifyContact.setOnClickListener()
         {
 
+            if (currentEditMode == true)
+            {
+                var validWebsite = false
+                var validLinkedIn = false
 
-            currentEditMode = !currentEditMode
+                if (GlobalClass.isValidUrl(binding.tfWebsite.text.toString()) == false && binding.tfWebsite.text.toString() != "")
+                {
+                    binding.tfWebsite.error = getString(R.string.invalidUrlText)
+                }
+                else
+                {
+                    validWebsite = true
+                }
 
-            setEditMode(currentEditMode)
+
+                if (GlobalClass.isValidUrl(binding.tfLinkedIn.text.toString()) == false && binding.tfLinkedIn.text.toString() != "")
+                {
+                    binding.tfLinkedIn.error = getString(R.string.invalidUrlText)
+                }
+                else
+                {
+                    validLinkedIn = true
+                }
+
+                if (validWebsite == true && validLinkedIn == true)
+                {
+                    currentEditMode = !currentEditMode
+                    setEditMode(currentEditMode)
+                }
+
+            }
+            else
+            {
+                currentEditMode = !currentEditMode
+                setEditMode(currentEditMode)
+            }
+
+
 
             if (currentEditMode == false) {
 
-                var givenUserData = UserDataClass(
-                    UserID = GlobalClass.currentUser.UserID,
-                    FirstName = GlobalClass.currentUser.FirstName,
-                    LastName = GlobalClass.currentUser.LastName,
-                    EmailAddress = binding.tfEmailAddress.text.toString(),
-                    MemberTypeID = GlobalClass.currentUser.MemberTypeID,
-                    Quote = binding.tfQuote.text.toString(),
-                    ContactNumber = binding.tfContactNumber.text.toString(),
-                    CompanyName = binding.tfCompanyName.text.toString(),
-                    LinkedIn = binding.tfLinkedIn.text.toString(),
-                    Website = binding.tfWebsite.text.toString(),
-                    HasImage = GlobalClass.currentUser.HasImage
-                )
-
-                if (GlobalClass.currentUser.HasImage == false && cameraManager.getModifiedImageStatus() == true)
-                {
-                    givenUserData.HasImage = true
-                }
-
-                if (!givenUserData.equals(GlobalClass.currentUser) || cameraManager.getModifiedImageStatus() == true) {
-
-                    val currentUserIndex = GlobalClass.Users.indexOf(GlobalClass.currentUser)
-                    val currentUserDocumentIndex = GlobalClass.documents.allUserIDs[currentUserIndex]
-
-                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
 
 
+                    var givenUserData = UserDataClass(
+                        UserID = GlobalClass.currentUser.UserID,
+                        FirstName = GlobalClass.currentUser.FirstName,
+                        LastName = GlobalClass.currentUser.LastName,
+                        EmailAddress = binding.tfEmailAddress.text.toString(),
+                        MemberTypeID = GlobalClass.currentUser.MemberTypeID,
+                        Quote = binding.tfQuote.text.toString(),
+                        ContactNumber = binding.tfContactNumber.text.toString(),
+                        CompanyName = binding.tfCompanyName.text.toString(),
+                        LinkedIn = binding.tfLinkedIn.text.toString(),
+                        Website = binding.tfWebsite.text.toString(),
+                        HasImage = GlobalClass.currentUser.HasImage
+                    )
 
-                    MainScope().launch() {
-                        withContext(Dispatchers.Default) {
-                        var databaseManager = DatabaseManager()
+                    if (GlobalClass.currentUser.HasImage == false && cameraManager.getModifiedImageStatus() == true) {
+                        givenUserData.HasImage = true
+                    }
+
+                    if (!givenUserData.equals(GlobalClass.currentUser) || cameraManager.getModifiedImageStatus() == true) {
+
+                        val currentUserIndex = GlobalClass.Users.indexOf(GlobalClass.currentUser)
+                        val currentUserDocumentIndex =
+                            GlobalClass.documents.allUserIDs[currentUserIndex]
+
+                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                            View.VISIBLE
 
 
-                        databaseManager.updateUserInFirestore(
-                            givenUserData,
-                            currentUserDocumentIndex
-                        )
 
-                        if (cameraManager.getModifiedImageStatus() == true) {
+                        MainScope().launch() {
+                            withContext(Dispatchers.Default) {
+                                var databaseManager = DatabaseManager()
 
-                            databaseManager.setUserImage(
-                                requireContext(),
-                                currentUserID,
-                                cameraManager.getSelectedUri()
-                            )
 
-                            GlobalClass.currentUserImage = databaseManager.getUserImage(
-                                requireContext(),
-                                GlobalClass.currentUser.UserID,
-                                GlobalClass.currentUser.HasImage
-                            )
+                                databaseManager.updateUserInFirestore(
+                                    givenUserData,
+                                    currentUserDocumentIndex
+                                )
 
+                                if (cameraManager.getModifiedImageStatus() == true) {
+
+                                    databaseManager.setUserImage(
+                                        requireContext(),
+                                        currentUserID,
+                                        cameraManager.getSelectedUri()
+                                    )
+
+                                    GlobalClass.currentUserImage = databaseManager.getUserImage(
+                                        requireContext(),
+                                        GlobalClass.currentUser.UserID,
+                                        GlobalClass.currentUser.HasImage
+                                    )
+
+
+                                }
+                            }
+
+                            GlobalClass.UpdateDataBase = true
+                            Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
+                            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                                View.GONE
 
                         }
                     }
 
-                            GlobalClass.UpdateDataBase = true
-                            Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
-                            requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
-
-                    }
-                }
 
             }
         }

@@ -7,6 +7,9 @@ import androidx.fragment.app.FragmentManager
 class FragmentManager {
 
 
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //Method to load a given fragment
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      fun replaceFragment(fragment : Fragment, fragmentContainerID : Int, fragmentManager : FragmentManager) {
 
         //begin transition to desired fragment
@@ -24,6 +27,7 @@ class FragmentManager {
         //commit fragment change
         fragmentTransaction.commit()
     }
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 }
