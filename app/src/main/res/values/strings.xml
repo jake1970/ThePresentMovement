@@ -123,6 +123,8 @@ Take care
     <string name="viewMembersText">View Members</string>
     <string name="participantsText">Participants</string>
 
+    <string name="invalidUrlText">Invalid Url</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
