@@ -566,11 +566,7 @@ class DatabaseManager {
                 storageReference.getFile(imgFile).await()
                 bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
             } catch (e: Exception) {
-                GlobalClass.InformUser(
-                    context.getString(R.string.errorText),
-                    "${e.toString()}",
-                    context
-                )
+                bitmap = getEventDefaultImage(context)
             }
         }
 
@@ -590,11 +586,7 @@ class DatabaseManager {
                 storageReference.getFile(imgFile).await()
                 bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
             } catch (e: Exception) {
-                GlobalClass.InformUser(
-                    context.getString(R.string.errorText),
-                    "${e.toString()}",
-                    context
-                )
+                bitmap = getProjectDefaultImage(context)
             }
         }
 
