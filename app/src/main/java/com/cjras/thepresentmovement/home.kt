@@ -48,6 +48,8 @@ class home : Fragment() {
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         try {
 
+            GlobalClass.checkUser(this)
+
             //Read Data
             MainScope().launch {
 
@@ -57,6 +59,7 @@ class home : Fragment() {
                     //show loading screen
                     requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
                         View.VISIBLE
+
                     withContext(Dispatchers.Default) {
 
                         var databaseManager = DatabaseManager()

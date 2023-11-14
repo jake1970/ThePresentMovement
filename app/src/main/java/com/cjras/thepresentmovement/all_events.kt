@@ -38,6 +38,8 @@ class all_events : Fragment() {
 
         try {
 
+            GlobalClass.checkUser(this)
+
             //Read Data
             MainScope().launch{
 

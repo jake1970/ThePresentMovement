@@ -40,6 +40,9 @@ class project_members : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
         try {
+
+            GlobalClass.checkUser(this)
+
             MainScope().launch {
 
                 //if new information has been added pull new data from the database

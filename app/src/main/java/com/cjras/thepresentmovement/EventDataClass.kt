@@ -2,6 +2,8 @@ package com.cjras.thepresentmovement
 
 import java.time.LocalDate
 
+//event data class
+
 data class EventDataClass(
     var EventID: Int = 0,
     var EventTitle: String = "",

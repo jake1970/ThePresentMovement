@@ -34,6 +34,8 @@ class contacts : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
         try {
+            GlobalClass.checkUser(this)
+
             MainScope().launch {
                 if (GlobalClass.UpdateDataBase == true) {
 

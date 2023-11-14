@@ -60,6 +60,48 @@ class GlobalClass : Application()
 
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //Method to re-pull the userID if unloaded
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        fun checkUser(context: Fragment)
+        {
+
+            //prime preference file
+             val myPrefsFile = "MyPrefsFile";
+             val myUserID = "";
+
+            //define preference file
+            val pref = context.requireActivity().getSharedPreferences(myPrefsFile, MODE_PRIVATE)
+
+            //get the stored user ID
+            val userID = pref.getString(myUserID, null)
+
+            //check if the userID in the preference file is valid
+            if (userID != null) {
+
+                //check if the current loaded userID is invalid
+                if (currentUser.UserID.isNullOrEmpty())
+                {
+                    //set the current userID
+                    currentUser.UserID = userID
+
+                    //call method to reload the currently active fragment
+                    RefreshFragment(context)
+                }
+            }
+            else
+            {
+                //if the userID cannot be restored
+
+                //send user back to main welcome screen
+                var intent = Intent(context.requireActivity(), MainActivity::class.java) //ViewActivity
+                context.startActivity(intent)
+            }
+        }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //Method to show a popup message to the user
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         fun InformUser(messageTitle: String, messageText: String, context: Context) {

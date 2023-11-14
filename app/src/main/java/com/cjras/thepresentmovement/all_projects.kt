@@ -41,6 +41,8 @@ class all_projects : Fragment() {
 
         try {
 
+            GlobalClass.checkUser(this)
+
             //Read Data
             MainScope().launch{
 

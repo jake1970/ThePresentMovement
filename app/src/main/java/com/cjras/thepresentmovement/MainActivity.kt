@@ -7,6 +7,10 @@ import androidx.core.content.ContextCompat
 import com.cjras.thepresentmovement.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private val myPrefsFile = "MyPrefsFile";
+    private val myUserID = "";
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -23,6 +27,21 @@ class MainActivity : AppCompatActivity() {
 
         //set status bar color
         window.statusBarColor = ContextCompat.getColor(this, R.color.main_grey)
+
+
+        //define preference file
+        val pref = getSharedPreferences(myPrefsFile, MODE_PRIVATE)
+
+        //get the stored user ID
+        val userID = pref.getString(myUserID, null)
+
+        if (userID != null) {
+
+            GlobalClass.currentUser.UserID = userID
+            var intent = Intent(this, home_bottom_navigation::class.java) //ViewActivity
+            startActivity(intent)
+
+        }
 
 
 

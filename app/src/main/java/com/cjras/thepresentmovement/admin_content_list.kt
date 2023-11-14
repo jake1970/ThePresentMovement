@@ -40,6 +40,8 @@ class admin_content_list : Fragment() {
         binding.tvScreenTitle.text = selectedFunction
 
         try {
+            GlobalClass.checkUser(this)
+
             MainScope().launch {
                 if (GlobalClass.UpdateDataBase == true) {
 
