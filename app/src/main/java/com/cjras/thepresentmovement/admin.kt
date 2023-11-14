@@ -38,6 +38,8 @@ class admin : Fragment() {
 
         try {
 
+            GlobalClass.checkUser(this)
+
             //Read Data
             MainScope().launch{
 

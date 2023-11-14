@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.cjras.thepresentmovement.databinding.FragmentSettingsBinding
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
@@ -39,6 +40,9 @@ class settings : Fragment() {
         //Data population
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         try {
+
+            GlobalClass.checkUser(this)
+
             MainScope().launch {
 
                 //if new information has been added pull new data from the database
@@ -154,6 +158,14 @@ class settings : Fragment() {
 
                 //prime the database to be read from upon the next sign in
                 GlobalClass.UpdateDataBase = true
+
+                 val myPrefsFile = "MyPrefsFile";
+                 val myUserID = "";
+
+                requireContext().getSharedPreferences(myPrefsFile, AppCompatActivity.MODE_PRIVATE)
+                    .edit()
+                    .putString(myUserID, null)
+                    .commit()
 
                 //call intent and send user back to the login screen
                 startActivity(intent)

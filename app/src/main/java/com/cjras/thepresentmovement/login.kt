@@ -26,8 +26,12 @@ class login : AppCompatActivity() {
     private lateinit var binding : ActivityLoginBinding
     private lateinit var firebaseAuth: FirebaseAuth
 
+    private val myPrefsFile = "MyPrefsFile";
+    private val myUserID = "";
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
 
         //Set view binding
@@ -60,6 +64,12 @@ class login : AppCompatActivity() {
                         var intent = Intent(this, home_bottom_navigation::class.java) //ViewActivity
                         startActivity(intent)
                         GlobalClass.currentUser.UserID = firebaseAuth.currentUser?.uid.toString()
+
+                        getSharedPreferences(myPrefsFile, MODE_PRIVATE)
+                            .edit()
+                            .putString(myUserID, GlobalClass.currentUser.UserID)
+                            .commit();
+
                     } else {
                         Toast.makeText(this, it.exception?.localizedMessage.toString(), Toast.LENGTH_SHORT).show()
                     }

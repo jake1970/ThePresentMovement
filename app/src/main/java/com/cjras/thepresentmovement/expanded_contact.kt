@@ -74,9 +74,12 @@ class expanded_contact : Fragment() {
                     View.GONE
             }
 
+            GlobalClass.checkUser(this)
 
             //read data
             MainScope().launch {
+
+
 
                 //if new information has been added pull new data from the database
                 if (GlobalClass.UpdateDataBase == true) {

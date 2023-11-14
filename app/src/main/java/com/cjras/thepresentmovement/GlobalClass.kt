@@ -58,6 +58,34 @@ class GlobalClass : Application()
         var UserProjects = arrayListOf<UserProjectDataClass>()
 
 
+        fun checkUser(context: Fragment)
+        {
+             val myPrefsFile = "MyPrefsFile";
+             val myUserID = "";
+
+            //define preference file
+            val pref = context.requireActivity().getSharedPreferences(myPrefsFile, MODE_PRIVATE)
+
+            //get the stored user ID
+            val userID = pref.getString(myUserID, null)
+
+            if (userID != null) {
+
+                if (currentUser.UserID.isNullOrEmpty())
+                {
+                    currentUser.UserID = userID
+                    RefreshFragment(context)
+                }
+            }
+            else
+            {
+                var intent = Intent(context.requireActivity(), MainActivity::class.java) //ViewActivity
+                context.startActivity(intent)
+            }
+
+
+        }
+
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //Method to show a popup message to the user
