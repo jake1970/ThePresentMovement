@@ -32,7 +32,6 @@ class contacts : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
         //initial data population
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
-
         try {
             GlobalClass.checkUser(this)
 
@@ -63,30 +62,41 @@ class contacts : Fragment() {
 
 
 
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //When the refresh button is clicked
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.ivRefresh.setOnClickListener()
         {
             try {
+                //call method to refresh the current fragment to pull new information from the database manually
                 GlobalClass.RefreshFragment(this@contacts)
-                }
-                catch (e: Exception) {
-                    GlobalClass.InformUser(
-                        getString(R.string.errorText),
-                        "${e}",
-                        requireContext()
-                    )
-                }
+            }
+            catch (e: Exception) {
+                //call method to show the error
+                GlobalClass.InformUser(
+                    getString(R.string.errorText),
+                    "$e",
+                    requireContext()
+                )
+            }
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //when the dropdown filter arrow is clicked
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.llExpansionMenu.setOnClickListener()
         {
 
+            //animation handler instance
             val animationManager = AnimationHandler()
 
+            //animate the opening/closing of the filter menu
             animationManager.rotatingArrowMenu(binding.llExpansionContent, binding.ivExpandArrow)
-
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -95,12 +105,14 @@ class contacts : Fragment() {
     }
 
 
-
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //Method to update the screen data
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     fun UpdateUI() {
 
         try {
 
-
+            //call method to set the user types in the user type filter dropdown spinner
             filterManager.populateMemberTypes(binding.spnMemberTypes, requireActivity(), true)
 
 
@@ -108,15 +120,18 @@ class contacts : Fragment() {
             binding.spnMemberTypes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
+                    //the selected member filtering option
                     val selectedText = binding.spnMemberTypes.selectedItem.toString()
 
+                    //if selective user filtering must be applied
                     if (selectedText == "All")
                     {
+                        //call method to load the list of contacts, ignoring the member type filter
                         filterManager.loadContacts(binding.etSearch.text.toString(), "All", binding.llContactsList, this@contacts, false)
                     }
                     else
                     {
-                        //call method to filter list
+                        //call method to load the list of contacts, including the member type filter
                         filterManager.loadContacts(binding.etSearch.text.toString(), selectedText, binding.llContactsList, this@contacts, false)
                     }
                 }
@@ -127,19 +142,29 @@ class contacts : Fragment() {
             }
 
 
-
+            //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            //when the search filter text is changed
+            //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
             binding.etSearch.addTextChangedListener { charSequence ->
 
+                //call method to filter the list of contacts according to the search bar text
                 filterManager.loadContacts(charSequence.toString(), binding.spnMemberTypes.selectedItem.toString(), binding.llContactsList, this, false)
             }
+            //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+
+            //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            //when the users own profile card is clicked
+            //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
             binding.llMyProfileCard.setOnClickListener()
             {
+                //call method to load the expanded contacts view with the current users data
                 filterManager.invokeExpandedContactsView(GlobalClass.currentUser.UserID, this)
             }
+            //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+            //set current users own profile card with the current users data
             with(GlobalClass.currentUser)
             {
                 binding.tvContactName.text = getFullName()
@@ -149,7 +174,10 @@ class contacts : Fragment() {
                 binding.ivMyProfileImage.setImageBitmap(GlobalClass.currentUserImage)
             }
 
+            //call method to load the unfiltered initial list of contacts
             filterManager.loadContacts("",  "All", binding.llContactsList, this, false)
+
+            //hide the loading screen
             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
 
         }
@@ -159,6 +187,7 @@ class contacts : Fragment() {
         }
 
     }
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
     override fun onDestroyView() {

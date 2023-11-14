@@ -39,6 +39,9 @@ class all_projects : Fragment() {
         _binding = FragmentAllProjectsBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //Data population
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         try {
 
             GlobalClass.checkUser(this)
@@ -61,125 +64,136 @@ class all_projects : Fragment() {
         {
             GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //When the refresh button is clicked
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.ivRefresh.setOnClickListener()
         {
-            GlobalClass.RefreshFragment(this)
+            try {
+                //call method to refresh the current fragment to pull new information from the database manually
+                GlobalClass.RefreshFragment(this@all_projects)
+            }
+            catch (e: Exception) {
+                //call method to show the error
+                GlobalClass.InformUser(
+                    getString(R.string.errorText),
+                    "$e",
+                    requireContext()
+                )
+            }
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //When the page header (title and back button) is clicked
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.llHeader.setOnClickListener()
         {
+            //navigate one fragment backwards in the stack
             fragmentManager?.popBackStackImmediate()
-            /*
-            //create local fragment controller
-            val fragmentControl = FragmentManager()
-
-            //go back the the general contacts page
-            fragmentControl.replaceFragment(home(), R.id.flContent, parentFragmentManager)
-
-             */
-
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //when the filter dropdown is clicked
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.llExpansionMenu.setOnClickListener()
         {
-
+            //animation handler instance
             val animationManager = AnimationHandler()
 
+            //call method to animate arrow rotation and menu show/hide
             animationManager.rotatingArrowMenu(binding.llExpansionContent, binding.ivExpandArrow)
-
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //when the start date filter is clicked
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.tvStartDate.setOnClickListener(){
+            //call method to show the start date picker
             scrollViewUtils.datePicker(this, true, binding.tvStartDate)
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //when the end date filter is clicked
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.tvEndDate.setOnClickListener(){
+            //call method to show the end date picker
             scrollViewUtils.datePicker(this, false, binding.tvEndDate)
-
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //after the start date filter is selected
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.tvStartDate.doAfterTextChanged { char ->
+            //call method to filter the list of projects according to the start date
             filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@all_projects, false)
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //after the end date filter is selected
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.tvEndDate.doAfterTextChanged { char ->
+            //call method to filter the list of projects according to the end date
             filterManager.LoadProjects(binding.etSearch.text.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@all_projects, false)
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //when the search bar text is changed
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.etSearch.addTextChangedListener { charSequence ->
-
+            //call method to filter the list of projects according to the search bar text
             filterManager.LoadProjects(charSequence.toString(), binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@all_projects, false)
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
         // Inflate the layout for this fragment
         return view
     }
 
+
+
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //Method to update the screen data
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     private fun UpdateUI()
     {
+        //method to load the initial list of projects, unfiltered
         filterManager.LoadProjects("", binding.llUpcomingProjects, binding.tvStartDate.text.toString(), binding.tvEndDate.text.toString(), this@all_projects, false)
 
+        //hide the loading screen
         requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
     }
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-
-/*
-    private fun LoadProjects(searchTerm: String, displayLayout: LinearLayout, startDate: String, endDate: String)
-    {
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
-        var databaseManager = DatabaseManager()
-       // val scrollViewUtils = ScrollViewTools()
-        val activityLayout = binding.llUpcomingProjects;
-
-        displayLayout.removeAllViews()
-
-
-        for (project in GlobalClass.Projects) {
-            if (project.ProjectTitle.lowercase().contains(searchTerm.lowercase()) || project.ProjectCompanyName.lowercase().contains(searchTerm.lowercase()) || searchTerm == "") {
-
-                var startDateFormatted : LocalDate? = null
-                var endDateFormatted : LocalDate? = null
-
-                if (startDate != getString(R.string.blankDate)) {
-                    startDateFormatted = LocalDate.parse(startDate, formatter)
-                }
-
-                if (endDate != getString(R.string.blankDate)) {
-                    endDateFormatted = LocalDate.parse(endDate, formatter)
-                }
-
-                if (startDate == getString(R.string.blankDate) || (startDateFormatted != null && (project.ProjectDate.isAfter(startDateFormatted!!)  || project.ProjectDate.isEqual(startDateFormatted!!)))) {
-
-                    if (endDate == getString(R.string.blankDate) || (endDateFormatted != null && (project.ProjectDate.isBefore(endDateFormatted!!) || project.ProjectDate.isEqual(endDateFormatted!!)))) {
-
-
-                        val newProjectCard = home_feed_card(activity)
-
-                        newProjectCard.binding.tvEntryTitle.text = project.ProjectTitle
-                        newProjectCard.binding.tvEntryText.text = project.ProjectCompanyName //project company name instead of uppcoming project header
-                        newProjectCard.binding.tvEntryDate.text = project.ProjectDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
-                        newProjectCard.binding.ivEntryIcon.setImageBitmap(databaseManager.getProjectDefaultImage(requireActivity()))
-
-                        newProjectCard.setOnClickListener()
-                        {
-                            //open project full view
-                        }
-
-                        //add the new view
-                        activityLayout.addView(newProjectCard)
-
-                        //add space between custom cards
-                        scrollViewUtils.generateSpacer(activityLayout, requireActivity(), 14)
-
-                    }
-                }
-            }
-        }
-    }
-
- */
 }
