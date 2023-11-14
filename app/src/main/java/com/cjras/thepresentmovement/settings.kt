@@ -107,13 +107,13 @@ class settings : Fragment() {
             GlobalClass.openBrowser("https://www.thepresentmovement.org/campaigns", requireActivity())
         }
         binding.tvDonate.setOnClickListener(){
-            GlobalClass.openBrowser("https://www.thepresentmovement.org/projects", requireActivity())
+            GlobalClass.openBrowser("https://www.thepresentmovement.org/donate", requireActivity())
         }
         binding.tvShop.setOnClickListener(){
             GlobalClass.openBrowser("https://thepresent.shop/", requireActivity())
         }
         binding.tvInitiatives.setOnClickListener(){
-            GlobalClass.openBrowser("https://www.thepresentmovement.org/about-us", requireActivity())
+            GlobalClass.openBrowser("https://www.thepresentmovement.org/initiatives", requireActivity())
         }
 
 
