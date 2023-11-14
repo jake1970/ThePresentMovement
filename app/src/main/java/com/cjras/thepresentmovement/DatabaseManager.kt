@@ -31,6 +31,8 @@ class DatabaseManager {
     //method to get all users from the database
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun getAllUsersFromFirestore(): ArrayList<UserDataClass> {
+
+
         val allUsers = arrayListOf<UserDataClass>()
         GlobalClass.documents.allUserIDs.clear()
 
