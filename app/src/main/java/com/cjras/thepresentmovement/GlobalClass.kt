@@ -58,8 +58,14 @@ class GlobalClass : Application()
         var UserProjects = arrayListOf<UserProjectDataClass>()
 
 
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //Method to re-pull the userID if unloaded
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         fun checkUser(context: Fragment)
         {
+
+            //prime preference file
              val myPrefsFile = "MyPrefsFile";
              val myUserID = "";
 
@@ -69,22 +75,30 @@ class GlobalClass : Application()
             //get the stored user ID
             val userID = pref.getString(myUserID, null)
 
+            //check if the userID in the preference file is valid
             if (userID != null) {
 
+                //check if the current loaded userID is invalid
                 if (currentUser.UserID.isNullOrEmpty())
                 {
+                    //set the current userID
                     currentUser.UserID = userID
+
+                    //call method to reload the currently active fragment
                     RefreshFragment(context)
                 }
             }
             else
             {
+                //if the userID cannot be restored
+
+                //send user back to main welcome screen
                 var intent = Intent(context.requireActivity(), MainActivity::class.java) //ViewActivity
                 context.startActivity(intent)
             }
-
-
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
