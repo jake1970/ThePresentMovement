@@ -30,12 +30,18 @@ class admin : Fragment() {
         val view = binding.root
 
 
+        //check that the current user is an admin user
         if (GlobalClass.currentUser.MemberTypeID == 3)
         {
+            //show the manage accounts option/button
             binding.tvManageAccounts.visibility = View.VISIBLE
         }
 
 
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //Data population
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         try {
 
             GlobalClass.checkUser(this)
@@ -58,40 +64,100 @@ class admin : Fragment() {
         {
             GlobalClass.InformUser(getString(R.string.errorText), "${e.toString()}", requireContext())
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //when the manage accounts button is clicked
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.tvManageAccounts.setOnClickListener()
         {
+            //call method to open the manage accounts list fragment
             LaunchAdminContentList(getString(R.string.accountsText))
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //when the manage events button is clicked
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.tvManageEvents.setOnClickListener()
         {
+            //call method to open the manage events list fragment
             LaunchAdminContentList(getString(R.string.eventsText))
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //when the manage projects button is clicked
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.tvManageProjects.setOnClickListener()
         {
+            //call method to open the manage projects list fragment
             LaunchAdminContentList(getString(R.string.projectsText))
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //when the manage announcements button is clicked
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.tvManageAnnouncements.setOnClickListener()
         {
+            //call method to open the manage announcements list fragment
             LaunchAdminContentList(getString(R.string.announcementsText))
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //When the refresh button is clicked
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.ivRefresh.setOnClickListener()
         {
-            GlobalClass.RefreshFragment(this)
+            try {
+                //call method to refresh the current fragment to pull new information from the database manually
+                GlobalClass.RefreshFragment(this@admin)
+            }
+            catch (e: Exception) {
+                //call method to show the error
+                GlobalClass.InformUser(
+                    getString(R.string.errorText),
+                    "$e",
+                    requireContext()
+                )
+            }
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //when the contact us button is clicked
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.tvContactUs.setOnClickListener()
         {
+            //intent to direct user
             val intent = Intent(Intent.ACTION_SENDTO)
+
+            //set the intent data to the desired email address
             intent.data = Uri.parse("mailto:colbyvanstaden@gmail.com") //source - https://stackoverflow.com/a/6506999
+
+            //call intent
             startActivity(intent)
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -99,41 +165,32 @@ class admin : Fragment() {
         return view
     }
 
+
+
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //method to open the content management screen
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     private fun LaunchAdminContentList(screenTitle: String)
     {
-
-        when(screenTitle)
-        {
-            getString(R.string.announcementsText) -> {
-                val screenTitle = screenTitle
-            }
-            getString(R.string.accountsText) -> {
-                val screenTitle = screenTitle
-            }
-            getString(R.string.eventsText) -> {
-                val screenTitle = screenTitle
-            }
-            getString(R.string.projectsText) -> {
-                val screenTitle = screenTitle
-            }
-            else -> {
-                val screenTitle = ""
-            }
-        }
 
         //create local fragment controller
         val fragmentControl = FragmentManager()
 
+        //instance of admin content list fragment
         val adminContentList = admin_content_list()
         val args = Bundle()
 
+        //set the screen function argument to the passed value
         args.putString("selectedFunction", screenTitle)
 
         adminContentList.arguments = args
 
+        //open the fragment instance
         fragmentControl.replaceFragment(adminContentList, R.id.flContent, parentFragmentManager)
 
     }
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 }
