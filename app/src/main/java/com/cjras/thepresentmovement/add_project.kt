@@ -57,6 +57,7 @@ class add_project : Fragment() {
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         try {
 
+            //check user
             GlobalClass.checkUser(this)
 
             //Read Data
@@ -102,17 +103,20 @@ class add_project : Fragment() {
 
 
 
+        //if start date is clicked bring up datepicker
         binding.tvStartDate.setOnClickListener(){
             val scrollViewTools = ScrollViewTools()
             scrollViewTools.datePicker(this, true, binding.tvStartDate)
         }
 
+        //if refresh button is clicked refresh the fragment
         binding.ivRefresh.setOnClickListener()
         {
             GlobalClass.RefreshFragment(this)
         }
 
 
+        //if the header is clicked
         binding.llHeader.setOnClickListener()
         {
 
@@ -130,10 +134,12 @@ class add_project : Fragment() {
         //-------------
         var currentProject = ProjectDataClass()
 
+        //format date
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
 
 
 
+        //check if there is a selected project
         if (projectID == 0) {
 
             binding.btnJoinProject.visibility = View.GONE
@@ -142,6 +148,7 @@ class add_project : Fragment() {
             binding.ivMyProfileImageTint.visibility = View.VISIBLE
             binding.tvMyProfileImageEditText.visibility = View.VISIBLE
 
+            //image handling
             binding.rlImageContainer.setOnClickListener()
             {
                 cameraManager.handlePhoto()
@@ -174,7 +181,7 @@ class add_project : Fragment() {
 
                     if (binding.tvStartDate.text.toString() == getString(R.string.blankDate))
                     {
-                        Toast.makeText(requireActivity(), "Please enter a date", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireActivity(), getString(R.string.enterDate), Toast.LENGTH_SHORT).show()
                     }
                     else
                     {
@@ -224,6 +231,7 @@ class add_project : Fragment() {
                             }
 
 
+                            //parse formatted selected date and create tempProject with inputs from UI
                             var formattedDate = LocalDate.parse(binding.tvStartDate.text.toString(), formatter)
 
                             val tempProject = ProjectDataClass(
@@ -238,6 +246,7 @@ class add_project : Fragment() {
                             )
                             val dbManager = DatabaseManager()
 
+                            //check if the image status has been changed
                             if (cameraManager.getModifiedImageStatus() == true)
                             {
                                 tempProject.HasImage = true
@@ -245,10 +254,12 @@ class add_project : Fragment() {
                             }
 
 
+                            //add new project to Firestore with tempProject
                             dbManager.addNewProjectToFirestore(tempProject)
 
+                            //inform user that new project has been added
                             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
-                            Toast.makeText(context, "Added Project", Toast.LENGTH_SHORT)
+                            Toast.makeText(context, getString(R.string.newProjectAddedText), Toast.LENGTH_SHORT)
                                 .show()
                             GlobalClass.UpdateDataBase = true
                             binding.llHeader.callOnClick()
@@ -262,6 +273,7 @@ class add_project : Fragment() {
             //------------
 
 
+            //set data of UI fields to data from project
         } else {
             for (project in GlobalClass.Projects) {
                 if (project.ProjectID == projectID) {
@@ -315,6 +327,7 @@ class add_project : Fragment() {
 
 
 
+            //check if the form is in edit mode
             if (editMode == true) {
 
 
@@ -326,7 +339,7 @@ class add_project : Fragment() {
                     cameraManager.handlePhoto()
                 }
 
-                binding.btnCreateAccount.text = "Save"
+                binding.btnCreateAccount.text = getString(R.string.save)
 
 
                 binding.btnJoinProject.visibility = View.GONE
@@ -336,12 +349,13 @@ class add_project : Fragment() {
                 binding.btnCreateAccount.setOnClickListener() {
 
                     if (binding.tvStartDate.text.toString() == getString(R.string.blankDate)) {
-                        Toast.makeText(requireActivity(), "Please enter a date", Toast.LENGTH_SHORT)
+                        Toast.makeText(requireActivity(), getString(R.string.enterDate), Toast.LENGTH_SHORT)
                             .show()
                     } else {
                         var formattedDate =
                             LocalDate.parse(binding.tvStartDate.text.toString(), formatter)
 
+                        //set values of tempProject to fields from UI form
                         val tempProject = ProjectDataClass(
                             ProjectID = currentProject.ProjectID,
                             ProjectTitle = binding.etTitle.text.toString(),
@@ -353,6 +367,7 @@ class add_project : Fragment() {
                             HasImage = currentProject.HasImage
                         )
 
+                        //check if project has image
                         if (currentProject.HasImage == false && cameraManager.getModifiedImageStatus() == true) {
                             tempProject.HasImage = true
                         }
@@ -372,11 +387,13 @@ class add_project : Fragment() {
                                     var databaseManager = DatabaseManager()
 
 
+                                    //update project in Firestore
                                     databaseManager.updateProjectInFirestore(
                                         tempProject,
                                         currentProjectDocumentIndex
                                     )
 
+                                    //set image
                                     if (cameraManager.getModifiedImageStatus() == true) {
                                         databaseManager.setProjectImage(
                                             requireContext(),
@@ -391,14 +408,14 @@ class add_project : Fragment() {
                                 GlobalClass.UpdateDataBase = true
                                 requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
                                     View.GONE
-                                Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT)
+                                Toast.makeText(context, getString(R.string.changesSaved), Toast.LENGTH_SHORT)
                                     .show()
                                 binding.llHeader.callOnClick()
                             }
                         }
                         else
                         {
-                            Toast.makeText(context, "No changes were made", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, getString(R.string.noChanges), Toast.LENGTH_SHORT).show()
                             binding.llHeader.callOnClick()
                         }
                     }
@@ -408,6 +425,7 @@ class add_project : Fragment() {
             {
 
                 //if in view mode
+                //disable edit texts
 
                 binding.etTitle.isEnabled = false
                 binding.etAboutnCompany.isEnabled = false
@@ -423,7 +441,7 @@ class add_project : Fragment() {
                 if (selectedUserProjectIndex != -1)
                 {
                     //if the user is in the current project
-                    binding.btnJoinProject.text = "Exit Project"
+                    binding.btnJoinProject.text = getString(R.string.exitProject)
                 }
 
 
@@ -462,24 +480,27 @@ class add_project : Fragment() {
                             }
 
 
+                            //sets tempUserProject data
                             val tempUserProject = UserProjectDataClass(
                                 UserProjectID = nextUserProjectID,
                                 UserID = GlobalClass.currentUser.UserID,
                                 ProjectID = currentProject.ProjectID
                             )
 
+                            //adds userProject to firestore
                             databaseManager.addNewUserProjectToFirestore(tempUserProject)
 
                             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
                                 View.GONE
 
-                            Toast.makeText(requireActivity(), "Joined Project", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireActivity(), getString(R.string.joinedProject), Toast.LENGTH_SHORT).show()
                             GlobalClass.RefreshFragment(this@add_project)
                         }
                     }
                 }
 
 
+                //if View members button is clicked
                 binding.btnViewMembers.setOnClickListener()
                 {
                     //create local fragment controller
@@ -511,10 +532,12 @@ class add_project : Fragment() {
 
     }
 
+    //leave project
     private fun exitProject(userProjectDocumentIndex: String)
     {
+        //create alert to confirm leaving project
         val builder = AlertDialog.Builder(requireContext())
-        builder.setMessage("Are you sure you want to exit the current project?")
+        builder.setMessage(getString(R.string.confirmLeaveProject))
             .setCancelable(false)
             .setPositiveButton(getString(R.string.yesText)) { dialog, id ->
 
@@ -525,7 +548,7 @@ class add_project : Fragment() {
                         databaseManager.deleteUserProjectFromFirestore(userProjectDocumentIndex)
                     }
 
-                    Toast.makeText(requireActivity(), "Left Project", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(), getString(R.string.leftProject), Toast.LENGTH_SHORT).show()
                     GlobalClass.RefreshFragment(this@add_project)
                 }
 
