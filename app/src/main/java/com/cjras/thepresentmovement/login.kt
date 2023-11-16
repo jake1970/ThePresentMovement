@@ -76,7 +76,7 @@ class login : AppCompatActivity() {
                     }
                 }
             } else {
-                Toast.makeText(this, "Please ensure all fields are filled out", Toast.LENGTH_LONG)
+                Toast.makeText(this, getString(com.cjras.thepresentmovement.R.string.formsNotFilled), Toast.LENGTH_LONG)
                     .show()
             }
 

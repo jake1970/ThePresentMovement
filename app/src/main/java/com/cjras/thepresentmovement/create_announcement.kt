@@ -153,7 +153,7 @@ class create_announcement : Fragment() {
                         val dbManager = DatabaseManager()
                         dbManager.addNewAnnouncementToFirestore(tempAnnouncement)
 
-                        Toast.makeText(requireActivity(), "Announcement Added", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireActivity(), getString(R.string.addedAnnouncement), Toast.LENGTH_SHORT).show()
                         GlobalClass.UpdateDataBase = true
                         requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
                         binding.llHeader.callOnClick()
@@ -211,7 +211,7 @@ class create_announcement : Fragment() {
 
 
                             GlobalClass.UpdateDataBase = true
-                            Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, getString(R.string.changesSaved), Toast.LENGTH_SHORT).show()
                             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
                                 View.GONE
                             binding.llHeader.callOnClick()

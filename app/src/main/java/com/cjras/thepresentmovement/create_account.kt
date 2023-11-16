@@ -206,7 +206,7 @@ class create_account : Fragment() {
                                     //successStatus = true
 
                                     //inform the current user that they have successfully added a new user
-                                    Toast.makeText(requireActivity(), "User Added", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(requireActivity(), getString(R.string.userAdded), Toast.LENGTH_SHORT).show()
 
                                     GlobalClass.UpdateDataBase = true
 
@@ -237,10 +237,10 @@ class create_account : Fragment() {
 
                 }
             } else {
-                GlobalClass.InformUser("Invalid Password", passwordResult, requireActivity())
+                GlobalClass.InformUser(getString(R.string.invalidPassword), passwordResult, requireActivity())
             }
         } else {
-            Toast.makeText(requireActivity(), "Passwords do not match", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity(), getString(R.string.passwordNotMatched), Toast.LENGTH_SHORT).show()
         }
 
     }

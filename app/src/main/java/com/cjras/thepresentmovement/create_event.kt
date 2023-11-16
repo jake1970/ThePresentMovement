@@ -171,7 +171,7 @@ class create_event: Fragment() {
                 if (allFilled == true) {
 
                     if (binding.tvStartDate.text.toString() == getString(R.string.blankDate)) {
-                        Toast.makeText(requireActivity(), "Please enter a date", Toast.LENGTH_SHORT)
+                        Toast.makeText(requireActivity(), getString(R.string.enterDate), Toast.LENGTH_SHORT)
                             .show()
                     } else {
                         MainScope().launch() {
@@ -238,7 +238,7 @@ class create_event: Fragment() {
 
 
                             requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
-                            Toast.makeText(context, "Added Event", Toast.LENGTH_SHORT)
+                            Toast.makeText(context, getString(R.string.addedEvent), Toast.LENGTH_SHORT)
                                 .show()
                             GlobalClass.UpdateDataBase = true
                             binding.llHeader.callOnClick()
@@ -321,7 +321,7 @@ class create_event: Fragment() {
 
                     if (binding.tvStartDate.text.toString() == getString(R.string.blankDate))
                     {
-                        Toast.makeText(requireActivity(), "Please enter a date", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireActivity(), getString(R.string.enterDate), Toast.LENGTH_SHORT).show()
                     }
                     else
                     {
@@ -378,7 +378,7 @@ class create_event: Fragment() {
                                 GlobalClass.UpdateDataBase = true
                                 requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
                                     View.GONE
-                                Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT)
+                                Toast.makeText(context, getString(R.string.changesSaved), Toast.LENGTH_SHORT)
                                     .show()
                                 binding.llHeader.callOnClick()
 
@@ -386,7 +386,7 @@ class create_event: Fragment() {
                         }
                         else
                         {
-                            Toast.makeText(context, "No changes were made", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, getString(R.string.noChanges), Toast.LENGTH_SHORT).show()
                             binding.llHeader.callOnClick()
                         }
                     }
