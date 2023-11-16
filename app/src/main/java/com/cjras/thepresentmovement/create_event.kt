@@ -96,18 +96,19 @@ class create_event: Fragment() {
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-
+        //If the startDate is clicked, brings up date picker
         binding.tvStartDate.setOnClickListener(){
            val scrollViewTools = ScrollViewTools()
             scrollViewTools.datePicker(this, true, binding.tvStartDate)
         }
 
+        //If the refresh button is clicked, to ensure the most up to date data
         binding.ivRefresh.setOnClickListener()
         {
             GlobalClass.RefreshFragment(this)
         }
 
-
+        //If the header is clicked
         binding.llHeader.setOnClickListener()
         {
             fragmentManager?.popBackStackImmediate()
@@ -131,6 +132,7 @@ class create_event: Fragment() {
             binding.ivMyProfileImageTint.visibility = View.VISIBLE
             binding.tvMyProfileImageEditText.visibility = View.VISIBLE
 
+            //Get Image
             binding.rlImageContainer.setOnClickListener()
             {
                 cameraManager.handlePhoto()
@@ -157,7 +159,7 @@ class create_event: Fragment() {
                     }
                 }
 
-
+                //check if URL provided is a valid URL
                 if (GlobalClass.isValidUrl(binding.etEventLink.text.toString()) == false && binding.etEventLink.text.toString() != "")
                 {
                     binding.etEventLink.error = getString(R.string.invalidUrlText)
@@ -211,7 +213,7 @@ class create_event: Fragment() {
 
                             }
 
-
+                            //Formats date, parses formatted date into Event Data Class called tempEvent
                             val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
                             var formattedDate =
                                 LocalDate.parse(binding.tvStartDate.text.toString(), formatter)
@@ -231,7 +233,7 @@ class create_event: Fragment() {
                                 dbManager.setProjectImage(requireActivity(), nextEventID, cameraManager.getSelectedUri())
                             }
 
-
+                            //Adds tempEvent to Firebase
                             dbManager.addNewEventToFirestore(tempEvent)
 
 
@@ -298,13 +300,14 @@ class create_event: Fragment() {
             }
 
 
-
+            //check if the page is in edit mode or create mode
             if (editMode == true)
             {
 
                 binding.ivMyProfileImageTint.visibility = View.VISIBLE
                 binding.tvMyProfileImageEditText.visibility = View.VISIBLE
 
+                //handle image if clicked
                 binding.rlImageContainer.setOnClickListener()
                 {
                     cameraManager.handlePhoto()
@@ -313,6 +316,7 @@ class create_event: Fragment() {
                 binding.btnCreateEvent.visibility = View.VISIBLE
                 binding.btnCreateEvent.text = "Save"
 
+                //if create event button is clicked
                 binding.btnCreateEvent.setOnClickListener() {
 
                     if (binding.tvStartDate.text.toString() == getString(R.string.blankDate))
@@ -321,9 +325,9 @@ class create_event: Fragment() {
                     }
                     else
                     {
+                        //formats date and parses to User Data Class called tempEvent
                         val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
                         var formattedDate = LocalDate.parse(binding.tvStartDate.text.toString(), formatter)
-
 
                         val tempEvent = EventDataClass(
                             EventID = currentEvent.EventID,
@@ -334,6 +338,7 @@ class create_event: Fragment() {
                             HasImage = currentEvent.HasImage
                         )
 
+                        //check if event has a picture
                         if (currentEvent.HasImage == false && cameraManager.getModifiedImageStatus() == true) {
                             tempEvent.HasImage = true
                         }
@@ -351,7 +356,7 @@ class create_event: Fragment() {
                                 withContext(Dispatchers.Default) {
                                     var databaseManager = DatabaseManager()
 
-
+                                    //call updateEventInFirestore function, pass it the tempEvent to update in the Firestore
                                     databaseManager.updateEventInFirestore(
                                         tempEvent,
                                         currentEventDocumentIndex

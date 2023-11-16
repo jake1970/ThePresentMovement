@@ -33,12 +33,11 @@ class login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
-
         //Set view binding
         val binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        //Initialize Firebase Authentication
         firebaseAuth = FirebaseAuth.getInstance()
 
         //Hide the action bar
@@ -51,13 +50,15 @@ class login : AppCompatActivity() {
         val etUsername = binding.etUsername
         val etPassword = binding.etPassword
 
-
+        //When Login button is clicked
         binding.btnSignUp.setOnClickListener()
         {
 
-
+            // get username and password from edit texts
             val email = etUsername.text.toString()
             val password = etPassword.text.toString()
+
+            //check if username and password are not empty and log in user if the login details are valid, sends user to the home page if login is successful
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                     if (it.isSuccessful) {

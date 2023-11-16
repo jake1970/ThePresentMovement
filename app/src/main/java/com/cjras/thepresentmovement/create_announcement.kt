@@ -139,6 +139,7 @@ class create_announcement : Fragment() {
                             nextAnnouncementID = GlobalClass.Announcements.last().AnnouncementID + 1
                         }
 
+                        //Announcement Data Class called tempAnnouncement created with the input fields from the UI
                         val tempAnnouncement = AnnouncementDataClass(
                             AnnouncementID = nextAnnouncementID,
                             AnnouncementTitle = binding.etAnnounceTitle.text.toString(),
@@ -147,6 +148,8 @@ class create_announcement : Fragment() {
                             UserID = GlobalClass.currentUser.UserID
 
                         )
+
+                        //Add new announcement using method in db manager class with tempAnnouncement created above
                         val dbManager = DatabaseManager()
                         dbManager.addNewAnnouncementToFirestore(tempAnnouncement)
 
@@ -160,7 +163,6 @@ class create_announcement : Fragment() {
             }
             //------------
 
-
         } else {
             for (announcement in GlobalClass.Announcements) {
                 if (announcement.AnnouncementID == announcementID) {
@@ -171,8 +173,11 @@ class create_announcement : Fragment() {
                 }
             }
 
+            //check if the form is in edit mode or create mode
             if (editMode == true)
             {
+
+                //if Create Announcement button is clicked create a new tempAnnouncement with the inputs from the form
                 binding.btnCreateAnnounce.setOnClickListener() {
                     val tempAnnouncement = AnnouncementDataClass(
                         AnnouncementID = currentAnnouncement.AnnouncementID,
@@ -196,6 +201,7 @@ class create_announcement : Fragment() {
                                 var databaseManager = DatabaseManager()
 
 
+                                //update announcement in Firestore with the tempAnnouncement
                                 databaseManager.updateAnnouncementInFirestore(
                                     tempAnnouncement,
                                     currentAnnouncementDocumentIndex

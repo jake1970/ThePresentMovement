@@ -71,11 +71,13 @@ class create_account : Fragment() {
 
 
 
+        //if the header is clicked
         binding.llHeader.setOnClickListener()
         {
             fragmentManager?.popBackStackImmediate()
         }
 
+        //if the refresh "button" is clicked
         binding.ivRefresh.setOnClickListener()
         {
             GlobalClass.RefreshFragment(this)
@@ -86,9 +88,11 @@ class create_account : Fragment() {
 
 
 
+    //update UI
     private fun UpdateUI()
     {
 
+        //check if the current user is an administrator, otherwise hide certain items
         if (GlobalClass.currentUser.MemberTypeID == 3)
         {
             val filterManager = FilterListFunctions()
@@ -102,9 +106,9 @@ class create_account : Fragment() {
         }
 
 
-
         firebaseAuth = FirebaseAuth.getInstance()
 
+        //if create account button is clicked
         binding.btnCreateAccount.setOnClickListener() {
 
             //boolean to determine if all fields are filled in
@@ -149,9 +153,11 @@ class create_account : Fragment() {
         ConfirmPassword: String,
     ) {
 
+        //password result method to check if the password meets strength requirements
         var passwordResult = UserDataClass().validateUserPassword(Password, requireActivity())
         //var successStatus = false
 
+        //check if the password and confirm password are the same
         if (Password == ConfirmPassword) {
             if (passwordResult == "") {
 
@@ -162,6 +168,7 @@ class create_account : Fragment() {
 
                     withContext(Dispatchers.Default) {
 
+                        //use firebase auth create user with email and password native method, adds user to Firestore
                         firebaseAuth.createUserWithEmailAndPassword(Email, Password)
                             .addOnCompleteListener {
                                 if (it.isSuccessful) {
@@ -194,9 +201,11 @@ class create_account : Fragment() {
                                         }
                                     }
 
+                                    //add user to Firestore with the entered details
                                     dbManager.addNewUserToFirestore(tempUser)
                                     //successStatus = true
 
+                                    //inform the current user that they have successfully added a new user
                                     Toast.makeText(requireActivity(), "User Added", Toast.LENGTH_SHORT).show()
 
                                     GlobalClass.UpdateDataBase = true
