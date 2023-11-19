@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_grey"
+    tools:context=".login">
+
+    <!-- Images in each corner -->
+    <ImageView
+        android:id="@+id/ivSemiCircle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/tpm_semi_circle" />
+
+    <ImageView
+        android:id="@+id/ivSpeechBubble"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/tpm_speech_bubble" />
+
+    <ImageView
+        android:id="@+id/ivTriangle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/tpm_triangle" />
+
+    <ImageView
+        android:id="@+id/ivHeart"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/tpm_heart" />
+
+    <!-- Start of Sign-in design -->
+    <TextView
+        android:id="@+id/tvSignIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="118dp"
+        android:text="@string/sign_text"
+        android:textSize="36sp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/tvSlogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvSignIn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/slogan_text"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white" />
+
+    <!-- Username -->
+    <TextView
+        android:id="@+id/lblUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvSlogan"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="70dp"
+        android:text="@string/emailText"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white" />
+
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="307dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/lblUsername"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/custom_rounded_edges"
+        android:hint="@string/email_hint_text"
+        android:textColorHint="@color/accent_grey"
+        android:textColor="@android:color/white"
+        android:singleLine="true"
+        android:paddingLeft="8dp"/>
+
+    <!-- Password -->
+    <TextView
+        android:id="@+id/lblPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etUsername"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="54dp"
+        android:text="@string/password_text"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white" />
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="307dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/lblPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/custom_rounded_edges"
+        android:hint="@string/password_hint_text"
+        android:inputType="textPassword"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/accent_grey"
+        android:paddingLeft="8dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSignUp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="180dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/etPassword"
+        android:layout_marginTop="60dp"
+        app:cornerRadius="30dp"
+        android:text="@string/sign_button"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/main_grey"
+        android:stateListAnimator="@null"
+        app:strokeColor="@color/white"
+        app:strokeWidth="2dp"
+        android:textSize="24dp"
+        android:letterSpacing="0"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        />
+
+</RelativeLayout>

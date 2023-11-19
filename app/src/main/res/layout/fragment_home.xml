@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home"
+    android:background="@color/main_grey">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/sub_grey"
+            android:id="@+id/rlHeader"
+            android:paddingBottom="10dp"
+            >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/homeText"
+                    android:id="@+id/tvScreenTitle"
+                    android:textColor="@color/white"
+                    android:textSize="26dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:textStyle="bold"
+                    />
+
+            <ImageView
+                android:id="@+id/ivRefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                app:srcCompat="@drawable/refresh_icon"
+                android:layout_marginRight="0dp"
+                android:layout_toLeftOf="@id/ivLogo"
+                android:layout_centerVertical="true"
+                android:layout_weight="0"
+                app:tint="@color/white" />
+
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                app:srcCompat="@drawable/tpm_logo"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="0"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/initiativesText"
+            android:id="@+id/tvInitiatives"
+            android:textColor="@color/white"
+            android:textSize="22dp"
+            android:layout_below="@id/rlHeader"
+            android:layout_marginTop="26dp"
+            android:layout_marginLeft="10dp"
+            />
+
+<!--        android:layout_marginTop="36dp"-->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/tvInitiatives"
+            android:layout_marginTop="6dp"
+            android:layout_marginHorizontal="10dp"
+            android:id="@+id/llInfoBlocks">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""
+                android:id="@+id/tvEvents"
+                android:textColor="@color/white"
+                android:textSize="26dp"
+                android:background="@drawable/home_events_backing"
+                android:layout_marginRight="5dp"
+                android:paddingLeft="8dp"
+                android:paddingBottom="5dp"
+                android:gravity="bottom|left"
+                android:paddingTop="10dp"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""
+                android:id="@+id/tvProjects"
+                android:textColor="@color/white"
+                android:textSize="26dp"
+                android:background="@drawable/home_projects_backing"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="8dp"
+                android:paddingBottom="5dp"
+                android:gravity="bottom|left"
+                android:paddingTop="10dp"
+                android:layout_weight="1"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/myFeedText"
+            android:id="@+id/tvMyFeed"
+            android:textColor="@color/white"
+            android:textSize="22dp"
+            android:layout_below="@id/llInfoBlocks"
+            android:layout_marginTop="26dp"
+            android:layout_marginLeft="10dp"
+            />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/svFeed"
+            android:layout_below="@id/tvMyFeed"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:requiresFadingEdge="vertical"
+            android:fadingEdgeLength="1dp">
+
+            <LinearLayout
+                android:id="@+id/llFeed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="10dp"
+                android:orientation="vertical" />
+        </ScrollView>
+
+    </RelativeLayout>
+
+</FrameLayout>

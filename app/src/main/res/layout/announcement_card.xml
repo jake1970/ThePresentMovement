@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:backgroundTint="@color/sub_grey"
+    android:background="@drawable/palette_12"
+    tools:context=".announcement_card">
+
+
+<!--
+    <ImageView
+        android:id="@+id/ivHeart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tpm_heart"
+        android:layout_toRightOf="@id/llContents"
+        android:layout_marginLeft="-78dp"
+        android:layout_marginTop="6dp"/>
+
+    <ImageView
+        android:id="@+id/ivSemiCircle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tpm_semi_circle"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="10dp"/>
+
+    <ImageView
+        android:id="@+id/ivSpeechBubble"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tpm_speech_bubble"
+        android:layout_toRightOf="@id/llContents"
+        android:layout_marginLeft="-26dp"
+        android:layout_marginTop="92dp"
+        android:layout_marginBottom="4dp"/>
+
+    <ImageView
+        android:id="@+id/ivTriangle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tpm_triangle"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="90dp"/>
+-->
+
+    <TextView
+        android:id="@+id/tvAnnouncementTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="text"
+        android:textColor="@color/white"
+        android:textSize="10dp"
+        android:padding="1dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:background="@drawable/palette_4"
+        android:backgroundTint="@color/accent_grey"
+        />
+
+
+    <LinearLayout
+        android:id="@+id/llContents"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+
+            <ImageView
+                android:id="@+id/ivAnnouncementIcon"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/notification_bell"
+                app:tint="@color/accent_grey"
+                android:layout_marginLeft="6dp"
+               />
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginBottom="20dp">
+
+
+            <TextView
+                android:id="@+id/tvAnnouncementTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_marginBottom="2dp"/>
+
+
+
+            <TextView
+                android:id="@+id/tvAnnouncementText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="12dp"
+                android:textColor="@color/white"/>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

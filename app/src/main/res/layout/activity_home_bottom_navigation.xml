@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home_bottom_navigation"
+    android:background="@color/main_grey"
+    android:id="@+id/flBase"
+   >
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@drawable/tpm_logo"
+            android:layout_weight="0"
+            android:visibility="gone"
+            />
+
+
+
+        <FrameLayout
+            android:id="@+id/flContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        </FrameLayout>
+
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bnvHomeNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/sub_grey"
+            app:itemIconTint="@drawable/bottom_navigation_selector"
+            app:itemTextColor="@drawable/bottom_navigation_selector"
+            app:menu="@menu/bottom_nav"
+            android:layout_weight="0"
+            />
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_grey"
+        android:clickable="true"
+        android:visibility="gone"
+        android:id="@+id/rlLoadingCover"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                app:srcCompat="@drawable/tpm_logo"
+                android:layout_marginBottom="40dp"/>
+
+            <ProgressBar
+                android:id="@+id/pbLoading"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:indeterminateTint="@color/white"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="100dp"
+                />
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
+
+</FrameLayout>

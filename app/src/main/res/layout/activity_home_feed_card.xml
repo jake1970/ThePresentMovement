@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:backgroundTint="@color/sub_grey"
+    android:background="@drawable/palette_12"
+    tools:context=".home_feed_card">
+
+    <LinearLayout
+        android:id="@+id/llContents"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_centerVertical="true">
+
+
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_gravity="center"
+            android:id="@+id/ivEntryIcon"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/roundedImageView"
+            app:srcCompat="@color/accent_grey"
+            android:background="@color/accent_grey"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="8dp"
+            />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginBottom="12dp">
+
+
+            <TextView
+                android:id="@+id/tvEntryText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="12dp"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvEntryTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:layout_marginBottom="2dp"/>
+
+
+
+                <TextView
+                    android:id="@+id/tvEntryDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12 Oct 2023"
+                    android:textColor="@color/white"
+                    android:textSize="12dp"
+                    android:paddingHorizontal="3dp"
+                    android:background="@drawable/palette_4"
+                    android:backgroundTint="@color/accent_grey"
+                    />
+
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

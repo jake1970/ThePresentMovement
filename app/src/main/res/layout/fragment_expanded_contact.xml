@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/main_grey"
+    android:orientation="vertical"
+    tools:context=".expanded_contact">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/sub_grey"
+        android:id="@+id/rlHeader"
+        android:paddingBottom="10dp"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/llHeader"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivBackArrow"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="4dp"
+                android:src="@drawable/arrow_icon"
+                android:rotation="180"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contactsText"
+                android:id="@+id/tvScreenTitle"
+                android:textColor="@color/white"
+                android:textSize="26dp"
+                android:textStyle="bold"
+                />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivRefresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            app:srcCompat="@drawable/refresh_icon"
+            android:layout_marginRight="0dp"
+            android:layout_toLeftOf="@id/ivLogo"
+            android:layout_centerVertical="true"
+            android:layout_weight="0"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            app:srcCompat="@drawable/tpm_logo"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_weight="0"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="{FirstName}s Card"
+        android:id="@+id/tvCardHeader"
+        android:textColor="@color/white"
+        android:textSize="22dp"
+        android:layout_below="@id/llMyProfileCard"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="10dp"
+        />
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+<!--        android:layout_marginTop="20dp"-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:id="@+id/llMyProfileCard"
+            android:background="@drawable/palette_12"
+            android:backgroundTint="@color/sub_grey"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <RelativeLayout
+                android:layout_width="66dp"
+                android:layout_height="66dp"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="0"
+                android:layout_marginRight="14dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_gravity="center"
+                    android:id="@+id/ivMyProfileImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:shapeAppearanceOverlay="@style/circleImageView"
+                    android:background="@color/accent_grey"
+                    app:srcCompat="@color/accent_grey"
+                    android:scaleType="centerCrop"
+                    />
+
+                <ImageView
+                    android:id="@+id/ivMyProfileImageTint"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.6"
+                    android:src="@drawable/palette_circle"
+                    android:visibility="gone"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/tvMyProfileImageEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:visibility="gone"
+                    android:text="@string/editText" />
+
+            </RelativeLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvContactName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="18dp"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tvRole"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ivModifyContact"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:layout_weight="0"
+                android:layout_marginRight="2dp"
+                android:padding="6dp"
+                android:background="@drawable/palette_circle"
+                android:backgroundTint="@color/accent_grey"
+                android:src="@drawable/edit_icon"
+                app:tint="@color/sub_grey" />
+
+        </LinearLayout>
+
+
+
+        <!--            android:layout_below="@id/llMyProfileCard"-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/informationText"
+            android:id="@+id/tvInformation"
+            android:textColor="@color/white"
+            android:textSize="22dp"
+            android:layout_below="@id/llMyProfileCard"
+            android:layout_marginTop="26dp"
+            android:layout_marginLeft="10dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="2dp"
+            android:layout_marginHorizontal="10dp"
+            android:id="@+id/llFields"
+            android:layout_below="@id/tvInformation">
+
+            <!--
+           android:background="@drawable/palette_12"
+           android:backgroundTint="@color/sub_grey"
+           -->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etQuote"
+                android:layout_below="@id/llMyProfileCard"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/quote_icon"
+                app:boxBackgroundColor="@color/sub_grey"
+                app:shapeAppearanceOverlay="@style/materialRoundedEdit"
+                app:boxStrokeColor="@color/white"
+                app:endIconMode="clear_text"
+                app:startIconTint="@color/accent_grey"
+                android:hint="@string/quoteText"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tfQuote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:singleLine="true"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etContactNumber"
+                android:layout_marginTop="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/phone_icon"
+                app:boxBackgroundColor="@color/sub_grey"
+                app:shapeAppearanceOverlay="@style/materialRoundedEdit"
+                app:boxStrokeColor="@color/white"
+                app:endIconMode="clear_text"
+                app:startIconTint="@color/accent_grey"
+                android:hint="@string/contactNumberText"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tfContactNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:singleLine="true"
+                    android:inputType="phone"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etEmailAddress"
+                android:layout_marginTop="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/email_icon"
+                app:boxBackgroundColor="@color/sub_grey"
+                app:shapeAppearanceOverlay="@style/materialRoundedEdit"
+                app:boxStrokeColor="@color/white"
+                app:endIconMode="clear_text"
+                app:startIconTint="@color/accent_grey"
+                android:hint="@string/emailAddressText"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tfEmailAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:singleLine="true"
+                    android:inputType="textEmailAddress"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etCompanyName"
+                android:layout_marginTop="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/business_icon"
+                app:boxBackgroundColor="@color/sub_grey"
+                app:shapeAppearanceOverlay="@style/materialRoundedEdit"
+                app:boxStrokeColor="@color/white"
+                app:endIconMode="clear_text"
+                app:startIconTint="@color/accent_grey"
+                android:hint="@string/companyNameText"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tfCompanyName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:singleLine="true"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etLinkedIn"
+                android:layout_marginTop="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/briefcase_icon"
+                app:boxBackgroundColor="@color/sub_grey"
+                app:shapeAppearanceOverlay="@style/materialRoundedEdit"
+                app:boxStrokeColor="@color/white"
+                app:endIconMode="clear_text"
+                app:startIconTint="@color/accent_grey"
+                android:hint="@string/linkedInText"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tfLinkedIn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:singleLine="true"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etWebsite"
+                android:layout_marginTop="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/link_icon"
+                app:boxBackgroundColor="@color/sub_grey"
+                app:shapeAppearanceOverlay="@style/materialRoundedEdit"
+                app:boxStrokeColor="@color/white"
+                app:endIconMode="clear_text"
+                app:startIconTint="@color/accent_grey"
+                android:hint="@string/websiteText"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tfWebsite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:singleLine="true"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llFields"
+            android:gravity="center"
+            android:layout_marginTop="26dp"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:id="@+id/ivSemiCircle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
+                android:src="@drawable/tpm_semi_circle"
+                />
+
+            <ImageView
+                android:id="@+id/ivHeart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
+                android:src="@drawable/tpm_heart" />
+
+            <ImageView
+                android:id="@+id/ivSpeechBubble"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
+                android:src="@drawable/tpm_speech_bubble" />
+
+            <ImageView
+                android:id="@+id/ivTriangle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
+                android:src="@drawable/tpm_triangle" />
+
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

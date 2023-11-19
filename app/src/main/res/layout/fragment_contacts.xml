@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".contacts"
+    android:background="@color/main_grey">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/sub_grey"
+            android:id="@+id/rlHeader"
+            android:paddingBottom="10dp"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/llHeader"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contactsText"
+                    android:id="@+id/tvScreenTitle"
+                    android:textColor="@color/white"
+                    android:textSize="26dp"
+                    android:textStyle="bold"
+                    />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ivRefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                app:srcCompat="@drawable/refresh_icon"
+                android:layout_marginRight="0dp"
+                android:layout_toLeftOf="@id/ivLogo"
+                android:layout_centerVertical="true"
+                android:layout_weight="0"
+                app:tint="@color/white" />
+
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                app:srcCompat="@drawable/tpm_logo"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="0"
+                />
+        </RelativeLayout>
+
+
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/myProfileText"
+            android:id="@+id/tvMyProfile"
+            android:textColor="@color/white"
+            android:textSize="22dp"
+            android:layout_below="@id/rlHeader"
+            android:layout_marginTop="26dp"
+            android:layout_marginLeft="10dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_below="@id/tvMyProfile"
+            android:id="@+id/llMyProfileCard"
+            android:background="@drawable/palette_12"
+            android:backgroundTint="@color/sub_grey"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_gravity="center"
+                android:id="@+id/ivMyProfileImage"
+                android:layout_width="66dp"
+                android:layout_height="66dp"
+                app:shapeAppearanceOverlay="@style/circleImageView"
+                app:srcCompat="@color/accent_grey"
+                android:background="@color/accent_grey"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="0"
+                android:scaleType="centerCrop"
+                android:layout_marginRight="14dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvContactName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="18dp"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tvContactRole"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ivNavArrow"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:layout_weight="0"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/palette_circle"
+                android:backgroundTint="@color/accent_grey"
+                android:src="@drawable/arrow_icon"
+                app:tint="@color/sub_grey" />
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/llExpansionMenu"
+            android:layout_below="@id/llMyProfileCard"
+            android:layout_marginTop="26dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/associatesText"
+                android:id="@+id/tvAssociates"
+                android:textColor="@color/white"
+                android:textSize="22dp"
+                />
+
+
+            <ImageView
+                android:id="@+id/ivExpandArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:src="@drawable/right_arrow_icon"
+                app:tint="@color/white" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/llExpansionContent"
+            android:layout_below="@id/llExpansionMenu"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/palette_10"
+                android:backgroundTint="@color/white"
+                android:ems="10"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:text=""
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:layout_marginRight="8dp"
+                android:drawableLeft="@drawable/search_icon"
+                android:hint=" Search"
+                android:drawableTint="@color/main_grey"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/palette_10"
+                android:backgroundTint="@color/white"
+                android:layout_weight="1.5"
+                android:padding="4dp">
+                <Spinner
+                    android:id="@+id/spnMemberTypes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown"
+                    android:backgroundTint="@color/black"
+                    android:textColor="@color/black"
+                    />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/svContacts"
+            android:layout_below="@id/llExpansionContent"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="10dp"
+            android:requiresFadingEdge="vertical"
+            android:fadingEdgeLength="1dp">
+
+            <LinearLayout
+                android:id="@+id/llContactsList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="10dp"
+                android:orientation="vertical" />
+        </ScrollView>
+
+        <!--
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/associatesText"
+            android:id="@+id/tvAssociates"
+            android:textColor="@color/white"
+            android:textSize="22dp"
+            android:layout_below="@id/tvScreenTitle"
+            android:layout_marginTop="26dp"
+            android:layout_marginLeft="10dp"
+            />
+            -->
+
+    </RelativeLayout>
+
+
+</FrameLayout>

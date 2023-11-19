@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/main_grey"
+    tools:context=".create_event">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/sub_grey"
+            android:id="@+id/rlHeader"
+            android:paddingBottom="10dp"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/llHeader"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivBackArrow"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="4dp"
+                    android:src="@drawable/arrow_icon"
+                    android:rotation="180"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/createEventText"
+                    android:id="@+id/tvScreenTitle"
+                    android:textColor="@color/white"
+                    android:textSize="26dp"
+                    android:textStyle="bold"
+                    />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ivRefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                app:srcCompat="@drawable/refresh_icon"
+                android:layout_marginRight="0dp"
+                android:layout_toLeftOf="@id/ivLogo"
+                android:layout_centerVertical="true"
+                android:layout_weight="0"
+                app:tint="@color/white" />
+
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                app:srcCompat="@drawable/tpm_logo"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="0"
+                />
+        </RelativeLayout>
+
+
+
+
+
+        <!-- First Name Field-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rlContent"
+            android:layout_below="@id/rlHeader"
+            >
+
+
+        <TextView
+            android:id="@+id/lblEventTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="54dp"
+            android:layout_marginTop="30dp"
+            android:text="Event Title"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+
+        <EditText
+            android:id="@+id/etEventTitle"
+            android:layout_width="307dp"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:layout_below="@id/lblEventTitle"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/custom_rounded_edges"
+            android:hint="Event Title"
+            android:textColorHint="@color/accent_grey"
+            android:textColor="@android:color/white"
+            android:paddingLeft="6dp"
+            android:inputType="textMultiLine"
+            android:singleLine="true"/>
+
+        <!-- Last Name Field-->
+        <TextView
+            android:id="@+id/lblEventDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etEventTitle"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="54dp"
+            android:text="@string/eventDateText"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+
+        <LinearLayout
+            android:id="@+id/llEventDate"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
+            android:layout_below="@id/lblEventDate"
+            android:layout_marginLeft="50dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/blankDate"
+                android:id="@+id/tvStartDate"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:paddingVertical="4dp"
+                android:paddingHorizontal="10dp"
+                android:textSize="12sp"
+                android:background="@drawable/palette_10"
+                android:backgroundTint="@color/sub_grey"
+                android:layout_weight="2"
+                android:layout_marginRight="2.5dp"
+                android:drawableLeft="@drawable/calendar_icon_small"
+                android:drawableTint="@color/white"
+                />
+
+        </LinearLayout>
+
+    <!-- Email Field-->
+    <TextView
+        android:id="@+id/lblEventLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llEventDate"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="54dp"
+        android:text="@string/eventLinkText"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white" />
+
+    <EditText
+        android:id="@+id/etEventLink"
+        android:layout_width="307dp"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:layout_below="@id/lblEventLink"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/custom_rounded_edges"
+        android:hint="Event Link"
+        android:textColorHint="@color/accent_grey"
+        android:textColor="@android:color/white"
+        android:paddingLeft="6dp"
+        android:inputType="textMultiLine"
+        android:autoLink="all"
+       />
+
+    </RelativeLayout>
+
+        <!-- Image Field-->
+
+        <TextView
+            android:id="@+id/lblEventImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rlContent"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="54dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/uploadImgText"
+            android:textColor="@android:color/white"
+            android:textSize="22dp"
+            android:textStyle="bold" />
+
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:id="@+id/rlImageContainer"
+            android:layout_height="100dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="45dp"
+            android:layout_weight="0"
+            android:layout_below="@id/lblEventImage"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="14dp">
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_gravity="center"
+                android:id="@+id/ivMyProfileImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:shapeAppearanceOverlay="@style/circleImageView"
+                android:background="@color/accent_grey"
+                app:srcCompat="@color/accent_grey"
+                android:scaleType="centerCrop"
+                />
+
+            <ImageView
+                android:id="@+id/ivMyProfileImageTint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.6"
+                android:src="@drawable/palette_circle"
+                android:visibility="gone"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/tvMyProfileImageEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:text="@string/editText" />
+
+        </RelativeLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCreateEvent"
+        android:layout_centerHorizontal="true"
+        android:layout_width="230dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/rlContent"
+        android:layout_marginTop="220dp"
+        app:cornerRadius="30dp"
+        android:text="@string/createEventLowerText"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/main_grey"
+        android:stateListAnimator="@null"
+        app:strokeColor="@color/white"
+        app:strokeWidth="2dp"
+        android:textSize="24dp"
+        android:letterSpacing="0"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:visibility="gone"
+        />
+
+
+    </RelativeLayout>
+
+
+
+
+</FrameLayout>
