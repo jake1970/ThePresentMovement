@@ -48,16 +48,16 @@
     </style>
 
     <style name="IconStyling" parent="@style/MaterialAlertDialog.MaterialComponents.Title.Icon">
-        <item name="android:tint">@color/white</item>
+        <item name="android:tint">@color/main_grey</item>
     </style>
 
     <style name="TitleStyling" parent="@style/MaterialAlertDialog.MaterialComponents.Title.Text">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/main_grey</item>
         <item name="android:textSize">20dp</item>
     </style>
 
     <style name="BodyStyling" parent="@style/MaterialAlertDialog.MaterialComponents.Body.Text">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/main_grey</item>
         <item name="android:textSize">16dp</item>
     </style>
 

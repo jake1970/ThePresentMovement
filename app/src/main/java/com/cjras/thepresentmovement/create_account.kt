@@ -222,14 +222,7 @@ class create_account : Fragment() {
                                         it.exception?.localizedMessage.toString(),
                                         Toast.LENGTH_SHORT
                                     ).show()
-
-                                    //GlobalClass.UpdateDataBase = true
-
                                     requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
-
-                                    //binding.llHeader.callOnClick()
-
-
                                 }
                             }
                     }
