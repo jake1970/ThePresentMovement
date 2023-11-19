@@ -132,7 +132,7 @@ class DatabaseManager {
 
         for (document in querySnapshot) {
 
-            val newAnnouncementID: Int = document.data.getValue("announcementID").toString().toInt()
+            //val newAnnouncementID: Int = document.data.getValue("announcementID").toString().toInt()
             val newAnnouncementTitle: String =
                 document.data.getValue("announcementTitle").toString()
             val newAnnouncementMessage: String =
@@ -143,7 +143,7 @@ class DatabaseManager {
 
 
             val tempAnnouncement = AnnouncementDataClass(
-                AnnouncementID = newAnnouncementID,
+                AnnouncementID = document.id,
                 AnnouncementTitle = newAnnouncementTitle,
                 AnnouncementMessage = newAnnouncementMessage,
                 AnnouncementDate = newAnnouncementDate,
@@ -345,7 +345,7 @@ class DatabaseManager {
         db.collection("Announcements")
             .add(
                 mapOf(
-                    "announcementID" to newAnnouncement.AnnouncementID,
+                    //"announcementID" to newAnnouncement.AnnouncementID,
                     "announcementTitle" to newAnnouncement.AnnouncementTitle,
                     "announcementMessage" to newAnnouncement.AnnouncementMessage,
                     "announcementDate" to newAnnouncement.AnnouncementDate.toString(),
@@ -484,7 +484,7 @@ class DatabaseManager {
         val announcementRef = db.collection("Announcements").document(ID)
         announcementRef.update(
             mapOf(
-                "announcementID" to currentAnnouncement.AnnouncementID,
+                //"announcementID" to currentAnnouncement.AnnouncementID,
                 "announcementTitle" to currentAnnouncement.AnnouncementTitle,
                 "announcementMessage" to currentAnnouncement.AnnouncementMessage,
                 "announcementDate" to currentAnnouncement.AnnouncementDate.toString(),

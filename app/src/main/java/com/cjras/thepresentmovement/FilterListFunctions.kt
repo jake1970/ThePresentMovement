@@ -360,7 +360,7 @@ class FilterListFunctions {
                                 //call method to show the admin menu popup
                                 databaseExtension.showAdminOptionMenu(
                                     currentAnnouncementDocumentIndex,
-                                    announcement.AnnouncementID,
+                                    currentAnnouncementIndex,
                                     context,
                                     "Announcements"
                                 )
