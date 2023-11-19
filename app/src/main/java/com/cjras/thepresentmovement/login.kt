@@ -47,7 +47,7 @@ class login : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this, com.cjras.thepresentmovement.R.color.main_grey)
 
 
-        val etUsername = binding.etPassword
+        val etUsername = binding.etUsername
         val etPassword = binding.etPassword
 
         //When Login button is clicked
