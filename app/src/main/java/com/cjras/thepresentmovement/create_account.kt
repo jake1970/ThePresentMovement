@@ -36,7 +36,6 @@ class create_account : Fragment() {
         val view = binding.root
 
 
-
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
         //initial data population
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -47,7 +46,8 @@ class create_account : Fragment() {
             MainScope().launch {
                 if (GlobalClass.UpdateDataBase == true) {
 
-                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.VISIBLE
+                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                        View.VISIBLE
 
                     withContext(Dispatchers.Default) {
 
@@ -70,79 +70,100 @@ class create_account : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-
         //if the header is clicked
         binding.llHeader.setOnClickListener()
         {
-            fragmentManager?.popBackStackImmediate()
+            try {
+                fragmentManager?.popBackStackImmediate()
+            } catch (e: Exception) {
+                //call method to show the error
+                GlobalClass.InformUser(
+                    getString(R.string.errorText),
+                    "$e",
+                    requireContext()
+                )
+            }
         }
 
         //if the refresh "button" is clicked
         binding.ivRefresh.setOnClickListener()
         {
-            GlobalClass.RefreshFragment(this)
+            try {
+                GlobalClass.RefreshFragment(this)
+            } catch (e: Exception) {
+                //call method to show the error
+                GlobalClass.InformUser(
+                    getString(R.string.errorText),
+                    "$e",
+                    requireContext()
+                )
+            }
         }
 
         return view
     }
 
 
-
     //update UI
-    private fun UpdateUI()
-    {
+    private fun UpdateUI() {
 
-        //check if the current user is an administrator, otherwise hide certain items
-        if (GlobalClass.currentUser.MemberTypeID == 3)
-        {
-            val filterManager = FilterListFunctions()
-            filterManager.populateMemberTypes(binding.spnMemberTypes, requireActivity(), false)
-        }
-        else
-        {
-            binding.spnMemberTypes.visibility = View.GONE
-            binding.rlSpinnerMember.visibility = View.GONE
-            binding.tvRole.visibility = View.GONE
-        }
+        try {
+            //check if the current user is an administrator, otherwise hide certain items
+            if (GlobalClass.currentUser.MemberTypeID == 3) {
+                val filterManager = FilterListFunctions()
+                filterManager.populateMemberTypes(binding.spnMemberTypes, requireActivity(), false)
+            } else {
+                binding.spnMemberTypes.visibility = View.GONE
+                binding.rlSpinnerMember.visibility = View.GONE
+                binding.tvRole.visibility = View.GONE
+            }
 
 
-        firebaseAuth = FirebaseAuth.getInstance()
+            firebaseAuth = FirebaseAuth.getInstance()
 
-        //if create account button is clicked
-        binding.btnCreateAccount.setOnClickListener() {
+            //if create account button is clicked
+            binding.btnCreateAccount.setOnClickListener() {
 
-            //boolean to determine if all fields are filled in
-            var allFilled = true
+                //boolean to determine if all fields are filled in
+                var allFilled = true
 
-            //the container where the input fields are
-            val container = binding.rlHeader
+                //the container where the input fields are
+                val container = binding.rlHeader
 
 
-            //loop through the inputs
-            for (component in container.children) {
-                //check that the current component is a text edit and that it doesn't contain a value
-                if (component is EditText && component.text.isNullOrEmpty()) {
-                    //set the components error text
-                    component.error = getString(R.string.missingText)
+                //loop through the inputs
+                for (component in container.children) {
+                    //check that the current component is a text edit and that it doesn't contain a value
+                    if (component is EditText && component.text.isNullOrEmpty()) {
+                        //set the components error text
+                        component.error = getString(R.string.missingText)
 
-                    //set the filled status to false
-                    allFilled = false
+                        //set the filled status to false
+                        allFilled = false
+                    }
+                }
+                //if all components are filled in
+                if (allFilled == true) {
+                    RegisterNewUser(
+                        binding.etFirstName.text.toString(),
+                        binding.etLastName.text.toString(),
+                        binding.etEmail.text.toString(),
+                        binding.etPassword.text.toString(),
+                        binding.etConfirmPassword.text.toString()
+                    )
                 }
             }
-            //if all components are filled in
-            if (allFilled == true) {
-                RegisterNewUser(
-                    binding.etFirstName.text.toString(),
-                    binding.etLastName.text.toString(),
-                    binding.etEmail.text.toString(),
-                    binding.etPassword.text.toString(),
-                    binding.etConfirmPassword.text.toString()
-                )
-            }
+
+
+        } catch (e: Exception) {
+            //call method to show the error
+            GlobalClass.InformUser(
+                getString(R.string.errorText),
+                "$e",
+                requireContext()
+            )
         }
-
     }
-
 
 
     private fun RegisterNewUser(
@@ -153,89 +174,113 @@ class create_account : Fragment() {
         ConfirmPassword: String,
     ) {
 
-        //password result method to check if the password meets strength requirements
-        var passwordResult = UserDataClass().validateUserPassword(Password, requireActivity())
-        //var successStatus = false
+        try {
+            //password result method to check if the password meets strength requirements
+            var passwordResult = UserDataClass().validateUserPassword(Password, requireActivity())
+            //var successStatus = false
 
-        //check if the password and confirm password are the same
-        if (Password == ConfirmPassword) {
-            if (passwordResult == "") {
+            //check if the password and confirm password are the same
+            if (Password == ConfirmPassword) {
+                if (passwordResult == "") {
 
-                MainScope().launch() {
+                    MainScope().launch() {
 
-                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
-                        View.VISIBLE
+                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                            View.VISIBLE
 
-                    withContext(Dispatchers.Default) {
+                        withContext(Dispatchers.Default) {
 
-                        //use firebase auth create user with email and password native method, adds user to Firestore
-                        firebaseAuth.createUserWithEmailAndPassword(Email, Password)
-                            .addOnCompleteListener {
-                                if (it.isSuccessful) {
-                                    val userInfo = firebaseAuth.currentUser!!.uid
-                                    val dbManager = DatabaseManager()
-                                    val tempUser = UserDataClass(
-                                        UserID = userInfo,
-                                        FirstName = Name,
-                                        LastName = Surname,
-                                        EmailAddress = Email,
-                                        MemberTypeID = 1, //change to spinner input
-                                        Quote = "",
-                                        ContactNumber = "",
-                                        CompanyName = "",
-                                        LinkedIn = "",
-                                        Website = "",
-                                        HasImage = false
-                                    )
+                            //use firebase auth create user with email and password native method, adds user to Firestore
+                            firebaseAuth.createUserWithEmailAndPassword(Email, Password)
+                                .addOnCompleteListener {
+                                    if (it.isSuccessful) {
+                                        val userInfo = firebaseAuth.currentUser!!.uid
+                                        val dbManager = DatabaseManager()
+                                        val tempUser = UserDataClass(
+                                            UserID = userInfo,
+                                            FirstName = Name,
+                                            LastName = Surname,
+                                            EmailAddress = Email,
+                                            MemberTypeID = 1, //change to spinner input
+                                            Quote = "",
+                                            ContactNumber = "",
+                                            CompanyName = "",
+                                            LinkedIn = "",
+                                            Website = "",
+                                            HasImage = false
+                                        )
 
 
-                                    if (GlobalClass.currentUser.MemberTypeID == 3) {
+                                        if (GlobalClass.currentUser.MemberTypeID == 3) {
 
-                                        var selectedMemberTypeSpinnerIndex = GlobalClass.MemberTypes.indexOfLast { it.MemberType == binding.spnMemberTypes.selectedItem.toString() }
+                                            var selectedMemberTypeSpinnerIndex =
+                                                GlobalClass.MemberTypes.indexOfLast { it.MemberType == binding.spnMemberTypes.selectedItem.toString() }
 
-                                        if (selectedMemberTypeSpinnerIndex != -1)
-                                        {
-                                            //if the member type exists
-                                            val selectedMemberTypeID = GlobalClass.MemberTypes[selectedMemberTypeSpinnerIndex].MemberTypeID
-                                            tempUser.MemberTypeID = selectedMemberTypeID
+                                            if (selectedMemberTypeSpinnerIndex != -1) {
+                                                //if the member type exists
+                                                val selectedMemberTypeID =
+                                                    GlobalClass.MemberTypes[selectedMemberTypeSpinnerIndex].MemberTypeID
+                                                tempUser.MemberTypeID = selectedMemberTypeID
+                                            }
                                         }
+
+                                        //add user to Firestore with the entered details
+                                        dbManager.addNewUserToFirestore(tempUser)
+                                        //successStatus = true
+
+                                        //inform the current user that they have successfully added a new user
+                                        Toast.makeText(
+                                            requireActivity(),
+                                            getString(R.string.userAdded),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+
+                                        GlobalClass.UpdateDataBase = true
+
+                                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                                            View.GONE
+
+                                        binding.llHeader.callOnClick()
+
+
+                                    } else {
+                                        Toast.makeText(
+                                            requireActivity(),
+                                            it.exception?.localizedMessage.toString(),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
+                                            View.GONE
                                     }
-
-                                    //add user to Firestore with the entered details
-                                    dbManager.addNewUserToFirestore(tempUser)
-                                    //successStatus = true
-
-                                    //inform the current user that they have successfully added a new user
-                                    Toast.makeText(requireActivity(), getString(R.string.userAdded), Toast.LENGTH_SHORT).show()
-
-                                    GlobalClass.UpdateDataBase = true
-
-                                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =
-                                        View.GONE
-
-                                    binding.llHeader.callOnClick()
-
-
-                                } else {
-                                    Toast.makeText(
-                                        requireActivity(),
-                                        it.exception?.localizedMessage.toString(),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility = View.GONE
                                 }
-                            }
+                        }
+
+
                     }
-
-
+                } else {
+                    GlobalClass.InformUser(
+                        getString(R.string.invalidPassword),
+                        passwordResult,
+                        requireActivity()
+                    )
                 }
             } else {
-                GlobalClass.InformUser(getString(R.string.invalidPassword), passwordResult, requireActivity())
+                Toast.makeText(
+                    requireActivity(),
+                    getString(R.string.passwordNotMatched),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-        } else {
-            Toast.makeText(requireActivity(), getString(R.string.passwordNotMatched), Toast.LENGTH_SHORT).show()
+
+
+        } catch (e: Exception) {
+            //call method to show the error
+            GlobalClass.InformUser(
+                getString(R.string.errorText),
+                "$e",
+                requireContext()
+            )
         }
 
     }
-
 }

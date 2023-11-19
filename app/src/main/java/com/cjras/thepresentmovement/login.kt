@@ -1,6 +1,5 @@
 package com.cjras.thepresentmovement
 
-import android.R
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -44,7 +43,8 @@ class login : AppCompatActivity() {
         supportActionBar?.hide()
 
         //set status bar color
-        window.statusBarColor = ContextCompat.getColor(this, com.cjras.thepresentmovement.R.color.main_grey)
+        window.statusBarColor =
+            ContextCompat.getColor(this, com.cjras.thepresentmovement.R.color.main_grey)
 
 
         val etUsername = binding.etUsername
@@ -54,34 +54,53 @@ class login : AppCompatActivity() {
         binding.btnSignUp.setOnClickListener()
         {
 
-            // get username and password from edit texts
-            val email = etUsername.text.toString()
-            val password = etPassword.text.toString()
+            try {
+                // get username and password from edit texts
+                val email = etUsername.text.toString()
+                val password = etPassword.text.toString()
 
-            //check if username and password are not empty and log in user if the login details are valid, sends user to the home page if login is successful
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        var intent = Intent(this, home_bottom_navigation::class.java) //ViewActivity
-                        startActivity(intent)
-                        GlobalClass.currentUser.UserID = firebaseAuth.currentUser?.uid.toString()
+                //check if username and password are not empty and log in user if the login details are valid, sends user to the home page if login is successful
+                if (email.isNotEmpty() && password.isNotEmpty()) {
+                    firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            var intent =
+                                Intent(this, home_bottom_navigation::class.java) //ViewActivity
+                            startActivity(intent)
+                            GlobalClass.currentUser.UserID =
+                                firebaseAuth.currentUser?.uid.toString()
 
-                        getSharedPreferences(myPrefsFile, MODE_PRIVATE)
-                            .edit()
-                            .putString(myUserID, GlobalClass.currentUser.UserID)
-                            .commit();
+                            getSharedPreferences(myPrefsFile, MODE_PRIVATE)
+                                .edit()
+                                .putString(myUserID, GlobalClass.currentUser.UserID)
+                                .commit();
 
-                    } else {
-                        Toast.makeText(this, it.exception?.localizedMessage.toString(), Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(
+                                this,
+                                it.exception?.localizedMessage.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
+                } else {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.formsNotFilled),
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
                 }
-            } else {
-                Toast.makeText(this, getString(com.cjras.thepresentmovement.R.string.formsNotFilled), Toast.LENGTH_LONG)
-                    .show()
+
+            } catch (e: Exception) {
+                //call method to show the error
+                GlobalClass.InformUser(
+                    getString(R.string.errorText),
+                    "$e",
+                    this
+                )
             }
 
         }
-
     }
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
