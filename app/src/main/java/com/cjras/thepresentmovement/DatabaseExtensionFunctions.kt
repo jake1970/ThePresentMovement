@@ -163,7 +163,7 @@ class DatabaseExtensionFunctions {
                 val expandedAnnouncementView = create_announcement()
 
                 //set record data and arguments
-                args.putInt("selectedAnnouncementID", tableEntryIndex)
+                args.putInt("selectedAnnouncementIndex", tableEntryIndex)
                 args.putBoolean("editMode", editMode)
 
                 expandedAnnouncementView.arguments = args
@@ -233,13 +233,13 @@ class DatabaseExtensionFunctions {
                             //if view announcement is selected
 
                             //get index of selected announcement
-                            var selectedAnnouncementIndex = GlobalClass.Announcements.indexOfLast{it.AnnouncementID == tableEntryIndex}
+                            //var selectedAnnouncementIndex = GlobalClass.Announcements.indexOfLast{it.AnnouncementID == tableEntryIndex}
 
                             //popup to show full announcement data
                             var fullNotice =
                                 MaterialAlertDialogBuilder(context.requireActivity(), R.style.NoticeAlert)
-                                    .setTitle(GlobalClass.Announcements[selectedAnnouncementIndex].AnnouncementTitle)   //needs to be the index od the id
-                                    .setMessage(GlobalClass.Announcements[selectedAnnouncementIndex].AnnouncementMessage)
+                                    .setTitle(GlobalClass.Announcements[tableEntryIndex].AnnouncementTitle)   //needs to be the index od the id
+                                    .setMessage(GlobalClass.Announcements[tableEntryIndex].AnnouncementMessage)
                                     .setIcon((R.drawable.notification_bell))
                                     .setNeutralButton(context.getString(R.string.okText)) { dialog, which ->
                                         // Respond to neutral button press
