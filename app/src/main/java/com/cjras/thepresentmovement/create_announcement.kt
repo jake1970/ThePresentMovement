@@ -97,7 +97,7 @@ class create_announcement : Fragment() {
 
 
         //-------------
-        if (announcementID == "") {
+        if (announcementIndex == 0) {
             //add code here
 
             //-------------
