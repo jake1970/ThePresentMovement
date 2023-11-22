@@ -5,8 +5,10 @@ import android.content.ContentValues
 import android.content.Context
 import android.graphics.*
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.toBitmap
 import com.google.firebase.firestore.WriteBatch
 import com.google.firebase.firestore.ktx.firestore
@@ -127,6 +129,7 @@ class DatabaseManager {
     //method to get all announcements from the database
     //source - https://firebase.google.com/docs/firestore/manage-data/add-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getAllAnnouncementsFromFirestore(): ArrayList<AnnouncementDataClass> {
         val allAnnouncements = arrayListOf<AnnouncementDataClass>()
         GlobalClass.documents.allAnnouncmentIds.clear()
@@ -169,6 +172,7 @@ class DatabaseManager {
     //method to get all events from the database
     //source - https://firebase.google.com/docs/firestore/manage-data/add-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getAllEventsFromFirestore(): ArrayList<EventDataClass> {
         val allEvents = arrayListOf<EventDataClass>()
         GlobalClass.documents.allEventIDs.clear()
@@ -211,6 +215,7 @@ class DatabaseManager {
     //method to get all projects from the database
     //source - https://firebase.google.com/docs/firestore/manage-data/add-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getAllProjectsFromFirestore(): ArrayList<ProjectDataClass> {
         val allProjects = arrayListOf<ProjectDataClass>()
         GlobalClass.documents.allProjectIds.clear()
@@ -292,6 +297,7 @@ class DatabaseManager {
     //method to get all data from the database
     //source - https://firebase.google.com/docs/firestore/manage-data/add-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun updateFromDatabase() {
         GlobalClass.MemberTypes = getAllMemberTypesFromFirestore()
         GlobalClass.Users = getAllUsersFromFirestore()
@@ -500,7 +506,6 @@ class DatabaseManager {
         val announcementRef = db.collection("Announcements").document(ID)
         announcementRef.update(
             mapOf(
-                //"announcementID" to currentAnnouncement.AnnouncementID,
                 "announcementTitle" to currentAnnouncement.AnnouncementTitle,
                 "announcementMessage" to currentAnnouncement.AnnouncementMessage,
                 "announcementDate" to currentAnnouncement.AnnouncementDate.toString(),

@@ -1,6 +1,7 @@
 package com.cjras.thepresentmovement
 
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.cjras.thepresentmovement.databinding.FragmentCreateAccountBinding
@@ -34,6 +36,7 @@ private var modifiedPicture = false
 private lateinit var cameraManager: CameraHandler
 
 class create_event: Fragment() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -145,6 +148,7 @@ class create_event: Fragment() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun UpdateUI() {
         try {
             //-------------

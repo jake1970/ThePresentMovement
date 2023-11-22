@@ -149,7 +149,7 @@ import java.util.*
             pickImageFromGalleryForResult.launch(galleryIntent)
         } else {
             //inform the user that the photo library is unavailable
-            Toast.makeText(currentActivity, "Photo Library is not available", Toast.LENGTH_SHORT).show()
+            Toast.makeText(currentActivity, currentActivity.getString(R.string.photoLibraryNotAvailable), Toast.LENGTH_SHORT).show()
         }
     }
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -172,7 +172,7 @@ import java.util.*
             takePhotoForResult.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE))
         } else {
             //inform the user that the camera is unavailable
-            Toast.makeText(currentActivity, "Camera is not available", Toast.LENGTH_SHORT).show()
+            Toast.makeText(currentActivity, currentActivity.getString(R.string.photoLibraryNotAvailable), Toast.LENGTH_SHORT).show()
         }
     }
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -181,6 +181,7 @@ import java.util.*
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //Catch Finished Activity
+    //source - https://stackoverflow.com/a/61573632
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
      //register the camera intent handling

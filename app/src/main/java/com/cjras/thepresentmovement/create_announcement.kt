@@ -1,5 +1,6 @@
 package com.cjras.thepresentmovement
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.cjras.thepresentmovement.databinding.FragmentAdminBinding
@@ -24,6 +26,7 @@ class create_announcement : Fragment() {
     private val binding get() = _binding!!
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -98,6 +101,7 @@ class create_announcement : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun UpdateUI() {
         try {
 

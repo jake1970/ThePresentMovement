@@ -1,6 +1,7 @@
 package com.cjras.thepresentmovement
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.cjras.thepresentmovement.databinding.FragmentAllProjectsBinding
@@ -28,6 +30,7 @@ private lateinit var firebaseAuth: FirebaseAuth
 
 class create_account : Fragment() {
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,

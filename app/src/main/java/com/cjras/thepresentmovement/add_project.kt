@@ -2,6 +2,7 @@ package com.cjras.thepresentmovement
 
 import android.app.AlertDialog
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.view.children
 import com.cjras.thepresentmovement.databinding.FragmentAddProjectBinding
 import com.cjras.thepresentmovement.databinding.FragmentAllEventsBinding
@@ -35,6 +37,7 @@ class add_project : Fragment() {
     private lateinit var cameraManager: CameraHandler
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -151,6 +154,7 @@ class add_project : Fragment() {
         return view
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun UpdateUI() {
         try {
             //-------------
@@ -220,17 +224,9 @@ class add_project : Fragment() {
                                 }
 
 
-                                /*
-                            var nextProjectID =  1
-                            if (GlobalClass.Projects.count() > 0)
-                            {
-                                nextProjectID = GlobalClass.Projects.last().ProjectID + 1
-                            }
-                             */
 
                                 var nextProjectID = 1
                                 if (GlobalClass.Projects.count() > 0) {
-                                    //nextProjectID = GlobalClass.Projects.last().ProjectID + 1
 
                                     var existingID = true
 

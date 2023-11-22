@@ -3,11 +3,13 @@ package com.cjras.thepresentmovement
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -247,6 +249,7 @@ class FilterListFunctions {
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //Method to load the announcements/notices custom component cards according to the given filter parameters: search term, start date, and end date
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    @RequiresApi(Build.VERSION_CODES.O)
     fun LoadAnnouncements(
         searchTerm: String,
         displayLayout: LinearLayout,
@@ -386,6 +389,7 @@ class FilterListFunctions {
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //Method to load the projects custom component cards according to the given filter parameters: search term, start date, and end date
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    @RequiresApi(Build.VERSION_CODES.O)
     fun LoadProjects(
         searchTerm: String,
         displayLayout: LinearLayout,
@@ -531,6 +535,7 @@ class FilterListFunctions {
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //Method to load the events custom component cards according to the given filter parameters: search term, start date, and end date
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    @RequiresApi(Build.VERSION_CODES.O)
     fun LoadEvents(
         searchTerm: String,
         displayLayout: LinearLayout,

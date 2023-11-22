@@ -139,6 +139,8 @@ Take care
     <string name="joinedProject">Joined Project</string>
     <string name="confirmLeaveProject">Are you sure you want to exit the current project?</string>
     <string name="leftProject">Left Project</string>
+    <string name="photoLibraryNotAvailable">Photo Library is not available</string>
+    <string name="cameraNotAvailable">Camera is not available</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

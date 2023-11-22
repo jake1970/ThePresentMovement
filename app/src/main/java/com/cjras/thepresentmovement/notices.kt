@@ -1,11 +1,13 @@
 package com.cjras.thepresentmovement
 
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import androidx.annotation.RequiresApi
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -24,6 +26,7 @@ class notices : Fragment() {
     private val scrollViewUtils = ScrollViewTools()
     private val filterManager = FilterListFunctions()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -190,6 +193,7 @@ class notices : Fragment() {
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //Method to update the screen data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun UpdateUI() {
 
 

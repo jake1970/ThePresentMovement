@@ -1,6 +1,7 @@
 package com.cjras.thepresentmovement
 
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import com.cjras.thepresentmovement.databinding.FragmentAdminBinding
@@ -28,6 +30,7 @@ class admin_content_list : Fragment() {
     private val filterManager = FilterListFunctions()
     private val scrollViewUtils = ScrollViewTools()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,

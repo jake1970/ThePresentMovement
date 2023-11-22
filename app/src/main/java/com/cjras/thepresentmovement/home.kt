@@ -3,6 +3,7 @@ package com.cjras.thepresentmovement
 import android.content.ClipData
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.Space
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.children
@@ -29,6 +31,7 @@ class home : Fragment() {
     private val binding get() = _binding!!
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -168,6 +171,7 @@ class home : Fragment() {
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //Method to update the screen data
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    @RequiresApi(Build.VERSION_CODES.O)
     fun UpdateUI() {
 
         try {
@@ -219,6 +223,7 @@ class home : Fragment() {
             var combinedFeed = recentEvents + recentProjects
 
             //new list of combined feed items sorted by the date of both events and projects
+            //source - https://stackoverflow.com/a/58305030
             val sortedList = combinedFeed.sortedBy {
                 when (it) {
 
