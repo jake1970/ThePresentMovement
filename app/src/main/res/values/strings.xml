@@ -149,6 +149,9 @@ Take care
     <string name="newAnnouncement">New Announcement</string>
     <string name="editAnnouncement">Edit Announcement</string>
 
+    <string name="editEvent">Edit Event</string>
+    <string name="editProject">Edit Project</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
