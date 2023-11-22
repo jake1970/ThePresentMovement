@@ -121,7 +121,7 @@ class create_account : Fragment() {
                 binding.tvRole.visibility = View.GONE
             }
 
-
+            //https://firebase.google.com/docs/auth/android/start
             firebaseAuth = FirebaseAuth.getInstance()
 
             //if create account button is clicked
@@ -194,6 +194,7 @@ class create_account : Fragment() {
                         withContext(Dispatchers.Default) {
 
                             //use firebase auth create user with email and password native method, adds user to Firestore
+                            //https://firebase.google.com/docs/auth/android/start
                             firebaseAuth.createUserWithEmailAndPassword(Email, Password)
                                 .addOnCompleteListener {
                                     if (it.isSuccessful) {

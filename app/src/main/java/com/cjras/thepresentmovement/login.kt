@@ -37,6 +37,7 @@ class login : AppCompatActivity() {
         setContentView(binding.root)
 
         //Initialize Firebase Authentication
+        //https://firebase.google.com/docs/auth/android/start
         firebaseAuth = FirebaseAuth.getInstance()
 
         //Hide the action bar
@@ -61,6 +62,7 @@ class login : AppCompatActivity() {
 
                 //check if username and password are not empty and log in user if the login details are valid, sends user to the home page if login is successful
                 if (email.isNotEmpty() && password.isNotEmpty()) {
+                    //https://firebase.google.com/docs/auth/android/start
                     firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                         if (it.isSuccessful) {
                             var intent =
