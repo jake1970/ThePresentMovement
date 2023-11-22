@@ -122,9 +122,7 @@ Take care
     <string name="joinProjectText">Join Project</string>
     <string name="viewMembersText">View Members</string>
     <string name="participantsText">Participants</string>
-
     <string name="invalidUrlText">Invalid Url</string>
-
     <string name="formsNotFilled">Please ensure all fields are filled out</string>
     <string name="changesSaved">Changes Saved</string>
     <string name="enterDate">Please enter a date</string>
@@ -142,7 +140,11 @@ Take care
     <string name="photoLibraryNotAvailable">Photo Library is not available</string>
     <string name="cameraNotAvailable">Camera is not available</string>
     <string name="imageUploadFailed">Imaged Failed To Upload</string>
-
+    <string name="imageSaved">Image saved successfully</string>
+    <string name="imageNotSaved">Failed to save image</string>
+    <string name="unknownFeedSortingType">Unknown type for sorting Feed Content!</string>
+    <string name="emailResetSent">Password reset link sent to: </string>
+    <string name="accountNoLongerValidText">Account is no longer valid</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

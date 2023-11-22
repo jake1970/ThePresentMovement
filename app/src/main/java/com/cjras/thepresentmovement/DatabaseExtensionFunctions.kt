@@ -232,8 +232,6 @@ class DatabaseExtensionFunctions {
                         "Announcements" -> {
                             //if view announcement is selected
 
-                            //get index of selected announcement
-                            //var selectedAnnouncementIndex = GlobalClass.Announcements.indexOfLast{it.AnnouncementID == tableEntryIndex}
 
                             //popup to show full announcement data
                             var fullNotice =

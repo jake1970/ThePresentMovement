@@ -71,20 +71,20 @@ class DatabaseManager {
             )
 
 
-            //if (GlobalClass.currentUser.EmailAddress == "")
-            //{
+
             if (newUserID == GlobalClass.currentUser.UserID) {
                 GlobalClass.currentUser = tempUser
                 GlobalClass.currentUserMemberType =
                     MemberTypeDataClass().getSingleMemberType(tempUser.MemberTypeID)
             }
-            // }
+
 
 
             allUsers.add(tempUser)
             GlobalClass.documents.allUserIDs.add(document.id)
-            //}
         }
+
+
 
         //GlobalClass.Users = allUsers
         return allUsers

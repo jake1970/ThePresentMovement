@@ -440,6 +440,9 @@ class create_event: Fragment() {
                         }
                     }
                 } else {
+
+                    binding.btnCreateEvent.visibility = View.GONE
+
                     binding.etEventTitle.isEnabled = false
 
                     binding.etEventLink.isFocusable = false

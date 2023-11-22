@@ -1,6 +1,7 @@
 package com.cjras.thepresentmovement
 
 import android.content.ClipData
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
@@ -12,7 +13,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.Space
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.children
@@ -23,7 +26,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-
+import com.google.firebase.auth.FirebaseAuth
 
 class home : Fragment() {
 
@@ -82,15 +85,32 @@ class home : Fragment() {
                     }
                 }
 
-                //call method to update the ui when the new database information has been loaded (if required)
-                UpdateUI()
+                var selectedUserIndex = GlobalClass.Users.indexOfLast { it.UserID == GlobalClass.currentUser.UserID }
 
-                //hide admin menu
-                if (GlobalClass.currentUser.MemberTypeID != 2 && GlobalClass.currentUser.MemberTypeID != 3) {
-                    requireActivity().findViewById<BottomNavigationView>(R.id.bnvHomeNavigation).menu.removeItem(
-                        R.id.iAdmin
-                    )
+                //check if the user doesn't exist
+                if (selectedUserIndex == -1) {
+
+                    //call method to log user out of app
+                    GlobalClass.logout(requireActivity())
+
+                    //inform user that their account is invalid (has been deleted)
+                    Toast.makeText(requireContext(), getString(R.string.accountNoLongerValidText), Toast.LENGTH_SHORT).show()
+
                 }
+                else
+                {
+                    //call method to update the ui when the new database information has been loaded (if required)
+                    UpdateUI()
+
+                    //hide admin menu
+                    if (GlobalClass.currentUser.MemberTypeID != 2 && GlobalClass.currentUser.MemberTypeID != 3) {
+                        requireActivity().findViewById<BottomNavigationView>(R.id.bnvHomeNavigation).menu.removeItem(
+                            R.id.iAdmin
+                        )
+                    }
+                }
+
+
             }
         } catch (e: Exception) {
             GlobalClass.InformUser(
@@ -234,7 +254,7 @@ class home : Fragment() {
                     is ProjectDataClass -> it.ProjectDate
 
                     //if the item is neither a project nor event, throw an exception
-                    else -> throw IllegalArgumentException("Unknown type for sorting Feed Content!")
+                    else -> throw IllegalArgumentException(getString(R.string.unknownFeedSortingType))
                 }
             }
 

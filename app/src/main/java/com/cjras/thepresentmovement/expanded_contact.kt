@@ -251,7 +251,7 @@ class expanded_contact : Fragment() {
                         GlobalClass.UpdateDataBase = true
 
                         //inform the user on the save status
-                        Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, getString(R.string.changesSaved), Toast.LENGTH_SHORT).show()
 
                         //hide the loading cover
                         requireActivity().findViewById<RelativeLayout>(R.id.rlLoadingCover).visibility =

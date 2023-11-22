@@ -65,6 +65,7 @@ class login : AppCompatActivity() {
                     //https://firebase.google.com/docs/auth/android/start
                     firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                         if (it.isSuccessful) {
+
                             var intent =
                                 Intent(this, home_bottom_navigation::class.java) //ViewActivity
                             startActivity(intent)

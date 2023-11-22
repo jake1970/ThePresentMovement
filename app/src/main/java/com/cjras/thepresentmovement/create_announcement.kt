@@ -107,9 +107,9 @@ class create_announcement : Fragment() {
 
             // edit announcement
 
-            var announcementIndex = arguments?.getInt("selectedAnnouncementIndex", 0)
+            var announcementIndex = arguments?.getInt("selectedAnnouncementIndex", -1)
 
-            var announcementID = GlobalClass.Announcements[announcementIndex!!].AnnouncementID
+
 
             var editMode = arguments?.getBoolean("editMode", false)
 
@@ -117,7 +117,7 @@ class create_announcement : Fragment() {
 
 
             //-------------
-            if (announcementIndex == 0) {
+            if (announcementIndex == -1) {
                 //add code here
 
                 //-------------
@@ -157,12 +157,7 @@ class create_announcement : Fragment() {
                                     databaseManager.getAllAnnouncementsFromFirestore()
                             }
 
-                            /*
-                        var nextAnnouncementID = 1
-                        if (GlobalClass.Announcements.count() > 0) {
-                            nextAnnouncementID = GlobalClass.Announcements.last().AnnouncementID + 1
-                        }
-                         */
+
 
                             //Announcement Data Class called tempAnnouncement created with the input fields from the UI
                             val tempAnnouncement = AnnouncementDataClass(
@@ -194,6 +189,9 @@ class create_announcement : Fragment() {
                 //------------
 
             } else {
+
+                var announcementID = GlobalClass.Announcements[announcementIndex!!].AnnouncementID
+
                 for (announcement in GlobalClass.Announcements) {
                     if (announcement.AnnouncementID == announcementID) {
                         binding.etAnnounceTitle.setText(announcement.AnnouncementTitle)

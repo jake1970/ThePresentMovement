@@ -9,43 +9,6 @@
     tools:context=".announcement_card">
 
 
-<!--
-    <ImageView
-        android:id="@+id/ivHeart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/tpm_heart"
-        android:layout_toRightOf="@id/llContents"
-        android:layout_marginLeft="-78dp"
-        android:layout_marginTop="6dp"/>
-
-    <ImageView
-        android:id="@+id/ivSemiCircle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/tpm_semi_circle"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="10dp"/>
-
-    <ImageView
-        android:id="@+id/ivSpeechBubble"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/tpm_speech_bubble"
-        android:layout_toRightOf="@id/llContents"
-        android:layout_marginLeft="-26dp"
-        android:layout_marginTop="92dp"
-        android:layout_marginBottom="4dp"/>
-
-    <ImageView
-        android:id="@+id/ivTriangle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/tpm_triangle"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="90dp"/>
--->
-
     <TextView
         android:id="@+id/tvAnnouncementTime"
         android:layout_width="wrap_content"
@@ -103,6 +66,8 @@
                 android:text="TextView"
                 android:textColor="@color/white"
                 android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="marquee"
                 android:layout_marginBottom="2dp"/>
 
 
@@ -113,6 +78,8 @@
                 android:layout_height="wrap_content"
                 android:text="TextView"
                 android:textSize="12dp"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:textColor="@color/white"/>
 
 

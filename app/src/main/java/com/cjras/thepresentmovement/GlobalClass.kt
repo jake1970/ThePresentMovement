@@ -16,7 +16,10 @@ import android.webkit.URLUtil
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import com.google.firebase.auth.FirebaseAuth
 
 
 class GlobalClass : Application()
@@ -56,6 +59,41 @@ class GlobalClass : Application()
 
         //list of user project data
         var UserProjects = arrayListOf<UserProjectDataClass>()
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //Method to log the user out of the app
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        fun logout(context: FragmentActivity) {
+
+            val firebaseAuth = FirebaseAuth.getInstance()
+
+            //invalidate the users sign in status
+            //https://firebase.google.com/docs/auth/android/start
+            firebaseAuth.signOut()
+
+            //intent to take the user back to the login screen
+            var intent = Intent(context, login::class.java)
+
+            //clear the current users data
+            currentUser = UserDataClass()
+
+            //prime the database to be read from upon the next sign in
+            UpdateDataBase = true
+
+            val myPrefsFile = "MyPrefsFile";
+            val myUserID = "";
+
+            context.getSharedPreferences(myPrefsFile, AppCompatActivity.MODE_PRIVATE)
+                .edit()
+                .putString(myUserID, null)
+                .commit()
+
+            //call intent and send user back to the login screen
+            context.startActivity(intent)
+
+        }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 

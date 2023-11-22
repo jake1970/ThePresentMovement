@@ -272,12 +272,12 @@ import java.util.*
             fileOutputStream.close()
 
             //inform the user of the successful image save
-            Toast.makeText(currentActivity, "Image saved successfully", Toast.LENGTH_SHORT).show()
+            Toast.makeText(currentActivity, currentActivity.getString(R.string.imageSaved), Toast.LENGTH_SHORT).show()
         } catch (e: IOException) {
             e.printStackTrace()
 
             //inform the user of the failed image save
-            Toast.makeText(currentActivity, "Failed to save image", Toast.LENGTH_SHORT).show()
+            Toast.makeText(currentActivity, currentActivity.getString(R.string.imageNotSaved), Toast.LENGTH_SHORT).show()
         }
     }
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

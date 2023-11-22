@@ -104,7 +104,7 @@ class settings : Fragment() {
 
         binding.tvResetPassword.setOnClickListener(){
             firebaseAuth.sendPasswordResetEmail(firebaseAuth.currentUser!!.email.toString())
-            Toast.makeText(requireActivity(), "Password reset link sent to: " + firebaseAuth.currentUser!!.email.toString(), Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity(), getString(R.string.emailResetSent) + firebaseAuth.currentUser!!.email.toString(), Toast.LENGTH_SHORT).show()
         }
         binding.tvCampaignes.setOnClickListener(){
             GlobalClass.openBrowser("https://www.thepresentmovement.org/campaigns", requireActivity())
@@ -148,31 +148,10 @@ class settings : Fragment() {
             //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
             //When the logout button is clicked
             //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-            binding.tvLogout.setOnClickListener(){
-
-                //invalidate the users sign in status
-                //https://firebase.google.com/docs/auth/android/start
-                firebaseAuth.signOut()
-
-                //intent to take the user back to the login screen
-                var intent = Intent(requireActivity(), login::class.java)
-
-                //clear the current users data
-                GlobalClass.currentUser = UserDataClass()
-
-                //prime the database to be read from upon the next sign in
-                GlobalClass.UpdateDataBase = true
-
-                 val myPrefsFile = "MyPrefsFile";
-                 val myUserID = "";
-
-                requireContext().getSharedPreferences(myPrefsFile, AppCompatActivity.MODE_PRIVATE)
-                    .edit()
-                    .putString(myUserID, null)
-                    .commit()
-
-                //call intent and send user back to the login screen
-                startActivity(intent)
+            binding.tvLogout.setOnClickListener()
+            {
+                //call logout method
+                GlobalClass.logout(requireActivity())
             }
             //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
