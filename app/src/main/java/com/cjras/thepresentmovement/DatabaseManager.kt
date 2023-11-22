@@ -29,6 +29,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to get all users from the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/add-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun getAllUsersFromFirestore(): ArrayList<UserDataClass> {
 
@@ -91,6 +92,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to get all member types from the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/add-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun getAllMemberTypesFromFirestore(): ArrayList<MemberTypeDataClass> {
         val allMemberTypes = arrayListOf<MemberTypeDataClass>()
@@ -123,6 +125,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to get all announcements from the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/add-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun getAllAnnouncementsFromFirestore(): ArrayList<AnnouncementDataClass> {
         val allAnnouncements = arrayListOf<AnnouncementDataClass>()
@@ -164,6 +167,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to get all events from the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/add-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun getAllEventsFromFirestore(): ArrayList<EventDataClass> {
         val allEvents = arrayListOf<EventDataClass>()
@@ -205,6 +209,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to get all projects from the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/add-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun getAllProjectsFromFirestore(): ArrayList<ProjectDataClass> {
         val allProjects = arrayListOf<ProjectDataClass>()
@@ -251,6 +256,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to get all user projects from the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/add-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun getAllUserProjectsFromFirestore(): ArrayList<UserProjectDataClass> {
         val allUserProjects = arrayListOf<UserProjectDataClass>()
@@ -284,6 +290,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to get all data from the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/add-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun updateFromDatabase() {
         GlobalClass.MemberTypes = getAllMemberTypesFromFirestore()
@@ -301,6 +308,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to add a new user to the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/add-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     fun addNewUserToFirestore(newUser: UserDataClass) {
         db.collection("Users")
@@ -315,6 +323,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to add a new project to the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/add-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     fun addNewProjectToFirestore(newProject: ProjectDataClass) {
         db.collection("Projects")
@@ -340,6 +349,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to add a new announcement to the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/add-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     fun addNewAnnouncementToFirestore(newAnnouncement: AnnouncementDataClass) {
         db.collection("Announcements")
@@ -363,6 +373,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to add a new event to the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/add-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     fun addNewEventToFirestore(newEvent: EventDataClass) {
         db.collection("Events")
@@ -387,6 +398,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to add a new user project to the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/add-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     fun addNewUserProjectToFirestore(newUserProject: UserProjectDataClass) {
         db.collection("UserProjects")
@@ -408,6 +420,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to update an existing user in the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/delete-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun updateUserInFirestore(currentUser: UserDataClass, ID: String) {
         val userRef = db.collection("Users").document(ID)
@@ -434,6 +447,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to update an existing project in the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/delete-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun updateProjectInFirestore(currentProject: ProjectDataClass, ID: String) {
         val projectRef = db.collection("Projects").document(ID)
@@ -456,6 +470,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to update an existing event in the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/delete-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun updateEventInFirestore(currentEvent: EventDataClass, ID: String) {
         val eventRef = db.collection("Events").document(ID)
@@ -476,6 +491,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to update an existing announcement in the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/delete-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun updateAnnouncementInFirestore(
         currentAnnouncement: AnnouncementDataClass,
@@ -498,6 +514,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to remove a user from the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/delete-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun deleteUserFromFirestore(ID: String, userID: String) {
 
@@ -512,6 +529,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to remove a series of user projects from the database when a user is deleted
+    //source - https://firebase.google.com/docs/firestore/manage-data/delete-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun batchDeleteUserProjectFromFirestoreUserID(userID: String) {
 
@@ -536,6 +554,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to remove a series of user projects from the database when a project is deleted
+    //source - https://firebase.google.com/docs/firestore/manage-data/delete-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun batchDeleteUserProjectFromFirestoreProjectID(projectID: Int) {
 
@@ -559,6 +578,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to remove a project from the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/delete-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun deleteProjectFromFirestore(ID: String, projectID: Int) {
 
@@ -573,6 +593,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to remove an event from the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/delete-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun deleteEventFromFirestore(ID: String) {
         val projectRef = db.collection("Events").document(ID)
@@ -584,6 +605,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to remove an announcement from the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/delete-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun deleteAnnouncementFromFirestore(ID: String) {
         val announcementRef = db.collection("Announcements").document(ID)
@@ -595,6 +617,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to remove a user project from the database
+    //source - https://firebase.google.com/docs/firestore/manage-data/delete-data
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun deleteUserProjectFromFirestore(ID: String) {
         val userProjectRef = db.collection("UserProjects").document(ID)
@@ -607,6 +630,8 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to get a users profile picture from the firestore storage
+    //source - https://stackoverflow.com/a/62193604
+    //source - https://firebase.google.com/docs/storage/android/start
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun getUserImage(context: Context, userID: String, userHasImage: Boolean): Bitmap? {
 
@@ -647,6 +672,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to get an events picture from the firestore storage
+    //source - https://firebase.google.com/docs/storage/android/start
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun getEventImage(context: Context, eventID: Int, eventHasImage: Boolean): Bitmap? {
 
@@ -672,6 +698,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to get a projects picture from the firestore storage
+    //source - https://firebase.google.com/docs/storage/android/start
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun getProjectImage(context: Context, projectID: Int, eventHasImage: Boolean): Bitmap? {
 
@@ -697,6 +724,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to get the default (monogram) event image
+    //source - https://stackoverflow.com/a/62193604
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     fun getEventDefaultImage(context: Context): Bitmap? {
         var defaultUserImage = context.getDrawable(R.drawable.e_icon)
@@ -719,6 +747,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to get the default (monogram) project image
+    //source - https://stackoverflow.com/a/62193604
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     fun getProjectDefaultImage(context: Context): Bitmap? {
         var defaultUserImage = context.getDrawable(R.drawable.p_icon)
@@ -742,6 +771,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to set a users profile picture in firestore storage
+    //source - https://firebase.google.com/docs/storage/android/start
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun setUserImage(context: Context, userID: String, selectedImageUri: Uri) {
 
@@ -765,6 +795,7 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to set a projects picture in firestore storage
+    //source - https://firebase.google.com/docs/storage/android/start
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun setProjectImage(context: Context, projectID: Int, selectedImageUri: Uri) {
 
@@ -791,13 +822,13 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to set an events picture in firestore storage
+    //source - https://firebase.google.com/docs/storage/android/start
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     suspend fun setEventImage(context: Context, eventID: Int, selectedImageUri: Uri) {
 
         val imageLocation = "EventImages/$eventID"
         val storageReference = FirebaseStorage.getInstance().getReference(imageLocation)
 
-        // binding.ivMyProfileImage.image
 
         storageReference.putFile(selectedImageUri)
             .addOnFailureListener {
@@ -816,22 +847,22 @@ class DatabaseManager {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //method to add padding to an image to better fit UI components
+    //source - https://stackoverflow.com/a/59771560
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     private fun addPaddingToBitmap(originalBitmap: Bitmap, padding: Int): Bitmap {
+
+        //calculate image with padding
         val newWidth = originalBitmap.width + 2 * padding
         val newHeight = originalBitmap.height + 2 * padding
 
-        // Create a new Bitmap with the increased size
+        //new image with padding
         val paddedBitmap = Bitmap.createBitmap(newWidth, newHeight, originalBitmap.config)
 
+        //set bitmap canvas
         val canvas = Canvas(paddedBitmap)
 
-        // Calculate the position to center the original image with padding
-        val left = padding
-        val top = padding
-
-        // Draw the original Bitmap on the new Bitmap with padding
-        canvas.drawBitmap(originalBitmap, left.toFloat(), top.toFloat(), null)
+        //draw updated bitmap
+        canvas.drawBitmap(originalBitmap, padding.toFloat(), padding.toFloat(), null)
 
         return paddedBitmap
     }
