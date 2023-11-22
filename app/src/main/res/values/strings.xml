@@ -141,6 +141,7 @@ Take care
     <string name="leftProject">Left Project</string>
     <string name="photoLibraryNotAvailable">Photo Library is not available</string>
     <string name="cameraNotAvailable">Camera is not available</string>
+    <string name="imageUploadFailed">Imaged Failed To Upload</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

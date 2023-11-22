@@ -787,7 +787,7 @@ class DatabaseManager {
 
         storageReference.putFile(selectedImageUri)
             .addOnFailureListener {
-                Toast.makeText(context, "Imaged Failed To Upload", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.imageUploadFailed), Toast.LENGTH_SHORT).show()
             }
             .addOnSuccessListener {
                 GlobalClass.currentUser.HasImage = true
@@ -811,7 +811,7 @@ class DatabaseManager {
 
         storageReference.putFile(selectedImageUri)
             .addOnFailureListener {
-                Toast.makeText(context, "Imaged Failed To Upload", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.imageUploadFailed), Toast.LENGTH_SHORT).show()
             }
             .addOnSuccessListener {
                 //set current project has image to true
@@ -837,7 +837,7 @@ class DatabaseManager {
 
         storageReference.putFile(selectedImageUri)
             .addOnFailureListener {
-                Toast.makeText(context, "Imaged Failed To Upload", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.imageUploadFailed), Toast.LENGTH_SHORT).show()
             }
             .addOnSuccessListener {
                 //set current event has image to true
