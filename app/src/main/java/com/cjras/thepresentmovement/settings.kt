@@ -148,6 +148,7 @@ class settings : Fragment() {
             binding.tvLogout.setOnClickListener(){
 
                 //invalidate the users sign in status
+                //https://firebase.google.com/docs/auth/android/start
                 firebaseAuth.signOut()
 
                 //intent to take the user back to the login screen
