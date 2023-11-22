@@ -361,6 +361,8 @@ class add_project : Fragment() {
                 //check if the form is in edit mode
                 if (editMode == true) {
 
+                    binding.tvScreenTitle.text = getString(R.string.editProject)
+
 
                     binding.ivMyProfileImageTint.visibility = View.VISIBLE
                     binding.tvMyProfileImageEditText.visibility = View.VISIBLE
@@ -465,6 +467,9 @@ class add_project : Fragment() {
                 } else {
 
                     //if in view mode
+
+                    binding.tvScreenTitle.text = getString(R.string.projectsTextSingle)
+
                     //disable edit texts
 
                     binding.etTitle.isEnabled = false

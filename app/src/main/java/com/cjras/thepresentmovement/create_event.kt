@@ -347,6 +347,8 @@ class create_event: Fragment() {
                     binding.ivMyProfileImageTint.visibility = View.VISIBLE
                     binding.tvMyProfileImageEditText.visibility = View.VISIBLE
 
+                    binding.tvScreenTitle.text = getString(R.string.editEvent)
+
                     //handle image if clicked
                     binding.rlImageContainer.setOnClickListener()
                     {
@@ -354,7 +356,7 @@ class create_event: Fragment() {
                     }
 
                     binding.btnCreateEvent.visibility = View.VISIBLE
-                    binding.btnCreateEvent.text = "Save"
+                    binding.btnCreateEvent.text = getString(R.string.save)
 
                     //if create event button is clicked
                     binding.btnCreateEvent.setOnClickListener() {
@@ -440,6 +442,8 @@ class create_event: Fragment() {
                         }
                     }
                 } else {
+
+                    binding.tvScreenTitle.text = getString(R.string.eventsTextSingle)
 
                     binding.btnCreateEvent.visibility = View.GONE
 

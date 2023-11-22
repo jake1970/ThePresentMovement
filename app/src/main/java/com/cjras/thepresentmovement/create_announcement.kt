@@ -203,6 +203,8 @@ class create_announcement : Fragment() {
 
                 //check if the form is in edit mode or create mode
                 if (editMode == true) {
+
+                    binding.tvScreenTitle.text = getString(R.string.editAnnouncement)
                     binding.btnCreateAnnounce.text = getString(R.string.save)
 
                     //if Create Announcement button is clicked create a new tempAnnouncement with the inputs from the form
