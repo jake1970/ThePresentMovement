@@ -181,11 +181,37 @@ class GlobalClass : Application()
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         fun openBrowser(url: String, context: Context) {
 
+            val checkedURL = checkURLFormat(url)
+
             //new weblink intent
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(checkedURL))
 
             //start intent with passed context
             context.startActivity(intent)
+        }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //Method to check the prefix of a url
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        private fun checkURLFormat(url : String) : String
+        {
+            //check for prefixing url string
+            return if (url.startsWith("http://") || url.startsWith("https://")) {
+
+                //if url is valid return
+                url
+
+            } else {
+
+                //if url is invalid, attempt to correct it then return
+
+                //source - https://stackoverflow.com/a/53847483
+                URLUtil.guessUrl(url)
+            }
+
         }
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
