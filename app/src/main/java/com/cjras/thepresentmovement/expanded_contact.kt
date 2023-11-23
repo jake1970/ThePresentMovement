@@ -9,6 +9,7 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.URLUtil
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.Toast
@@ -326,12 +327,16 @@ class expanded_contact : Fragment() {
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.tfWebsite.setOnClickListener()
         {
+            try {
+                //verify the link is valid and editing the link is disabled
+                if (GlobalClass.isValidUrl(binding.tfWebsite.text.toString()) && binding.tfWebsite.isFocusable == false) {
 
-            //verify the link is valid and editing the link is disabled
-            if (GlobalClass.isValidUrl(binding.tfWebsite.text.toString()) && binding.tfWebsite.isFocusable == false) {
-
-                //call method open the valid link
-                GlobalClass.openBrowser(binding.tfWebsite.text.toString(), requireActivity())
+                    //call method open the valid link
+                    GlobalClass.openBrowser(binding.tfWebsite.text.toString(), requireActivity())
+                }
+            }
+            catch (e: Exception) {
+                GlobalClass.InformUser(getString(R.string.errorText), "$e", requireContext())
             }
         }
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -342,13 +347,17 @@ class expanded_contact : Fragment() {
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         binding.tfLinkedIn.setOnClickListener()
         {
+            try {
+                //verify the link is valid and editing the link is disabled
+                if (GlobalClass.isValidUrl(binding.tfLinkedIn.text.toString()) && binding.tfLinkedIn.isFocusable == false) {
 
-            //verify the link is valid and editing the link is disabled
-            if (GlobalClass.isValidUrl(binding.tfLinkedIn.text.toString()) && binding.tfLinkedIn.isFocusable == false) {
-
-                //call method open the valid link
-                GlobalClass.openBrowser(binding.tfLinkedIn.text.toString(), requireActivity())
+                        //call method open the valid link
+                        GlobalClass.openBrowser(binding.tfLinkedIn.text.toString(), requireActivity())
+                }
             }
+         catch (e: Exception) {
+            GlobalClass.InformUser(getString(R.string.errorText), "$e", requireContext())
+        }
         }
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
